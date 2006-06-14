@@ -1,0 +1,4 @@
+* text=auto !eol
+/INSTALL.HSL -text
+/Makefile.am -text
+/configure -text
