@@ -472,7 +472,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ADDLIBS FADDLIBS ALWAYS_FALSE_TRUE ALWAYS_FALSE_FALSE build build_cpu build_vendor build_os COIN_DEBUG_TRUE COIN_DEBUG_FALSE F77 FFLAGS LDFLAGS ac_ct_F77 EXEEXT OBJEXT ADD_FFLAGS MPIF77 EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LIBTOOLM4 have_autoconf have_automake have_svn BUILDTOOLSDIR AUX_DIR abs_source_dir abs_lib_dir abs_include_dir abs_bin_dir HAVE_EXTERNALS_TRUE HAVE_EXTERNALS_FALSE CC CFLAGS CPPFLAGS ac_ct_CC DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE host host_cpu host_vendor host_os LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP LIBTOOL LT_LDFLAGS RPATH_FLAGS COIN_HAS_MA27_TRUE COIN_HAS_MA27_FALSE COIN_HAS_MC19_TRUE COIN_HAS_MC19_FALSE COIN_HAS_MA57_TRUE COIN_HAS_MA57_FALSE LIBOBJS LTLIBOBJS VPATH_DISTCLEANFILES'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ADDLIBS FADDLIBS ALWAYS_FALSE_TRUE ALWAYS_FALSE_FALSE build build_cpu build_vendor build_os COIN_DEBUG_TRUE COIN_DEBUG_FALSE F77 FFLAGS LDFLAGS ac_ct_F77 EXEEXT OBJEXT ADD_FFLAGS MPIF77 EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LIBTOOLM4 have_autoconf have_automake have_svn BUILDTOOLSDIR AUX_DIR abs_source_dir abs_lib_dir abs_include_dir abs_bin_dir HAVE_EXTERNALS_TRUE HAVE_EXTERNALS_FALSE CC CFLAGS CPPFLAGS ac_ct_CC DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE host host_cpu host_vendor host_os LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP LIBTOOL LT_LDFLAGS RPATH_FLAGS COIN_HAS_MA27_TRUE COIN_HAS_MA27_FALSE COIN_HAS_MC19_TRUE COIN_HAS_MC19_FALSE COIN_HAS_MA57_TRUE COIN_HAS_MA57_FALSE LIBEXT LIBOBJS LTLIBOBJS VPATH_DISTCLEANFILES'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -2196,7 +2196,7 @@ rm -f conftest.err conftest.$ac_objext \
         case $F77 in
           ifort* | */ifort*)
             coin_opt_fflags='-O3'
-            coin_add_fflags='-nologo'
+            coin_add_fflags='-nologo -MT'
             coin_dbg_fflags='-debug'
           ;;
         esac
@@ -2254,7 +2254,7 @@ rm -f conftest.err conftest.$ac_objext \
         esac
         ;;
       *-ibm-*)
-        case $F77 in
+        case "$F77" in
           xlf* | */xlf* | mpxlf* | */mpxlf* )
             coin_opt_fflags="-O3 -qarch=auto -qcache=auto -qtune=auto -qmaxmem=-1"
             coin_add_fflags="-bmaxdata:0x80000000"
@@ -19740,6 +19740,13 @@ if test x"$coin_need_flibs" = xyes; then
   ADDLIBS="$ADDLIBS $FLIBS"
 fi
 
+# library extension
+
+case "$CC" in
+  cl*) LIBEXT=lib ;;
+    *) LIBEXT=a ;;
+esac
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -20553,6 +20560,7 @@ s,@COIN_HAS_MC19_TRUE@,$COIN_HAS_MC19_TRUE,;t t
 s,@COIN_HAS_MC19_FALSE@,$COIN_HAS_MC19_FALSE,;t t
 s,@COIN_HAS_MA57_TRUE@,$COIN_HAS_MA57_TRUE,;t t
 s,@COIN_HAS_MA57_FALSE@,$COIN_HAS_MA57_FALSE,;t t
+s,@LIBEXT@,$LIBEXT,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF
