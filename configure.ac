@@ -42,7 +42,7 @@ AC_COIN_PROJECTDIR_INIT
 AC_CANONICAL_BUILD
 
 # Check if user wants to produce debugging code
-AC_COIN_DEBUG_COMPILE
+AC_COIN_DEBUG_COMPILE(HSL)
 
 # Get the name of the Fortran compiler and appropriate compiler options
 AC_COIN_PROG_F77
