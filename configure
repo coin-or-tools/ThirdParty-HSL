@@ -1804,7 +1804,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # compiler, if the C++ is set, but the C compiler isn't (only for CXX=cl)
 if test x"$CXX" != x; then
   case "$CXX" in
-    cl*)
+    cl* | */cl* | CL* | */CL*)
       if test x"$CC" = x; then
         CC="$CXX"
         { echo "$as_me:$LINENO: WARNING: C++ compiler name provided as $CXX, but CC is unset. Setting CC to $CXX" >&5
@@ -2630,10 +2630,10 @@ rm -f conftest.err conftest.$ac_objext \
     case $build in
       *-cygwin* | *-mingw*)
         case "$CC" in
-          cl* | */cl*)
+          cl* | */cl* | CL* | */CL*)
             coin_opt_cflags='-O2'
             coin_add_cflags='-nologo'
-            coin_dbg_cflags='-Yd'
+            coin_dbg_cflags='-MTd'
             ;;
         esac
         ;;
@@ -2930,7 +2930,7 @@ fi
 
 # Correct ADDLIBS initialization if we are using the MS compiler
 case "$CC" in
-  cl*)
+  cl* | */cl* | CL* | */CL*)
     ADDLIBS=
     case $build in
   *-mingw*)
@@ -19886,7 +19886,7 @@ esac
 case $build in
   *-cygwin* | *-mingw*)
   case "$CXX" in
-    cl* | */cl*)
+    cl* | */cl* | CL* | */CL*)
       { echo "$as_me:$LINENO: Applying patches to libtool for cl compiler" >&5
 echo "$as_me: Applying patches to libtool for cl compiler" >&6;}
       sed -e 's|fix_srcfile_path=\"`cygpath -w \"\$srcfile\"`\"|fix_srcfile_path=\"\\\`'"$CYGPATH_W"' \\\"\\$srcfile\\\"\\\`\"|' \
@@ -20112,7 +20112,7 @@ fi
 # library extension
 
 case "$CC" in
-  cl*) LIBEXT=lib ;;
+  cl* | */cl* | CL* | */CL*) LIBEXT=lib ;;
     *) LIBEXT=a ;;
 esac
 
@@ -21413,7 +21413,7 @@ if test x"$coin_vpath_link_files" = x; then : ; else
     lnkcmd=cp
   fi
   case "$CC" in
-    cl* | */cl*)
+    cl* | */cl* | CL* | */CL*)
       lnkcmd=cp ;;
   esac
   if test "$lnkcmd" = cp; then
