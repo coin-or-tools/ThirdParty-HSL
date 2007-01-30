@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 2003, 2006 International Business Machines and others
+# Copyright (C) 2003, 2007 International Business Machines and others
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -53,14 +53,17 @@ host_triplet = @host@
 @COIN_HAS_MA27_TRUE@am__append_1 = ma27ad.f
 @COIN_HAS_MA57_TRUE@am__append_2 = ma57ad.f
 @COIN_HAS_MC19_TRUE@am__append_3 = mc19ad.f
+@COIN_HAS_MA28_TRUE@am__append_4 = ma28ad.f ma30ad.f mc13dd.f mc20ad.f \
+@COIN_HAS_MA28_TRUE@	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
+
 DIST_COMMON = $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc \
 	$(srcdir)/../../config.guess $(srcdir)/../../config.sub \
 	$(srcdir)/../../install-sh $(srcdir)/../../ltmain.sh \
 	$(srcdir)/../../missing $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure
-@HAVE_EXTERNALS_TRUE@am__append_4 = Externals
-@HAVE_EXTERNALS_TRUE@am__append_5 = .Externals-stamp
+@HAVE_EXTERNALS_TRUE@am__append_5 = Externals
+@HAVE_EXTERNALS_TRUE@am__append_6 = .Externals-stamp
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -76,8 +79,11 @@ libcoinhsl_la_LIBADD =
 @COIN_HAS_MA27_TRUE@am__objects_1 = ma27ad.lo
 @COIN_HAS_MA57_TRUE@am__objects_2 = ma57ad.lo
 @COIN_HAS_MC19_TRUE@am__objects_3 = mc19ad.lo
+@COIN_HAS_MA28_TRUE@am__objects_4 = ma28ad.lo ma30ad.lo mc13dd.lo \
+@COIN_HAS_MA28_TRUE@	mc20ad.lo mc21ad.lo mc22ad.lo mc23ad.lo \
+@COIN_HAS_MA28_TRUE@	mc24ad.lo
 nodist_libcoinhsl_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
-	$(am__objects_3)
+	$(am__objects_3) $(am__objects_4)
 libcoinhsl_la_OBJECTS = $(nodist_libcoinhsl_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir)
 F77COMPILE = $(F77) $(AM_FFLAGS) $(FFLAGS)
@@ -123,6 +129,8 @@ CDEFS = @CDEFS@
 CFLAGS = @CFLAGS@
 COIN_HAS_MA27_FALSE = @COIN_HAS_MA27_FALSE@
 COIN_HAS_MA27_TRUE = @COIN_HAS_MA27_TRUE@
+COIN_HAS_MA28_FALSE = @COIN_HAS_MA28_FALSE@
+COIN_HAS_MA28_TRUE = @COIN_HAS_MA28_TRUE@
 COIN_HAS_MA57_FALSE = @COIN_HAS_MA57_FALSE@
 COIN_HAS_MA57_TRUE = @COIN_HAS_MA57_TRUE@
 COIN_HAS_MC19_FALSE = @COIN_HAS_MC19_FALSE@
@@ -236,10 +244,10 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
-EXTRA_DIST = INSTALL.HSL $(am__append_4)
+EXTRA_DIST = INSTALL.HSL $(am__append_5)
 noinst_LTLIBRARIES = libcoinhsl.la
 nodist_libcoinhsl_la_SOURCES = $(am__append_1) $(am__append_2) \
-	$(am__append_3)
+	$(am__append_3) $(am__append_4)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 ########################################################################
@@ -247,7 +255,7 @@ libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 ########################################################################
 
 # Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = $(am__append_5) $(VPATH_DISTCLEANFILES)
+DISTCLEANFILES = $(am__append_6) $(VPATH_DISTCLEANFILES)
 all: all-am
 
 .SUFFIXES:

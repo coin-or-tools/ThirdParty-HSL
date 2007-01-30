@@ -76,6 +76,7 @@ if test coin_has_ma27ad = yes; then
 fi
 MY_CHECK_HSLFILE(mc19ad,MC19)
 MY_CHECK_HSLFILE(ma57ad,MA57)
+MY_CHECK_HSLFILE(ma28ad,MA28)
 
 #############################################################################
 #                              Write the output                             #

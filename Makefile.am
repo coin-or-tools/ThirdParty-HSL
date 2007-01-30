@@ -1,4 +1,4 @@
-# Copyright (C) 2003, 2006 International Business Machines and others
+# Copyright (C) 2003, 2007 International Business Machines and others
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -22,6 +22,11 @@ endif
 
 if COIN_HAS_MC19
   nodist_libcoinhsl_la_SOURCES += mc19ad.f
+endif
+
+if COIN_HAS_MA28
+  nodist_libcoinhsl_la_SOURCES += ma28ad.f ma30ad.f mc13dd.f mc20ad.f \
+	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 endif
 
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
