@@ -56,5 +56,13 @@ script will detect which source files you have and prepare the
 Makefile accordingly.
 
 If you want to use MA57, please make sure that all source code for
-MA57 including dependencies is in a file called ma57ad.f
+MA57 ***including dependencies*** is in a file called ma57ad.f.
+Currently, it seems that the dependencies are the files:
 
+ fd15ad.f
+ mc21ad.f
+ mc34ad.f
+ mc47ad.f
+ mc59ad.f
+ mc64ad.f
+ mc71ad.f
