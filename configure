@@ -20200,31 +20200,13 @@ LT_LDFLAGS=
 
 
 
-as_ac_File=`echo "ac_cv_file_$srcdir/ma27ad.f" | $as_tr_sh`
-echo "$as_me:$LINENO: checking for $srcdir/ma27ad.f" >&5
-echo $ECHO_N "checking for $srcdir/ma27ad.f... $ECHO_C" >&6
-if eval "test \"\${$as_ac_File+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  test "$cross_compiling" = yes &&
-  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
-echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
-   { (exit 1); exit 1; }; }
-if test -r "$srcdir/ma27ad.f"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
-if test `eval echo '${'$as_ac_File'}'` = yes; then
+
+if test -r $srcdir/ma27ad.f; then
   hsl_files="$hsl_files ma27ad.f"
-                         coin_has_ma27ad=yes
+  coin_has_ma27ad=yes
 else
   coin_has_ma27ad=no
 fi
-
 
 
 if test $coin_has_ma27ad = yes; then
@@ -20249,31 +20231,13 @@ echo "$as_me: error: Please obtain the threadsafe (newer) version of MA27" >&2;}
    { (exit 1); exit 1; }; }
   fi
 fi
-as_ac_File=`echo "ac_cv_file_$srcdir/mc19ad.f" | $as_tr_sh`
-echo "$as_me:$LINENO: checking for $srcdir/mc19ad.f" >&5
-echo $ECHO_N "checking for $srcdir/mc19ad.f... $ECHO_C" >&6
-if eval "test \"\${$as_ac_File+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  test "$cross_compiling" = yes &&
-  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
-echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
-   { (exit 1); exit 1; }; }
-if test -r "$srcdir/mc19ad.f"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
-if test `eval echo '${'$as_ac_File'}'` = yes; then
+
+if test -r $srcdir/mc19ad.f; then
   hsl_files="$hsl_files mc19ad.f"
-                         coin_has_mc19ad=yes
+  coin_has_mc19ad=yes
 else
   coin_has_mc19ad=no
 fi
-
 
 
 if test $coin_has_mc19ad = yes; then
@@ -20284,31 +20248,13 @@ else
   COIN_HAS_MC19_FALSE=
 fi
 
-as_ac_File=`echo "ac_cv_file_$srcdir/ma57ad.f" | $as_tr_sh`
-echo "$as_me:$LINENO: checking for $srcdir/ma57ad.f" >&5
-echo $ECHO_N "checking for $srcdir/ma57ad.f... $ECHO_C" >&6
-if eval "test \"\${$as_ac_File+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  test "$cross_compiling" = yes &&
-  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
-echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
-   { (exit 1); exit 1; }; }
-if test -r "$srcdir/ma57ad.f"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
-if test `eval echo '${'$as_ac_File'}'` = yes; then
+
+if test -r $srcdir/ma57ad.f; then
   hsl_files="$hsl_files ma57ad.f"
-                         coin_has_ma57ad=yes
+  coin_has_ma57ad=yes
 else
   coin_has_ma57ad=no
 fi
-
 
 
 if test $coin_has_ma57ad = yes; then
@@ -20319,31 +20265,13 @@ else
   COIN_HAS_MA57_FALSE=
 fi
 
-as_ac_File=`echo "ac_cv_file_$srcdir/ma28ad.f" | $as_tr_sh`
-echo "$as_me:$LINENO: checking for $srcdir/ma28ad.f" >&5
-echo $ECHO_N "checking for $srcdir/ma28ad.f... $ECHO_C" >&6
-if eval "test \"\${$as_ac_File+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  test "$cross_compiling" = yes &&
-  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
-echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
-   { (exit 1); exit 1; }; }
-if test -r "$srcdir/ma28ad.f"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
-if test `eval echo '${'$as_ac_File'}'` = yes; then
+
+if test -r $srcdir/ma28ad.f; then
   hsl_files="$hsl_files ma28ad.f"
-                         coin_has_ma28ad=yes
+  coin_has_ma28ad=yes
 else
   coin_has_ma28ad=no
 fi
-
 
 
 if test $coin_has_ma28ad = yes; then
