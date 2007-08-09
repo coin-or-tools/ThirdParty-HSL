@@ -5,3 +5,4 @@ stable/1.0/configure -text
 trunk/INSTALL.HSL -text
 trunk/Makefile.am -text
 trunk/configure -text
+trunk/dummy.c -text
