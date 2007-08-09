@@ -1,4 +1,7 @@
 * text=auto !eol
+stable/1.0/INSTALL.HSL -text
+stable/1.0/Makefile.am -text
+stable/1.0/configure -text
 trunk/INSTALL.HSL -text
 trunk/Makefile.am -text
 trunk/configure -text
