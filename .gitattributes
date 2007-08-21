@@ -2,3 +2,4 @@
 /INSTALL.HSL -text
 /Makefile.am -text
 /configure -text
+/dummy.c -text

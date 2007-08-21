@@ -10,7 +10,7 @@ EXTRA_DIST = INSTALL.HSL
 
 noinst_LTLIBRARIES = libcoinhsl.la
 
-nodist_libcoinhsl_la_SOURCES =
+nodist_libcoinhsl_la_SOURCES = dummy.c
 
 if COIN_HAS_MA27
   nodist_libcoinhsl_la_SOURCES += ma27ad.f
