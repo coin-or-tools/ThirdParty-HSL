@@ -65,13 +65,10 @@ AC_COIN_INIT_AUTO_TOOLS
 #############################################################################
 
 AC_DEFUN([MY_CHECK_HSLFILE],
-[
-if test -r $srcdir/$1.f; then
-  hsl_files="$hsl_files $1.f"
-  coin_has_$1=yes
-else
-  coin_has_$1=no
-fi
+[AC_COIN_CHECK_FILE([$srcdir/$1.f],
+                    [hsl_files="$hsl_files $1.f"
+                     coin_has_$1=yes],
+                    [coin_has_$1=no])
 AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
 
 MY_CHECK_HSLFILE(ma27ad,MA27)

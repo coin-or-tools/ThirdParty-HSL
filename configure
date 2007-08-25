@@ -20181,13 +20181,15 @@ LT_LDFLAGS=
 
 
 
-
 if test -r $srcdir/ma27ad.f; then
   hsl_files="$hsl_files ma27ad.f"
-  coin_has_ma27ad=yes
+                     coin_has_ma27ad=yes
+  :
 else
   coin_has_ma27ad=no
+  :
 fi
+
 
 
 if test $coin_has_ma27ad = yes; then
@@ -20212,13 +20214,15 @@ echo "$as_me: error: Please obtain the threadsafe (newer) version of MA27" >&2;}
    { (exit 1); exit 1; }; }
   fi
 fi
-
 if test -r $srcdir/mc19ad.f; then
   hsl_files="$hsl_files mc19ad.f"
-  coin_has_mc19ad=yes
+                     coin_has_mc19ad=yes
+  :
 else
   coin_has_mc19ad=no
+  :
 fi
+
 
 
 if test $coin_has_mc19ad = yes; then
@@ -20229,13 +20233,15 @@ else
   COIN_HAS_MC19_FALSE=
 fi
 
-
 if test -r $srcdir/ma57ad.f; then
   hsl_files="$hsl_files ma57ad.f"
-  coin_has_ma57ad=yes
+                     coin_has_ma57ad=yes
+  :
 else
   coin_has_ma57ad=no
+  :
 fi
+
 
 
 if test $coin_has_ma57ad = yes; then
@@ -20246,13 +20252,15 @@ else
   COIN_HAS_MA57_FALSE=
 fi
 
-
 if test -r $srcdir/ma28ad.f; then
   hsl_files="$hsl_files ma28ad.f"
-  coin_has_ma28ad=yes
+                     coin_has_ma28ad=yes
+  :
 else
   coin_has_ma28ad=no
+  :
 fi
+
 
 
 if test $coin_has_ma28ad = yes; then
