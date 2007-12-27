@@ -25,7 +25,7 @@
 # Author:  Andreas Waechter           IBM    2006-04-13
 
 ########################################################################
-#                         Maintainer Stuff                             #
+#                    Documentation installation                        #
 ########################################################################
 
 srcdir = @srcdir@
@@ -270,6 +270,8 @@ libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(am__append_6) $(VPATH_DISTCLEANFILES)
+DocFiles = README AUTHORS LICENSE
+DocInstallDir = $(prefix)/share/doc/$(PACKAGE)
 all: all-am
 
 .SUFFIXES:
@@ -595,8 +597,6 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
-
 install-info: install-info-am
 
 install-man:
@@ -623,8 +623,6 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
-
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-libtool clean-noinstLTLIBRARIES ctags dist \
 	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
@@ -639,6 +637,22 @@ uninstall-am: uninstall-info-am
 	pdf pdf-am ps ps-am tags uninstall uninstall-am \
 	uninstall-info-am
 
+
+install-exec-am:
+	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
+	for file in $(DocFiles); do \
+	  if test -f "$$file"; then dir=; else dir="$(srcdir)/"; fi; \
+	  if test -f "$$dir$$file"; then $(INSTALL_DATA) "$$dir$$file" "$(DESTDIR)$(DocInstallDir)/$$file"; fi; \
+	done
+
+uninstall-am:
+	for file in $(DocFiles); do \
+	  rm -f "$(DESTDIR)$(DocInstallDir)/$$file"; \
+	done
+
+########################################################################
+#                         Maintainer Stuff                             #
+########################################################################
 
 # Make sure acinclude is using most recent coin.m4
 @MAINTAINER_MODE_TRUE@$(srcdir)/acinclude.m4: $(BUILDTOOLSDIR)/coin.m4
