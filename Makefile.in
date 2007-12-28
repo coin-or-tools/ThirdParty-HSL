@@ -271,7 +271,7 @@ libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(am__append_6) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
-DocInstallDir = $(prefix)/share/doc/$(PACKAGE)
+DocInstallDir = $(prefix)/share/doc/$(PACKAGE_NAME)
 all: all-am
 
 .SUFFIXES:
@@ -597,6 +597,8 @@ info-am:
 
 install-data-am:
 
+install-exec-am:
+
 install-info: install-info-am
 
 install-man:
@@ -623,6 +625,8 @@ ps: ps-am
 
 ps-am:
 
+uninstall-am: uninstall-info-am
+
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-libtool clean-noinstLTLIBRARIES ctags dist \
 	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
@@ -638,14 +642,14 @@ ps-am:
 	uninstall-info-am
 
 
-install-exec-am:
+install-doc:
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
 	for file in $(DocFiles); do \
 	  if test -f "$$file"; then dir=; else dir="$(srcdir)/"; fi; \
 	  if test -f "$$dir$$file"; then $(INSTALL_DATA) "$$dir$$file" "$(DESTDIR)$(DocInstallDir)/$$file"; fi; \
 	done
 
-uninstall-am:
+uninstall-doc:
 	for file in $(DocFiles); do \
 	  rm -f "$(DESTDIR)$(DocInstallDir)/$$file"; \
 	done
@@ -686,6 +690,8 @@ uninstall-am:
 
 @HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@update-externals: .Externals-stamp
 @HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	cd $(srcdir); svn update
+
+.PHONY: install-doc uninstall-doc update-externals
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
