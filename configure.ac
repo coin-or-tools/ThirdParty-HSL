@@ -41,9 +41,14 @@ AC_COIN_PROJECTDIR_INIT
 # Get the system type
 AC_CANONICAL_BUILD
 
-#turn off warnings and pedantic mode since they could make trouble on some platforms,
-#and we couldn't fix them anyway
+# turn off warnings and pedantic mode since they could make trouble on some platforms,
+# and we couldn't fix them anyway
 coin_skip_warn_fflags=yes
+
+# provide flag to allow compilation of a stand-alone shared library
+AC_ARG_ENABLE([loadable-library],
+[AC_HELP_STRING([--enable-loadable-library],
+                [compile stand-alone shared library for delayed loading])])
 
 # Check if user wants to produce debugging code
 AC_COIN_DEBUG_COMPILE(HSL)
@@ -58,7 +63,11 @@ AC_COIN_PROG_F77
 AC_PROG_EGREP
 
 # Initialize autotools
-AC_COIN_INIT_AUTO_TOOLS
+
+if test x$enable_loadable_library = xyes; then
+  flag=force_shared
+fi
+AC_COIN_INIT_AUTO_TOOLS([$flag])
 
 #############################################################################
 #                    Find out which files are available                     #
@@ -84,6 +93,65 @@ fi
 MY_CHECK_HSLFILE(mc19ad,MC19)
 MY_CHECK_HSLFILE(ma57ad,MA57)
 MY_CHECK_HSLFILE(ma28ad,MA28)
+
+if test x$enable_loadable_library = xyes; then
+  case $build in
+    *-cygwin*)
+      HSL_SHARED_LIB=libhsl.dll
+      F77_SHARED_CMD='$(F77) -shared $(FFLAGS)'
+      case $F77 in
+        compile_f2c*)
+          EXPORT_SYMBOLS=
+          if test $coin_has_ma27ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma27id_ ma27ad_ ma27bd_ ma27cd_"
+          fi
+          if test $coin_has_ma28ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma28ad_"
+          fi
+          if test $coin_has_ma57ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma57id_ ma57ad_ ma57bd_ ma57cd_ ma57ed_"
+          fi
+          if test $coin_has_mc19ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc19ad_"
+          fi
+          F77_SHARED_CMD='$(F77) -shared $(FFLAGS) -def:$(DEFFILE)'
+	  DEFFILE='Export.def'
+          ;;
+        ifort* | IFORT*)
+	  EXPORT_SYMBOLS=
+          if test $coin_has_ma27ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA27ID MA27AD MA27BD MA27CD"
+          fi
+          if test $coin_has_ma28ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA28AD"
+          fi
+          if test $coin_has_ma57ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA57ID MA57AD MA57BD MA57CD MA57ED"
+          fi
+          if test $coin_has_mc19ad = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC19AD"
+          fi
+	  DEFFILE='Export.def'
+          F77_SHARED_CMD='$(F77) $(FFLAGS)'
+	  F77_DLL_LINKFLAGS='-link -dll -def:$(DEFFILE)'
+          ;;
+        *)
+          F77_SHARED_CMD='$(F77) -shared $(FFLAGS)'
+          ;;
+      esac
+      ;;
+  esac
+fi
+AC_SUBST(F77_SHARED_CMD)
+AC_SUBST(F77_DLL_LINKFLAGS)
+AC_SUBST(HSL_SHARED_LIB)
+AC_SUBST(EXPORT_SYMBOLS)
+AC_SUBST(DEFFILE)
+AM_CONDITIONAL([INSTALL_LOADABLE_LIBRARY],[test x$flag = xforce_shared])
+AM_CONDITIONAL([NEED_DEFFILE], [test ! x"$DEFFILE" = x])
+
+AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
+#AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test "$F77_SHARED_CMD" = x])
 
 #############################################################################
 #                              Write the output                             #

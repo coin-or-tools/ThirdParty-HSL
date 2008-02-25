@@ -1,4 +1,4 @@
-# Copyright (C) 2003, 2007 International Business Machines and others
+# Copyright (C) 2003, 2008 International Business Machines and others
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -29,7 +29,56 @@ if COIN_HAS_MA28
 	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 endif
 
+lib_LTLIBRARIES =
+if INSTALL_LOADABLE_LIBRARY
+if EXTRA_SHARED_COMMAND
+else
+  lib_LTLIBRARIES += libhsl.la
+  libhsl_la_SOURCES = nodist_libcoinhsl_la_SOURCES
+endif
+endif
+
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+
+#############################################################################
+#  Generating a shared library for delay loading
+
+if EXTRA_SHARED_COMMAND
+
+$(HSL_SHARED_LIB): $(noinst_LTLIBRARIES) $(DEFFILE)
+	bla=; \
+	for i in $(nodist_libcoinhsl_la_SOURCES); do \
+	  case $$i in \
+	    *.f) \
+	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
+	      if test -r $$obj; then \
+	        bla="$$bla $$obj" ;\
+	      else \
+	        bla="$$bla `echo $$i| sed -e 's|\(.*\).[cf]|\1.$(OBJEXT)|g'`" ;\
+	      fi ;\
+	      ;; \
+	  esac ;\
+	done ;\
+	$(F77_SHARED_CMD) $$bla -o $(HSL_SHARED_LIB) $(F77_DLL_LINKFLAGS)
+
+if NEED_DEFFILE
+$(DEFFILE): config.status
+	echo 'LIBRARY LIBHSL' > $(DEFFILE)
+	echo 'EXPORTS' >> $(DEFFILE)
+	for i in $(EXPORT_SYMBOLS); do \
+	  echo "  $$i" >> $(DEFFILE); \
+	done
+endif
+
+install-exec-local: $(HSL_SHARED_LIB)
+	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
+	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/$(HSL_SHARED_LIB)"
+
+CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
+
+uninstall-local:
+	rm -f "$(DESTDIR)$(libdir)/$(HSL_SHARED_LIB)"
+endif
 
 ########################################################################
 #                         Maintainer Stuff                             #
