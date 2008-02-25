@@ -96,7 +96,7 @@ MY_CHECK_HSLFILE(ma28ad,MA28)
 
 if test x$enable_loadable_library = xyes; then
   case $build in
-    *-cygwin*)
+    *-cygwin* | *-mingw*)
       HSL_SHARED_LIB=libhsl.dll
       F77_SHARED_CMD='$(F77) -shared $(FFLAGS)'
       case $F77 in
