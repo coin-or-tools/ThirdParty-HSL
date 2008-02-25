@@ -96,8 +96,12 @@ nodist_libcoinhsl_la_OBJECTS = dummy.lo $(am__objects_1) \
 	$(am__objects_2) $(am__objects_3) $(am__objects_4)
 libcoinhsl_la_OBJECTS = $(nodist_libcoinhsl_la_OBJECTS)
 libhsl_la_LIBADD =
-am__libhsl_la_SOURCES_DIST = nodist_libcoinhsl_la_SOURCES
-am_libhsl_la_OBJECTS =
+am__libhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
+	ma28ad.f ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f \
+	mc24ad.f
+am__objects_5 = dummy.lo $(am__objects_1) $(am__objects_2) \
+	$(am__objects_3) $(am__objects_4)
+@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am_libhsl_la_OBJECTS = $(am__objects_5)
 libhsl_la_OBJECTS = $(am_libhsl_la_OBJECTS)
 @EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am_libhsl_la_rpath = -rpath \
 @EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@	$(libdir)
@@ -289,7 +293,7 @@ noinst_LTLIBRARIES = libcoinhsl.la
 nodist_libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4)
 lib_LTLIBRARIES = $(am__append_5)
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@libhsl_la_SOURCES = nodist_libcoinhsl_la_SOURCES
+@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@libhsl_la_SOURCES = $(nodist_libcoinhsl_la_SOURCES)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 @EXTRA_SHARED_COMMAND_TRUE@CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 
@@ -377,7 +381,7 @@ clean-noinstLTLIBRARIES:
 libcoinhsl.la: $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_DEPENDENCIES) 
 	$(F77LINK)  $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
 libhsl.la: $(libhsl_la_OBJECTS) $(libhsl_la_DEPENDENCIES) 
-	$(LINK) $(am_libhsl_la_rpath) $(libhsl_la_LDFLAGS) $(libhsl_la_OBJECTS) $(libhsl_la_LIBADD) $(LIBS)
+	$(F77LINK) $(am_libhsl_la_rpath) $(libhsl_la_LDFLAGS) $(libhsl_la_OBJECTS) $(libhsl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

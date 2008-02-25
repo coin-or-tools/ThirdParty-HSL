@@ -34,7 +34,7 @@ if INSTALL_LOADABLE_LIBRARY
 if EXTRA_SHARED_COMMAND
 else
   lib_LTLIBRARIES += libhsl.la
-  libhsl_la_SOURCES = nodist_libcoinhsl_la_SOURCES
+  libhsl_la_SOURCES = $(nodist_libcoinhsl_la_SOURCES)
 endif
 endif
 
