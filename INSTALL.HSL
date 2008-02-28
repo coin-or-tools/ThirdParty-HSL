@@ -92,7 +92,6 @@ Note: This has not yet been successfully tested on all platforms.  It
       should work on most UNIX systems (including Linux), and also on
       Cygwin and MSys.
 
-
 If you already built an Ipopt executable or library, you can still add
 the functionality of the HSL routines without recompiling Ipopt.  The
 following describes the mechanism that Ipopt uses to use a Harwell
@@ -121,13 +120,16 @@ script in this directory, using the following instructions:
 1. Put the HSL routines that are available to you into this directory
    (see above for the proper names, and how to get them).
 
-2. Run the configure script, as you would usually do it for Ipopt, but
-   add the flag "--enable-loadable-library".  Since you are compiling
-   a shared library, you cannot specify the "--disable-shared" flag.
+2. Run the configure script of ThirdParty/HSL (not the one in the
+   Ipopt base directory!).  As arguments, you would essentially
+   provide the same flags as you would usually when you compile Ipopt,
+   but you need to add the flag "--enable-loadable-library".  Since
+   you are compiling a shared library, you cannot specify the
+   "--disable-shared" flag.
 
 3. Then just run "make install".  If it works, this should give you
    the shared library in the "lib" subdirectory in the directory where
-   you run the configure script.
+   you run the ThirdParty/HSL/configure script.
 
 4. To use the shared library, you need to make sure that Ipopt will
    find it when it is looking for it.  On most UNIX systems, you need
