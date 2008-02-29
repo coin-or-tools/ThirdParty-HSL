@@ -1,5 +1,11 @@
 * text=auto !eol
 /INSTALL.HSL -text
 /Makefile.am -text
+/config.guess -text
+/config.sub -text
 /configure -text
+/depcomp -text
 /dummy.c -text
+/install-sh -text
+/ltmain.sh -text
+/missing -text

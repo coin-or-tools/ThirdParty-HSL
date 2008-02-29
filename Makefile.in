@@ -58,12 +58,9 @@ host_triplet = @host@
 
 @EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am__append_5 = libhsl.la
 DIST_COMMON = $(am__configure_deps) \
-	$(srcdir)/../../BuildTools/Makemain.inc \
-	$(srcdir)/../../config.guess $(srcdir)/../../config.sub \
-	$(srcdir)/../../depcomp $(srcdir)/../../install-sh \
-	$(srcdir)/../../ltmain.sh $(srcdir)/../../missing \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/configure
+	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(top_srcdir)/configure config.guess \
+	config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_6 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_7 = .Externals-stamp
 subdir = .
@@ -106,7 +103,7 @@ libhsl_la_OBJECTS = $(am_libhsl_la_OBJECTS)
 @EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am_libhsl_la_rpath = -rpath \
 @EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@	$(libdir)
 DEFAULT_INCLUDES = -I. -I$(srcdir)
-depcomp = $(SHELL) $(top_srcdir)/../../depcomp
+depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -482,7 +479,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/../.. $(distdir)/../../BuildTools
+	$(mkdir_p) $(distdir)/../../BuildTools
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
