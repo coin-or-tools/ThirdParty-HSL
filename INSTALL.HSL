@@ -90,7 +90,7 @@ Compiling a shared library with HSL
 
 Note: This has not yet been successfully tested on all platforms.  It
       should work on most UNIX systems (including Linux), and also on
-      Cygwin and MSys.
+      Cygwin and MSys.  So far, it does not seem to work on AIX.
 
 If you already built an Ipopt executable or library, you can still add
 the functionality of the HSL routines without recompiling Ipopt.  The
