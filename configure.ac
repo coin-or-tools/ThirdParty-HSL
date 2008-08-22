@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyHSL],[1.1.2],
+AC_INIT([ThirdPartyHSL],[1.1stable],
         [http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
