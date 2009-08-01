@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 2003, 2008 International Business Machines and others
+# Copyright (C) 2003, 2008, 2009 International Business Machines and others
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -27,6 +27,7 @@
 ########################################################################
 #                    Documentation installation                        #
 ########################################################################
+
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -56,13 +57,13 @@ host_triplet = @host@
 @COIN_HAS_MA28_TRUE@am__append_4 = ma28ad.f ma30ad.f mc13dd.f mc20ad.f \
 @COIN_HAS_MA28_TRUE@	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am__append_5 = libhsl.la
-DIST_COMMON = $(am__configure_deps) \
+DIST_COMMON = README $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/configure config.guess \
-	config.sub depcomp install-sh ltmain.sh missing
-@HAVE_EXTERNALS_TRUE@am__append_6 = Externals
-@HAVE_EXTERNALS_TRUE@am__append_7 = .Externals-stamp
+	$(srcdir)/Makefile.in $(srcdir)/hsl_addlibs.txt.in \
+	$(top_srcdir)/configure config.guess config.sub depcomp \
+	install-sh ltmain.sh missing
+@HAVE_EXTERNALS_TRUE@am__append_5 = Externals
+@HAVE_EXTERNALS_TRUE@am__append_6 = .Externals-stamp
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -72,36 +73,30 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = hsl_addlibs.txt
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)"
-libLTLIBRARIES_INSTALL = $(INSTALL)
-LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
+	"$(DESTDIR)$(addlibsdir)"
+thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
+LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
+am__libcoinhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
+	ma28ad.f ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f \
+	mc24ad.f
 @COIN_HAS_MA27_TRUE@am__objects_1 = ma27ad.lo
 @COIN_HAS_MA57_TRUE@am__objects_2 = ma57ad.lo
 @COIN_HAS_MC19_TRUE@am__objects_3 = mc19ad.lo
 @COIN_HAS_MA28_TRUE@am__objects_4 = ma28ad.lo ma30ad.lo mc13dd.lo \
 @COIN_HAS_MA28_TRUE@	mc20ad.lo mc21ad.lo mc22ad.lo mc23ad.lo \
 @COIN_HAS_MA28_TRUE@	mc24ad.lo
-nodist_libcoinhsl_la_OBJECTS = dummy.lo $(am__objects_1) \
-	$(am__objects_2) $(am__objects_3) $(am__objects_4)
-libcoinhsl_la_OBJECTS = $(nodist_libcoinhsl_la_OBJECTS)
-libhsl_la_LIBADD =
-am__libhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
-	ma28ad.f ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f \
-	mc24ad.f
-am__objects_5 = dummy.lo $(am__objects_1) $(am__objects_2) \
+am_libcoinhsl_la_OBJECTS = dummy.lo $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4)
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am_libhsl_la_OBJECTS = $(am__objects_5)
-libhsl_la_OBJECTS = $(am_libhsl_la_OBJECTS)
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@am_libhsl_la_rpath = -rpath \
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@	$(libdir)
+libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -119,8 +114,10 @@ LTF77COMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) \
 F77LD = $(F77)
 F77LINK = $(LIBTOOL) --tag=F77 --mode=link $(F77LD) $(AM_FFLAGS) \
 	$(FFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(nodist_libcoinhsl_la_SOURCES) $(libhsl_la_SOURCES)
-DIST_SOURCES = $(am__libhsl_la_SOURCES_DIST)
+SOURCES = $(libcoinhsl_la_SOURCES)
+DIST_SOURCES = $(am__libcoinhsl_la_SOURCES_DIST)
+addlibsDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(addlibs_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -285,21 +282,22 @@ sol_cc_compiler = @sol_cc_compiler@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
-EXTRA_DIST = INSTALL.HSL $(am__append_6)
-noinst_LTLIBRARIES = libcoinhsl.la
-nodist_libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
+EXTRA_DIST = INSTALL.HSL $(am__append_5)
+thirdpartylibdir = $(prefix)/lib/ThirdParty
+thirdpartylib_LTLIBRARIES = libcoinhsl.la
+libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4)
-lib_LTLIBRARIES = $(am__append_5)
-@EXTRA_SHARED_COMMAND_FALSE@@INSTALL_LOADABLE_LIBRARY_TRUE@libhsl_la_SOURCES = $(nodist_libcoinhsl_la_SOURCES)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 @EXTRA_SHARED_COMMAND_TRUE@CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
+addlibsdir = $(prefix)/share/doc/coin/ThirdParty/HSL
+addlibs_DATA = hsl_addlibs.txt README
 
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
 
 # Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = $(am__append_7) $(VPATH_DISTCLEANFILES)
+DISTCLEANFILES = $(am__append_6) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
 DocInstallDir = $(prefix)/share/doc/coin/$(PACKAGE_NAME)
 all: all-am
@@ -339,46 +337,37 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+hsl_addlibs.txt: $(top_builddir)/config.status $(srcdir)/hsl_addlibs.txt.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	test -z "$(thirdpartylibdir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartylibdir)"
+	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    f=$(am__strip_dir) \
-	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
-	    $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
+	    echo " $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(thirdpartylibdir)/$$f'"; \
+	    $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(thirdpartylibdir)/$$f"; \
 	  else :; fi; \
 	done
 
-uninstall-libLTLIBRARIES:
+uninstall-thirdpartylibLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@set -x; list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	@set -x; list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
 	  p=$(am__strip_dir) \
-	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$p'"; \
-	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$p"; \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(thirdpartylibdir)/$$p'"; \
+	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(thirdpartylibdir)/$$p"; \
 	done
 
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
-	  test "$$dir" != "$$p" || dir=.; \
-	  echo "rm -f \"$${dir}/so_locations\""; \
-	  rm -f "$${dir}/so_locations"; \
-	done
-
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
+clean-thirdpartylibLTLIBRARIES:
+	-test -z "$(thirdpartylib_LTLIBRARIES)" || rm -f $(thirdpartylib_LTLIBRARIES)
+	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libcoinhsl.la: $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_DEPENDENCIES) 
-	$(F77LINK)  $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
-libhsl.la: $(libhsl_la_OBJECTS) $(libhsl_la_DEPENDENCIES) 
-	$(F77LINK) $(am_libhsl_la_rpath) $(libhsl_la_LDFLAGS) $(libhsl_la_OBJECTS) $(libhsl_la_LIBADD) $(LIBS)
+	$(F77LINK) -rpath $(thirdpartylibdir) $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -427,6 +416,23 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+install-addlibsDATA: $(addlibs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(addlibsdir)" || $(mkdir_p) "$(DESTDIR)$(addlibsdir)"
+	@list='$(addlibs_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(addlibsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(addlibsdir)/$$f'"; \
+	  $(addlibsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(addlibsdir)/$$f"; \
+	done
+
+uninstall-addlibsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(addlibs_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(addlibsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(addlibsdir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -479,7 +485,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/../../BuildTools
+	$(mkdir_p) $(distdir)/. $(distdir)/../../BuildTools
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -605,9 +611,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -640,8 +646,8 @@ maintainer-clean-generic:
 @EXTRA_SHARED_COMMAND_FALSE@install-exec-local:
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstLTLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -660,9 +666,9 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-addlibsDATA install-thirdpartylibLTLIBRARIES
 
-install-exec-am: install-exec-local install-libLTLIBRARIES
+install-exec-am: install-exec-local
 
 install-info: install-info-am
 
@@ -690,30 +696,31 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
-	uninstall-local
+uninstall-am: uninstall-addlibsDATA uninstall-info-am uninstall-local \
+	uninstall-thirdpartylibLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstLTLIBRARIES ctags dist dist-all dist-bzip2 \
-	dist-gzip dist-shar dist-tarZ dist-zip distcheck distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
+	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
+	ctags dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
+	dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-addlibsDATA install-am \
 	install-data install-data-am install-exec install-exec-am \
-	install-exec-local install-info install-info-am \
-	install-libLTLIBRARIES install-man install-strip installcheck \
+	install-exec-local install-info install-info-am install-man \
+	install-strip install-thirdpartylibLTLIBRARIES installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-info-am \
-	uninstall-libLTLIBRARIES uninstall-local
+	tags uninstall uninstall-addlibsDATA uninstall-am \
+	uninstall-info-am uninstall-local \
+	uninstall-thirdpartylibLTLIBRARIES
 
 
 #############################################################################
 #  Generating a shared library for delay loading
 
-@EXTRA_SHARED_COMMAND_TRUE@$(HSL_SHARED_LIB): $(noinst_LTLIBRARIES) $(DEFFILE)
+@EXTRA_SHARED_COMMAND_TRUE@$(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
 @EXTRA_SHARED_COMMAND_TRUE@	bla=; \
 @EXTRA_SHARED_COMMAND_TRUE@	for i in $(nodist_libcoinhsl_la_SOURCES); do \
 @EXTRA_SHARED_COMMAND_TRUE@	  case $$i in \
@@ -737,11 +744,11 @@ uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
 @EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	done
 
 @EXTRA_SHARED_COMMAND_TRUE@install-exec-local: $(HSL_SHARED_LIB)
-@EXTRA_SHARED_COMMAND_TRUE@	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
-@EXTRA_SHARED_COMMAND_TRUE@	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/$(HSL_SHARED_LIB)"
+@EXTRA_SHARED_COMMAND_TRUE@	test -z "$(DESTDIR)$(libdir)/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/ThirdParty"
+@EXTRA_SHARED_COMMAND_TRUE@	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/ThirdParty/$(HSL_SHARED_LIB)"
 
 @EXTRA_SHARED_COMMAND_TRUE@uninstall-local:
-@EXTRA_SHARED_COMMAND_TRUE@	rm -f "$(DESTDIR)$(libdir)/$(HSL_SHARED_LIB)"
+@EXTRA_SHARED_COMMAND_TRUE@	rm -f "$(DESTDIR)$(libdir)/ThirdParty/$(HSL_SHARED_LIB)"
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

@@ -1,4 +1,4 @@
-# Copyright (C) 2006 International Business Machines.
+# Copyright (C) 2006, 2009 International Business Machines.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -157,6 +157,6 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 #                              Write the output                             #
 #############################################################################
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile hsl_addlibs.txt])
 
 AC_COIN_FINALIZE
