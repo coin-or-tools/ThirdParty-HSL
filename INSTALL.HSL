@@ -71,6 +71,8 @@ For neither MA27 or MC19 it is necessary to download any dependencies.
 
 If you want to use MA57, please make sure that all source code for
 MA57 ***including dependencies*** is in a file called ma57ad.f.
+(By using the button "Download HSL depencies" on the ma57 download
+page you can obtain everything already packed into one single file.)
 Currently, the dependencies are the files:
 
  fd15ad.f
