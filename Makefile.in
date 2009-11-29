@@ -59,7 +59,8 @@ host_triplet = @host@
 
 DIST_COMMON = README $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/hsl_addlibs.txt.in \
+	$(srcdir)/Makefile.in $(srcdir)/hsl-uninstalled.pc.in \
+	$(srcdir)/hsl.pc.in $(srcdir)/hsl_addlibs.txt.in \
 	$(top_srcdir)/configure config.guess config.sub depcomp \
 	install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_5 = Externals
@@ -73,7 +74,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = hsl_addlibs.txt
+CONFIG_CLEAN_FILES = hsl_addlibs.txt hsl.pc hsl-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -81,7 +82,7 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
-	"$(DESTDIR)$(addlibsdir)"
+	"$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)"
 thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
@@ -117,7 +118,8 @@ F77LINK = $(LIBTOOL) --tag=F77 --mode=link $(F77LD) $(AM_FFLAGS) \
 SOURCES = $(libcoinhsl_la_SOURCES)
 DIST_SOURCES = $(am__libcoinhsl_la_SOURCES_DIST)
 addlibsDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(addlibs_DATA)
+pkgconfiglibDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(addlibs_DATA) $(pkgconfiglib_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -188,6 +190,7 @@ FADDLIBS = @FADDLIBS@
 FFLAGS = @FFLAGS@
 HAVE_EXTERNALS_FALSE = @HAVE_EXTERNALS_FALSE@
 HAVE_EXTERNALS_TRUE = @HAVE_EXTERNALS_TRUE@
+HAVE_MXXX_CFLAGS = @HAVE_MXXX_CFLAGS@
 HSL_SHARED_LIB = @HSL_SHARED_LIB@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_LOADABLE_LIBRARY_FALSE = @INSTALL_LOADABLE_LIBRARY_FALSE@
@@ -292,6 +295,8 @@ libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 @EXTRA_SHARED_COMMAND_TRUE@CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 addlibsdir = $(prefix)/share/doc/coin/ThirdParty/HSL
 addlibs_DATA = hsl_addlibs.txt README
+pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
+pkgconfiglib_DATA = hsl.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
@@ -339,6 +344,10 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 hsl_addlibs.txt: $(top_builddir)/config.status $(srcdir)/hsl_addlibs.txt.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+hsl.pc: $(top_builddir)/config.status $(srcdir)/hsl.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+hsl-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/hsl-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -433,6 +442,23 @@ uninstall-addlibsDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(addlibsdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(addlibsdir)/$$f"; \
+	done
+install-pkgconfiglibDATA: $(pkgconfiglib_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgconfiglibdir)" || $(mkdir_p) "$(DESTDIR)$(pkgconfiglibdir)"
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(pkgconfiglibDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  $(pkgconfiglibDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
+	done
+
+uninstall-pkgconfiglibDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
 	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -614,7 +640,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)"; do \
+	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -667,7 +693,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-addlibsDATA install-thirdpartylibLTLIBRARIES
+install-data-am: install-addlibsDATA install-pkgconfiglibDATA \
+	install-thirdpartylibLTLIBRARIES
 
 install-exec-am: install-exec-local
 
@@ -698,7 +725,7 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-addlibsDATA uninstall-info-am uninstall-local \
-	uninstall-thirdpartylibLTLIBRARIES
+	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
@@ -709,12 +736,13 @@ uninstall-am: uninstall-addlibsDATA uninstall-info-am uninstall-local \
 	html-am info info-am install install-addlibsDATA install-am \
 	install-data install-data-am install-exec install-exec-am \
 	install-exec-local install-info install-info-am install-man \
-	install-strip install-thirdpartylibLTLIBRARIES installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-addlibsDATA uninstall-am \
-	uninstall-info-am uninstall-local \
+	install-pkgconfiglibDATA install-strip \
+	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
+	uninstall-addlibsDATA uninstall-am uninstall-info-am \
+	uninstall-local uninstall-pkgconfiglibDATA \
 	uninstall-thirdpartylibLTLIBRARIES
 
 

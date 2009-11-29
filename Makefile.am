@@ -75,6 +75,9 @@ endif
 addlibsdir = $(prefix)/share/doc/coin/ThirdParty/HSL
 addlibs_DATA = hsl_addlibs.txt README
 
+pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
+pkgconfiglib_DATA = hsl.pc
+
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################

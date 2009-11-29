@@ -1,0 +1,8 @@
+prefix=@prefix@
+libdir=@ABSBUILDDIR@
+
+Name: HSL
+Description: Harwell Subroutines Library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lcoinhsl @ADDLIBS@
+Cflags: @HAVE_MXXX_CFLAGS@

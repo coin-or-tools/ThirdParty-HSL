@@ -6,6 +6,8 @@
 /config.sub -text
 /configure -text
 /depcomp -text
+/hsl-uninstalled.pc.in -text
+/hsl.pc.in -text
 /hsl_addlibs.txt.in -text
 /install-sh -text
 /ltmain.sh -text
