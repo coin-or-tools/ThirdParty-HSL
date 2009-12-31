@@ -59,6 +59,12 @@ AC_COIN_PROG_CC
 # Get the name of the Fortran compiler and appropriate compiler options
 AC_COIN_PROG_F77
 
+# Get the linker flags (FLIBS) that are required for linking against this blas library
+AC_COIN_F77_WRAPPERS
+
+# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
+coin_need_flibs=yes
+
 # Need egrep later on
 AC_PROG_EGREP
 
