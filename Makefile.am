@@ -8,7 +8,7 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = INSTALL.HSL
 
-thirdpartylibdir = $(prefix)/lib/ThirdParty
+thirdpartylibdir = $(libdir)/coin/ThirdParty
 thirdpartylib_LTLIBRARIES = libcoinhsl.la
 
 libcoinhsl_la_SOURCES = dummy.c
@@ -63,20 +63,20 @@ $(DEFFILE): config.status
 endif
 
 install-exec-local: $(HSL_SHARED_LIB)
-	test -z "$(DESTDIR)$(libdir)/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/ThirdParty"
-	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/ThirdParty/$(HSL_SHARED_LIB)"
+	test -z "$(DESTDIR)$(libdir)/coin/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/coin/ThirdParty"
+	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 
 CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 
 uninstall-local:
-	rm -f "$(DESTDIR)$(libdir)/ThirdParty/$(HSL_SHARED_LIB)"
+	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 endif
 
-addlibsdir = $(prefix)/share/doc/coin/ThirdParty/HSL
+addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
 addlibs_DATA = hsl_addlibs.txt README
 
-pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
-pkgconfiglib_DATA = hsl.pc
+pkgconfiglibdir = $(libdir)/pkgconfig
+pkgconfiglib_DATA = coinhsl.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #

@@ -178,6 +178,6 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 #                              Write the output                             #
 #############################################################################
 
-AC_CONFIG_FILES([Makefile hsl_addlibs.txt hsl.pc hsl-uninstalled.pc])
+AC_CONFIG_FILES([Makefile hsl_addlibs.txt coinhsl.pc coinhsl-uninstalled.pc])
 
 AC_COIN_FINALIZE
