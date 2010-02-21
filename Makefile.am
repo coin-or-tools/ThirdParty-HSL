@@ -1,4 +1,4 @@
-# Copyright (C) 2003, 2008, 2009 International Business Machines and others
+# Copyright (C) 2003, 2009 International Business Machines and others
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -30,7 +30,14 @@ if COIN_HAS_MA28
 	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 endif
 
+if COIN_HAS_MA77
+  libcoinhsl_la_SOURCES += hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
+endif
+
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+
+# dependencies
+hsl_ma77d.lo: hsl_ma77d.deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading
@@ -77,6 +84,11 @@ addlibs_DATA = hsl_addlibs.txt README
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
+
+# Need to overwrite automake definition since otherwise libtool does not
+# understand the fortran file (need to add --tag=F77)
+LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
+
 
 ########################################################################
 #                         Maintainer Stuff                             #

@@ -16,7 +16,7 @@ AC_INIT([ThirdPartyHSL],[1.0trunk],
         [http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
-Copyright 2006 International Business Machines and others.
+Copyright 2006, 2009 International Business Machines and others.
 All Rights Reserved.
 This file is part of the open source package Coin which is distributed
 under the Common Public License.])
@@ -68,6 +68,17 @@ coin_need_flibs=yes
 # Need egrep later on
 AC_PROG_EGREP
 
+# Also set up the FC compiler variable, required to compile .f90
+# files.  We use the same compile and flags as F77 and FFLAGS, unless
+# the user has set FC and FCFLAGS explicitly.
+if test "$FC" = ""; then
+  FC="$F77"
+fi
+if test "$FCFLAGS" = ""; then
+  FCFLAGS="$FFLAGS"
+fi
+AC_PROG_FC
+
 # Initialize autotools
 
 if test x$enable_loadable_library = xyes; then
@@ -79,11 +90,30 @@ AC_COIN_INIT_AUTO_TOOLS([$flag])
 #                    Find out which files are available                     #
 #############################################################################
 
+AC_MSG_CHECKING([whether we can compile Fortran 90 code])
+AC_LANG_PUSH(Fortran 77)
+AC_COMPILE_IFELSE([        MODULE BLA
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      END MODULE BLA],[have_f90=yes],[have_f90=no])
+AC_MSG_RESULT([$have_f90])
+AC_LANG_POP(Fortran 77)
+
 AC_DEFUN([MY_CHECK_HSLFILE],
 [AC_COIN_CHECK_FILE([$srcdir/$1.f],
                     [hsl_files="$hsl_files $1.f"
                      coin_has_$1=yes],
                     [coin_has_$1=no])
+AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
+
+AC_DEFUN([MY_CHECK_HSLFILE_F90],
+[if test $have_f90 = yes; then
+   AC_COIN_CHECK_FILE([$srcdir/$1.f90],
+                      [hsl_files="$hsl_files $1.f"
+                       coin_has_$1=yes],
+                      [coin_has_$1=no])
+else
+  coin_has_$1=no
+fi
 AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
 
 MY_CHECK_HSLFILE(ma27ad,MA27)
@@ -99,6 +129,7 @@ fi
 MY_CHECK_HSLFILE(mc19ad,MC19)
 MY_CHECK_HSLFILE(ma57ad,MA57)
 MY_CHECK_HSLFILE(ma28ad,MA28)
+MY_CHECK_HSLFILE_F90(hsl_ma77d,MA77)
 
 HAVE_MXXX_CFLAGS=
 if test $coin_has_ma27ad = yes; then
@@ -112,6 +143,9 @@ if test $coin_has_ma57ad = yes; then
 fi
 if test $coin_has_ma28ad = yes; then
   HAVE_MXXX_CFLAGS="-DHAVE_MA28 $HAVE_MXXX_CFLAGS"
+fi
+if test $coin_has_hsl_ma77d = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MA77 $HAVE_MXXX_CFLAGS"
 fi
 AC_SUBST(HAVE_MXXX_CFLAGS)
 
