@@ -58,12 +58,11 @@ host_triplet = @host@
 @COIN_HAS_MA28_TRUE@	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 
 @COIN_HAS_MA77_TRUE@am__append_5 = hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
-DIST_COMMON = README $(am__configure_deps) \
+DIST_COMMON = $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/coinhsl-uninstalled.pc.in \
-	$(srcdir)/coinhsl.pc.in $(srcdir)/hsl_addlibs.txt.in \
-	$(top_srcdir)/configure config.guess config.sub depcomp \
-	install-sh ltmain.sh missing
+	$(srcdir)/coinhsl.pc.in $(top_srcdir)/configure config.guess \
+	config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_6 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_7 = .Externals-stamp
 subdir = .
@@ -75,7 +74,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = hsl_addlibs.txt coinhsl.pc coinhsl-uninstalled.pc
+CONFIG_CLEAN_FILES = coinhsl.pc coinhsl-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -171,6 +170,8 @@ COIN_HAS_MA77_FALSE = @COIN_HAS_MA77_FALSE@
 COIN_HAS_MA77_TRUE = @COIN_HAS_MA77_TRUE@
 COIN_HAS_MC19_FALSE = @COIN_HAS_MC19_FALSE@
 COIN_HAS_MC19_TRUE = @COIN_HAS_MC19_TRUE@
+COIN_HAS_PKGCONFIG_FALSE = @COIN_HAS_PKGCONFIG_FALSE@
+COIN_HAS_PKGCONFIG_TRUE = @COIN_HAS_PKGCONFIG_TRUE@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -237,6 +238,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 RPATH_FLAGS = @RPATH_FLAGS@
 SET_MAKE = @SET_MAKE@
@@ -257,6 +259,7 @@ ac_ct_FC = @ac_ct_FC@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
 ac_cxx_preproc_warn_flag = @ac_cxx_preproc_warn_flag@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -305,9 +308,8 @@ thirdpartylib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_5)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
-@EXTRA_SHARED_COMMAND_TRUE@CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
-addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
-addlibs_DATA = hsl_addlibs.txt README
+@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
+@COIN_HAS_PKGCONFIG_TRUE@addlibs_DATA = hsl_addlibs.txt
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
 
@@ -318,6 +320,7 @@ LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
+CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) hsl_addlibs.txt
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(am__append_7) $(VPATH_DISTCLEANFILES)
@@ -360,8 +363,6 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
-hsl_addlibs.txt: $(top_builddir)/config.status $(srcdir)/hsl_addlibs.txt.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinhsl.pc: $(top_builddir)/config.status $(srcdir)/coinhsl.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinhsl-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinhsl-uninstalled.pc.in
@@ -807,6 +808,9 @@ hsl_ma77d.lo: hsl_ma77d.deps90.lo
 
 @EXTRA_SHARED_COMMAND_TRUE@uninstall-local:
 @EXTRA_SHARED_COMMAND_TRUE@	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
+
+@COIN_HAS_PKGCONFIG_TRUE@hsl_addlibs.txt : coinhsl.pc
+@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

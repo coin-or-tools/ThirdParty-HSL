@@ -1,14 +1,12 @@
 * text=auto !eol
 /INSTALL.HSL -text
 /Makefile.am -text
-/README -text
 /coinhsl-uninstalled.pc.in -text
 /coinhsl.pc.in -text
 /config.guess -text
 /config.sub -text
 /configure -text
 /depcomp -text
-/hsl_addlibs.txt.in -text
 /install-sh -text
 /ltmain.sh -text
 /missing -text

@@ -59,6 +59,9 @@ AC_COIN_PROG_CC
 # Get the name of the Fortran compiler and appropriate compiler options
 AC_COIN_PROG_F77
 
+# Check if pkg-config is available (to setup addlibs file)
+AC_COIN_HAS_PKGCONFIG
+
 # Get the linker flags (FLIBS) that are required for linking against this blas library
 AC_COIN_F77_WRAPPERS
 
@@ -212,6 +215,6 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 #                              Write the output                             #
 #############################################################################
 
-AC_CONFIG_FILES([Makefile hsl_addlibs.txt coinhsl.pc coinhsl-uninstalled.pc])
+AC_CONFIG_FILES([Makefile coinhsl.pc coinhsl-uninstalled.pc])
 
 AC_COIN_FINALIZE

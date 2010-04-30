@@ -73,14 +73,17 @@ install-exec-local: $(HSL_SHARED_LIB)
 	test -z "$(DESTDIR)$(libdir)/coin/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/coin/ThirdParty"
 	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 
-CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
-
 uninstall-local:
 	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 endif
 
+if COIN_HAS_PKGCONFIG
 addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
-addlibs_DATA = hsl_addlibs.txt README
+addlibs_DATA = hsl_addlibs.txt
+
+hsl_addlibs.txt : coinhsl.pc
+	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
+endif
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
@@ -93,6 +96,8 @@ LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
+
+CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) hsl_addlibs.txt
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES =
