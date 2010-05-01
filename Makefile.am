@@ -82,7 +82,7 @@ addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
 addlibs_DATA = hsl_addlibs.txt
 
 hsl_addlibs.txt : coinhsl.pc
-	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
+	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
 endif
 
 pkgconfiglibdir = $(libdir)/pkgconfig
