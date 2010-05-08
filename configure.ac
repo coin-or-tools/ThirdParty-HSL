@@ -59,6 +59,15 @@ AC_COIN_PROG_CC
 # Get the name of the Fortran compiler and appropriate compiler options
 AC_COIN_PROG_F77
 
+# Check if pkg-config is available (to setup addlibs file)
+AC_COIN_HAS_PKGCONFIG
+
+# Get the linker flags (FLIBS) that are required for linking against this blas library
+AC_COIN_F77_WRAPPERS
+
+# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
+coin_need_flibs=yes
+
 # Need egrep later on
 AC_PROG_EGREP
 
@@ -111,7 +120,7 @@ fi
 AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
 
 MY_CHECK_HSLFILE(ma27ad,MA27)
-if test coin_has_ma27ad = yes; then
+if test $coin_has_ma27ad = yes; then
   AC_MSG_CHECKING([whether MA27 is threadsafe])
   if $EGREP MA27UD $srcdir/ma27ad.f >/dev/null 2>&1; then
     AC_MSG_RESULT(yes)
@@ -124,6 +133,24 @@ MY_CHECK_HSLFILE(mc19ad,MC19)
 MY_CHECK_HSLFILE(ma57ad,MA57)
 MY_CHECK_HSLFILE(ma28ad,MA28)
 MY_CHECK_HSLFILE_F90(hsl_ma77d,MA77)
+
+HAVE_MXXX_CFLAGS=
+if test $coin_has_ma27ad = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MA27 $HAVE_MXXX_CFLAGS"
+fi
+if test $coin_has_mc19ad = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MC19 $HAVE_MXXX_CFLAGS"
+fi
+if test $coin_has_ma57ad = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MA57 $HAVE_MXXX_CFLAGS"
+fi
+if test $coin_has_ma28ad = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MA28 $HAVE_MXXX_CFLAGS"
+fi
+if test $coin_has_hsl_ma77d = yes; then
+  HAVE_MXXX_CFLAGS="-DHAVE_MA77 $HAVE_MXXX_CFLAGS"
+fi
+AC_SUBST(HAVE_MXXX_CFLAGS)
 
 if test x$enable_loadable_library = xyes; then
   case $build in
@@ -188,6 +215,6 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 #                              Write the output                             #
 #############################################################################
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile coinhsl.pc coinhsl-uninstalled.pc])
 
 AC_COIN_FINALIZE
