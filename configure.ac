@@ -32,7 +32,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT
+AC_COIN_PROJECTDIR_INIT(HSL)
 
 #############################################################################
 #                         Standard build tool stuff                         #
