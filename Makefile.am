@@ -85,7 +85,7 @@ addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/HSL
 	
 install-data-hook:
 	@$(mkdir_p) "$(addlibsdir)"
-	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ PKG_CONFIG_DISABLE_UNINSTALLED= \
+	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
 	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
 endif
 
