@@ -82,7 +82,7 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
-	"$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)"
+	"$(DESTDIR)$(pkgconfiglibdir)"
 thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
@@ -123,9 +123,8 @@ FCLINK = $(LIBTOOL) --mode=link $(FCLD) $(AM_FCFLAGS) $(FCFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libcoinhsl_la_SOURCES)
 DIST_SOURCES = $(am__libcoinhsl_la_SOURCES_DIST)
-addlibsDATA_INSTALL = $(INSTALL_DATA)
 pkgconfiglibDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(addlibs_DATA) $(pkgconfiglib_DATA)
+DATA = $(pkgconfiglib_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -173,6 +172,7 @@ COIN_HAS_MC19_TRUE = @COIN_HAS_MC19_TRUE@
 COIN_HAS_PKGCONFIG_FALSE = @COIN_HAS_PKGCONFIG_FALSE@
 COIN_HAS_PKGCONFIG_TRUE = @COIN_HAS_PKGCONFIG_TRUE@
 COIN_PKG_CONFIG_PATH = @COIN_PKG_CONFIG_PATH@
+COIN_PKG_CONFIG_PATH_UNINSTALLED = @COIN_PKG_CONFIG_PATH_UNINSTALLED@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -312,10 +312,9 @@ thirdpartylib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_5)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
-@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
-@COIN_HAS_PKGCONFIG_TRUE@addlibs_DATA = hsl_addlibs.txt
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
+@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/HSL
 
 # Need to overwrite automake definition since otherwise libtool does not
 # understand the fortran file (need to add --tag=F77)
@@ -457,23 +456,6 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-install-addlibsDATA: $(addlibs_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(addlibsdir)" || $(mkdir_p) "$(DESTDIR)$(addlibsdir)"
-	@list='$(addlibs_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(addlibsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(addlibsdir)/$$f'"; \
-	  $(addlibsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(addlibsdir)/$$f"; \
-	done
-
-uninstall-addlibsDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(addlibs_DATA)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(addlibsdir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(addlibsdir)/$$f"; \
-	done
 install-pkgconfiglibDATA: $(pkgconfiglib_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkgconfiglibdir)" || $(mkdir_p) "$(DESTDIR)$(pkgconfiglibdir)"
@@ -671,7 +653,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
+	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -702,6 +684,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 @EXTRA_SHARED_COMMAND_FALSE@uninstall-local:
 @EXTRA_SHARED_COMMAND_FALSE@install-exec-local:
+@COIN_HAS_PKGCONFIG_FALSE@install-data-hook:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
@@ -724,8 +707,10 @@ info: info-am
 
 info-am:
 
-install-data-am: install-addlibsDATA install-pkgconfiglibDATA \
+install-data-am: install-pkgconfiglibDATA \
 	install-thirdpartylibLTLIBRARIES
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
 install-exec-am: install-exec-local
 
@@ -755,7 +740,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-addlibsDATA uninstall-info-am uninstall-local \
+uninstall-am: uninstall-info-am uninstall-local \
 	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
@@ -764,17 +749,16 @@ uninstall-am: uninstall-addlibsDATA uninstall-info-am uninstall-local \
 	dist-zip distcheck distclean distclean-compile \
 	distclean-generic distclean-libtool distclean-tags \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-addlibsDATA install-am \
-	install-data install-data-am install-exec install-exec-am \
+	html-am info info-am install install-am install-data \
+	install-data-am install-data-hook install-exec install-exec-am \
 	install-exec-local install-info install-info-am install-man \
 	install-pkgconfiglibDATA install-strip \
 	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-addlibsDATA uninstall-am uninstall-info-am \
-	uninstall-local uninstall-pkgconfiglibDATA \
-	uninstall-thirdpartylibLTLIBRARIES
+	uninstall-am uninstall-info-am uninstall-local \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
 
 
 # dependencies
@@ -813,8 +797,10 @@ hsl_ma77d.lo: hsl_ma77d.deps90.lo
 @EXTRA_SHARED_COMMAND_TRUE@uninstall-local:
 @EXTRA_SHARED_COMMAND_TRUE@	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 
-@COIN_HAS_PKGCONFIG_TRUE@hsl_addlibs.txt : coinhsl.pc
-@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
+@COIN_HAS_PKGCONFIG_TRUE@install-data-hook:
+@COIN_HAS_PKGCONFIG_TRUE@	@$(mkdir_p) "$(addlibsdir)"
+@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ PKG_CONFIG_DISABLE_UNINSTALLED= \
+@COIN_HAS_PKGCONFIG_TRUE@	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

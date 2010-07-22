@@ -77,16 +77,17 @@ uninstall-local:
 	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 endif
 
-if COIN_HAS_PKGCONFIG
-addlibsdir = $(datadir)/coin/doc/ThirdParty/HSL
-addlibs_DATA = hsl_addlibs.txt
-
-hsl_addlibs.txt : coinhsl.pc
-	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinhsl > hsl_addlibs.txt
-endif
-
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
+
+if COIN_HAS_PKGCONFIG
+addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/HSL
+	
+install-data-hook:
+	@$(mkdir_p) "$(addlibsdir)"
+	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ PKG_CONFIG_DISABLE_UNINSTALLED= \
+	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
+endif
 
 # Need to overwrite automake definition since otherwise libtool does not
 # understand the fortran file (need to add --tag=F77)
