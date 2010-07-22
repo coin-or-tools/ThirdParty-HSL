@@ -323,7 +323,7 @@ LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
-CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) hsl_addlibs.txt
+CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(am__append_7) $(VPATH_DISTCLEANFILES)
@@ -685,6 +685,7 @@ maintainer-clean-generic:
 @EXTRA_SHARED_COMMAND_FALSE@uninstall-local:
 @EXTRA_SHARED_COMMAND_FALSE@install-exec-local:
 @COIN_HAS_PKGCONFIG_FALSE@install-data-hook:
+@COIN_HAS_PKGCONFIG_FALSE@uninstall-hook:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
@@ -742,6 +743,8 @@ ps-am:
 
 uninstall-am: uninstall-info-am uninstall-local \
 	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
@@ -757,7 +760,7 @@ uninstall-am: uninstall-info-am uninstall-local \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-info-am uninstall-local \
+	uninstall-am uninstall-hook uninstall-info-am uninstall-local \
 	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
 
 
@@ -801,6 +804,9 @@ hsl_ma77d.lo: hsl_ma77d.deps90.lo
 @COIN_HAS_PKGCONFIG_TRUE@	@$(mkdir_p) "$(addlibsdir)"
 @COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
 @COIN_HAS_PKGCONFIG_TRUE@	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
+
+@COIN_HAS_PKGCONFIG_TRUE@uninstall-hook:
+@COIN_HAS_PKGCONFIG_TRUE@	rm -f $(addlibsdir)/hsl_addlibs.txt
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

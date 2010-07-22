@@ -87,6 +87,9 @@ install-data-hook:
 	@$(mkdir_p) "$(addlibsdir)"
 	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
 	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
+
+uninstall-hook:
+	rm -f $(addlibsdir)/hsl_addlibs.txt
 endif
 
 # Need to overwrite automake definition since otherwise libtool does not
@@ -98,7 +101,7 @@ LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 #                         Maintainer Stuff                             #
 ########################################################################
 
-CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) hsl_addlibs.txt
+CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES =
