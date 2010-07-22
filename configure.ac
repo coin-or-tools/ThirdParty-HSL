@@ -97,7 +97,7 @@ AC_MSG_CHECKING([whether we can compile Fortran 90 code])
 AC_LANG_PUSH(Fortran 77)
 AC_COMPILE_IFELSE([        MODULE BLA
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
-      END MODULE BLA],[have_f90=yes],[have_f90=no])
+      END MODULE BLA],[have_f90=yes ; rm -f bla.mod],[have_f90=no])
 AC_MSG_RESULT([$have_f90])
 AC_LANG_POP(Fortran 77)
 
