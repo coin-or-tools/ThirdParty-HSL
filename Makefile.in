@@ -61,8 +61,8 @@ host_triplet = @host@
 DIST_COMMON = $(am__configure_deps) $(srcdir)/BuildTools/Makemain.inc \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/coinhsl-uninstalled.pc.in $(srcdir)/coinhsl.pc.in \
-	$(top_srcdir)/configure config.guess config.sub depcomp \
-	install-sh ltmain.sh missing
+	$(srcdir)/config_hsl.h.in $(top_srcdir)/configure config.guess \
+	config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_6 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_7 = .Externals-stamp
 subdir = .
@@ -74,6 +74,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = config_hsl.h
 CONFIG_CLEAN_FILES = coinhsl.pc coinhsl-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -100,7 +101,7 @@ am__libcoinhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
 am_libcoinhsl_la_OBJECTS = dummy.lo $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5)
 libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
-DEFAULT_INCLUDES = -I. -I$(srcdir)
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
@@ -329,7 +330,8 @@ CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 DISTCLEANFILES = $(am__append_7) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
 DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
-all: all-am
+all: config_hsl.h
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .f .f90 .lo .o .obj
@@ -366,6 +368,23 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+
+config_hsl.h: stamp-h1
+	@if test ! -f $@; then \
+	  rm -f stamp-h1; \
+	  $(MAKE) stamp-h1; \
+	else :; fi
+
+stamp-h1: $(srcdir)/config_hsl.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config_hsl.h
+$(srcdir)/config_hsl.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
+	cd $(top_srcdir) && $(AUTOHEADER)
+	rm -f stamp-h1
+	touch $@
+
+distclean-hdr:
+	-rm -f config_hsl.h stamp-h1
 coinhsl.pc: $(top_builddir)/config.status $(srcdir)/coinhsl.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinhsl-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinhsl-uninstalled.pc.in
@@ -484,11 +503,11 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	mkid -fID $$unique
 tags: TAGS
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES) config_hsl.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) config_hsl.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -500,11 +519,11 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	    $$tags $$unique; \
 	fi
 ctags: CTAGS
-CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+CTAGS:  $(HEADERS) $(SOURCES) config_hsl.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) config_hsl.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -651,7 +670,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA)
+all-am: Makefile $(LTLIBRARIES) $(DATA) config_hsl.h
 installdirs:
 	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
@@ -696,7 +715,7 @@ distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-libtool distclean-tags
+	distclean-hdr distclean-libtool distclean-tags
 
 dvi: dvi-am
 
@@ -750,18 +769,19 @@ uninstall-am: uninstall-info-am uninstall-local \
 	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
 	ctags dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
 	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-data-hook install-exec install-exec-am \
-	install-exec-local install-info install-info-am install-man \
-	install-pkgconfiglibDATA install-strip \
-	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-hook uninstall-info-am uninstall-local \
-	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-data-hook install-exec \
+	install-exec-am install-exec-local install-info \
+	install-info-am install-man install-pkgconfiglibDATA \
+	install-strip install-thirdpartylibLTLIBRARIES installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-hook uninstall-info-am \
+	uninstall-local uninstall-pkgconfiglibDATA \
+	uninstall-thirdpartylibLTLIBRARIES
 
 
 # dependencies
