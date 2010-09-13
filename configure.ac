@@ -65,8 +65,9 @@ AC_COIN_HAS_PKGCONFIG
 # Get the linker flags (FLIBS) that are required for linking against this blas library
 AC_COIN_F77_WRAPPERS
 
-# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
-coin_need_flibs=yes
+# Add FLIBS to HSL_PCLIBS, so that they get into the .pc files
+HSL_PCLIBS="$FLIBS"
+AC_SUBST(HSL_PCLIBS)
 
 # Need egrep later on
 AC_PROG_EGREP
