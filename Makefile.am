@@ -92,6 +92,9 @@ uninstall-hook:
 	rm -f $(addlibsdir)/hsl_addlibs.txt
 endif
 
+test: $(libampl)
+	@echo "No test available for HSL."
+
 # Need to overwrite automake definition since otherwise libtool does not
 # understand the fortran file (need to add --tag=F77)
 LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)

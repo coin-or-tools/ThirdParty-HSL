@@ -829,6 +829,9 @@ hsl_ma77d.lo: hsl_ma77d.deps90.lo
 @COIN_HAS_PKGCONFIG_TRUE@uninstall-hook:
 @COIN_HAS_PKGCONFIG_TRUE@	rm -f $(addlibsdir)/hsl_addlibs.txt
 
+test: $(libampl)
+	@echo "No test available for HSL."
+
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
 	for file in $(DocFiles); do \
