@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyHSL],[1.2.1],[http://projects.coin-or.org/BuildTools/newticket])
+AC_INIT([ThirdPartyHSL],[1.2],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -31,7 +31,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT(HSL,3:1:2)
+AC_COIN_PROJECTDIR_INIT(HSL)
 
 #############################################################################
 #                         Standard build tool stuff                         #
