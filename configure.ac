@@ -65,8 +65,7 @@ AC_COIN_HAS_PKGCONFIG
 AC_COIN_F77_WRAPPERS
 
 # Add FLIBS to HSL_PCLIBS, so that they get into the .pc files
-HSL_PCLIBS="$FLIBS"
-AC_SUBST(HSL_PCLIBS)
+HSL_PCLIBS="$HSL_PCLIBS $FLIBS"
 
 # Need egrep later on
 AC_PROG_EGREP
@@ -143,6 +142,9 @@ if test $coin_has_mc19ad = yes; then
 fi
 if test $coin_has_ma57ad = yes; then
   HAVE_MXXX_CFLAGS="-DHAVE_MA57 $HAVE_MXXX_CFLAGS"
+  AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+else
+  AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
 fi
 if test $coin_has_ma28ad = yes; then
   HAVE_MXXX_CFLAGS="-DHAVE_MA28 $HAVE_MXXX_CFLAGS"
