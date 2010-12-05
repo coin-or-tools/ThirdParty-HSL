@@ -22161,15 +22161,27 @@ if test -n "$PKG_CONFIG" ; then
 	# but only do this if is not trivial
     if test "$CYGPATH_W" != "echo" ; then
       # need to put into brackets since otherwise autoconf replaces the brackets in the sed command
-	  cflags=`echo $cflags | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
-	fi
+      cflags=`echo $cflags | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+    fi
     METIS_CFLAGS="$cflags"
     METIS_LIBS=`$PKG_CONFIG --libs "coinmetis" 2>/dev/null`
     METIS_DATA=`$PKG_CONFIG --variable=datadir "coinmetis" 2>/dev/null`
      coin_has_metis=yes
         echo "$as_me:$LINENO: result: yes: $METIS_VERSIONS" >&5
 echo "${ECHO_T}yes: $METIS_VERSIONS" >&6
-        HSL_PCREQUIRES="coinmetis $HSL_PCREQUIRES"
+
+        # adjust linker flags for (i)cl compiler
+        # for the LIBS, we replace everything of the form "/somepath/name.lib" by "`$(CYGPATH_W) /somepath/`name.lib | sed -e s|\|/|g" (where we have to use excessive many \ to get the \ into the command line for cl)
+        if test x$coin_cxx_is_cl = xtrue || test x$coin_cc_is_cl = xtrue ;
+        then
+          METIS_LIBS=`echo " $METIS_LIBS " | sed -e 's/ \(\/[^ ]*\/\)\([^ ]*\)\.lib / \`$(CYGPATH_W) \1 | sed -e "s|\\\\\\\\\\\\\\\\\\\\|\/|g"\`\2.lib /g'`
+        fi
+
+        # augment X_PCREQUIRES, X_CFLAGS, and X_LIBS for each build target X in HSL
+
+          HSL_PCREQUIRES="coinmetis $HSL_PCREQUIRES"
+          HSL_CFLAGS="$METIS_CFLAGS $HSL_CFLAGS"
+          HSL_LIBS="$METIS_LIBS $HSL_LIBS"
 
 
 
@@ -22192,11 +22204,6 @@ fi
     # reset PKG_CONFIG_PATH variable
     PKG_CONFIG_PATH="$coin_save_PKG_CONFIG_PATH"
     export PKG_CONFIG_PATH
-
-    # augment X_CFLAGS and X_LIBS for each build target X in HSL
-
-      HSL_CFLAGS="$METIS_CFLAGS $HSL_CFLAGS"
-      HSL_LIBS="$METIS_LIBS $HSL_LIBS"
 
   else
     echo "$as_me:$LINENO: result: skipped check via pkg-config, redirect to fallback" >&5
@@ -22280,6 +22287,9 @@ echo "${ECHO_T}no, dependency $proj not available" >&6
         projdatadir=
         pcifilemod=`sed -e '/[a-zA-Z]:/d' -e 's/datadir=\(.*\)/echo projdatadir=\\\\"\1\\\\"/g' $pcifile`
         eval `sh -c "$pcifilemod"`
+        if test "${CYGPATH_W}" != "echo"; then
+          projdatadir="\`\$(CYGPATH_W) ${projdatadir} | sed -e 's/\\\\\\\\/\\\\\\\\\\\\\\\\/g'\`"
+        fi
         METIS_DATA_INSTALLED="$projdatadir"
       fi
 
@@ -22320,10 +22330,14 @@ if test "$allproj" != fail ; then
     pcfilemod=`sed -e 's/Libs:\(.*\)$/echo projlibs=\\\\"\1\\\\"/g' -e 's/Cflags:\(.*\)/echo projcflags=\\\\"\1\\\\"/g' -e '/[a-zA-Z]:/d' $pcfile`
 
     # set projcflags and projlibs variables by running $pcfilemod
+    projcflags=
+    projlibs=
     eval `sh -c "$pcfilemod"`
 
     # add CYGPATH_W cludge into include flags and set CFLAGS variable
-    projcflags=`echo "$projcflags" | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+    if test "${CYGPATH_W}" != "echo"; then
+      projcflags=`echo "$projcflags" | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+    fi
     METIS_CFLAGS="$projcflags $METIS_CFLAGS"
 
     # set LIBS variable
@@ -22361,10 +22375,14 @@ if test "$allproj" != fail ; then
     pcfilemod=`sed -e 's/Libs:\(.*\)$/echo projlibs=\\\\"\1\\\\"/g' -e 's/Cflags:\(.*\)/echo projcflags=\\\\"\1\\\\"/g' -e '/[a-zA-Z]:/d' $pcfile`
 
     # set projcflags and projlibs variables by running $pcfilemod
+    projcflags=
+    projlibs=
     eval `sh -c "$pcfilemod"`
 
     # add CYGPATH_W cludge into include flags and set CFLAGS variable
-    projcflags=`echo "$projcflags" | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+    if test "${CYGPATH_W}" != "echo"; then
+      projcflags=`echo "$projcflags" | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+    fi
     METIS_CFLAGS_INSTALLED="$projcflags $METIS_CFLAGS_INSTALLED"
 
     # set LIBS variable
@@ -22386,6 +22404,17 @@ cat >>confdefs.h <<\_ACEOF
 #define COIN_HAS_METIS 1
 _ACEOF
 
+
+  # adjust linker flags for (i)cl compiler
+  # for the LIBS, we replace everything of the form "/somepath/name.lib" by "`$(CYGPATH_W) /somepath/`name.lib | sed -e s|\|/|g" (where we have to use excessive many \ to get the \ into the command line for cl),
+  # for the LIBS_INSTALLED, we replace everything of the form "/somepath/" by "`$(CYGPATH_W) /somepath/`",
+  #    everything of the form "-Lpath" by "/libpath:`$(CYGPATH_W) path`, and
+  #    everything of the form "-lname" by "libname.lib"
+  if test x$coin_cxx_is_cl = xtrue || test x$coin_cc_is_cl = xtrue ;
+  then
+    METIS_LIBS=`echo " $METIS_LIBS " | sed -e 's/ \(\/[^ ]*\/\)\([^ ]*\)\.lib / \`$(CYGPATH_W) \1 | sed -e "s|\\\\\\\\\\\\\\\\\\\\|\/|g"\`\2.lib /g'`
+    METIS_LIBS_INSTALLED=`echo " $METIS_LIBS_INSTALLED" | sed -e 's/ \(\/[^ ]*\/\)/ \`$(CYGPATH_W) \1\`/g' -e 's/ -L\([^ ]*\)/ \/libpath:\`$(CYGPATH_W) \1\`/g' -e 's/ -l\([^ ]*\)/ lib\1.lib/g'`
+  fi
 
 
     HSL_PCREQUIRES="coinmetis $HSL_PCREQUIRES"
@@ -22427,9 +22456,10 @@ _ACEOF
 
   # construct dependencies variables from LIBS variables
   # we add an extra space in LIBS so we can substitute out everything starting with " -"
-  METIS_DEPENDENCIES=`echo " $METIS_LIBS" | sed -e 's/ -[^ ]*//g'`
+  # also substitute out everything of the form `xxx`yyy (may have been added for cygwin/cl)
+  METIS_DEPENDENCIES=`echo " $METIS_LIBS" | sed -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
 
-    HSL_DEPENDENCIES=`echo " $HSL_LIBS" | sed -e 's/ -[^ ]*//g'`
+    HSL_DEPENDENCIES=`echo " $HSL_LIBS " | sed -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
 
 
   if test 1 = 0 ; then  #change this test to enable a bit of debugging output
