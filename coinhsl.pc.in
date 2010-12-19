@@ -7,3 +7,4 @@ Description: Harwell Subroutines Library
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lcoinhsl @HSL_PCLIBS@
 Cflags: @HAVE_MXXX_CFLAGS@
+Requires: @HSL_PCREQUIRES@
