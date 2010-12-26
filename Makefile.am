@@ -8,8 +8,7 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = INSTALL.HSL
 
-thirdpartylibdir = $(libdir)/coin/ThirdParty
-thirdpartylib_LTLIBRARIES = libcoinhsl.la
+lib_LTLIBRARIES = libcoinhsl.la
 
 libcoinhsl_la_SOURCES = dummy.c
 

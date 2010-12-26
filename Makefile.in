@@ -82,10 +82,9 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
-	"$(DESTDIR)$(pkgconfiglibdir)"
-thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
-LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)"
+libLTLIBRARIES_INSTALL = $(INSTALL)
+LTLIBRARIES = $(lib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
 am__libcoinhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
 	ma28ad.f ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f \
@@ -326,8 +325,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = INSTALL.HSL $(am__append_6)
-thirdpartylibdir = $(libdir)/coin/ThirdParty
-thirdpartylib_LTLIBRARIES = libcoinhsl.la
+lib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_5)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
@@ -407,35 +405,35 @@ coinhsl.pc: $(top_builddir)/config.status $(srcdir)/coinhsl.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinhsl-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinhsl-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	test -z "$(thirdpartylibdir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartylibdir)"
-	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    f=$(am__strip_dir) \
-	    echo " $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(thirdpartylibdir)/$$f'"; \
-	    $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(thirdpartylibdir)/$$f"; \
+	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
+	    $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
 	  else :; fi; \
 	done
 
-uninstall-thirdpartylibLTLIBRARIES:
+uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@set -x; list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	@set -x; list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  p=$(am__strip_dir) \
-	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(thirdpartylibdir)/$$p'"; \
-	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(thirdpartylibdir)/$$p"; \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$p'"; \
+	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$p"; \
 	done
 
-clean-thirdpartylibLTLIBRARIES:
-	-test -z "$(thirdpartylib_LTLIBRARIES)" || rm -f $(thirdpartylib_LTLIBRARIES)
-	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libcoinhsl.la: $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_DEPENDENCIES) 
-	$(F77LINK) -rpath $(thirdpartylibdir) $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
+	$(F77LINK) -rpath $(libdir) $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -690,7 +688,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) config_hsl.h
 installdirs:
-	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -725,7 +723,7 @@ maintainer-clean-generic:
 @COIN_HAS_PKGCONFIG_FALSE@uninstall-hook:
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -745,12 +743,11 @@ info: info-am
 
 info-am:
 
-install-data-am: install-pkgconfiglibDATA \
-	install-thirdpartylibLTLIBRARIES
+install-data-am: install-pkgconfiglibDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
-install-exec-am: install-exec-local
+install-exec-am: install-exec-local install-libLTLIBRARIES
 
 install-info: install-info-am
 
@@ -778,28 +775,27 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-local \
-	uninstall-pkgconfiglibDATA uninstall-thirdpartylibLTLIBRARIES
+uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
+	uninstall-local uninstall-pkgconfiglibDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
-	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
-	ctags dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-data-hook install-exec \
-	install-exec-am install-exec-local install-info \
-	install-info-am install-man install-pkgconfiglibDATA \
-	install-strip install-thirdpartylibLTLIBRARIES installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-hook uninstall-info-am \
-	uninstall-local uninstall-pkgconfiglibDATA \
-	uninstall-thirdpartylibLTLIBRARIES
+	clean-generic clean-libLTLIBRARIES clean-libtool ctags dist \
+	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-tags distcleancheck \
+	distdir distuninstallcheck dvi dvi-am html html-am info \
+	info-am install install-am install-data install-data-am \
+	install-data-hook install-exec install-exec-am \
+	install-exec-local install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pkgconfiglibDATA \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am uninstall-hook \
+	uninstall-info-am uninstall-libLTLIBRARIES uninstall-local \
+	uninstall-pkgconfiglibDATA
 
 
 # dependencies

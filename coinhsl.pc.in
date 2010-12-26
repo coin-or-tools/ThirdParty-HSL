@@ -1,6 +1,6 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
-libdir=@libdir@/coin/ThirdParty
+libdir=@libdir@
 
 Name: HSL
 Description: Harwell Subroutines Library
