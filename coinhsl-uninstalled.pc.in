@@ -3,6 +3,7 @@ libdir=@ABSBUILDDIR@
 
 Name: HSL
 Description: Harwell Subroutines Library
+URL: https://projects.coin-or.org/BuildTools
 Version: @PACKAGE_VERSION@
 Libs: ${libdir}/libcoinhsl.la @HSL_PCLIBS@
 Cflags: @HAVE_MXXX_CFLAGS@
