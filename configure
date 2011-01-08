@@ -1104,6 +1104,9 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-interpackage-dependencies
+                          whether to deduce Makefile dependencies from package
+                          linker flags (default: yes)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -3399,7 +3402,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:3402:" \
+echo "$as_me:3405:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -4165,7 +4168,7 @@ _ACEOF
 # flags.
 ac_save_FFLAGS=$FFLAGS
 FFLAGS="$FFLAGS $ac_verb"
-(eval echo $as_me:4168: \"$ac_link\") >&5
+(eval echo $as_me:4171: \"$ac_link\") >&5
 ac_f77_v_output=`eval $ac_link 5>&1 2>&1 | grep -v 'Driving:'`
 echo "$ac_f77_v_output" >&5
 FFLAGS=$ac_save_FFLAGS
@@ -4243,7 +4246,7 @@ _ACEOF
 # flags.
 ac_save_FFLAGS=$FFLAGS
 FFLAGS="$FFLAGS $ac_cv_prog_f77_v"
-(eval echo $as_me:4246: \"$ac_link\") >&5
+(eval echo $as_me:4249: \"$ac_link\") >&5
 ac_f77_v_output=`eval $ac_link 5>&1 2>&1 | grep -v 'Driving:'`
 echo "$ac_f77_v_output" >&5
 FFLAGS=$ac_save_FFLAGS
@@ -5115,7 +5118,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5118:" \
+echo "$as_me:5121:" \
      "checking for Fortran compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -6881,7 +6884,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 6884 "configure"' > conftest.$ac_ext
+  echo '#line 6887 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -9358,11 +9361,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9361: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9364: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9365: \$? = $ac_status" >&5
+   echo "$as_me:9368: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9626,11 +9629,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9629: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9632: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9633: \$? = $ac_status" >&5
+   echo "$as_me:9636: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9730,11 +9733,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9733: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9736: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9737: \$? = $ac_status" >&5
+   echo "$as_me:9740: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12147,7 +12150,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12150 "configure"
+#line 12153 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12247,7 +12250,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12250 "configure"
+#line 12253 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14607,11 +14610,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14610: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14613: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14614: \$? = $ac_status" >&5
+   echo "$as_me:14617: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14711,11 +14714,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14714: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14717: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14718: \$? = $ac_status" >&5
+   echo "$as_me:14721: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16281,11 +16284,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16284: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16287: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16288: \$? = $ac_status" >&5
+   echo "$as_me:16291: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16385,11 +16388,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16388: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16391: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16392: \$? = $ac_status" >&5
+   echo "$as_me:16395: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -18592,11 +18595,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18595: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18598: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18599: \$? = $ac_status" >&5
+   echo "$as_me:18602: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18860,11 +18863,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18863: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18866: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18867: \$? = $ac_status" >&5
+   echo "$as_me:18870: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18964,11 +18967,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18967: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18970: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:18971: \$? = $ac_status" >&5
+   echo "$as_me:18974: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -22099,39 +22102,54 @@ METIS_DATA=
 
 
 
-#check if user provided LIBS, CFLAGS, or DATA for module
+#check if user provided LIBS, CFLAGS, or DATA for package or disables use of package
 if test $coin_has_metis != skipping; then
-
 
 # Check whether --with-m4_tolower(Metis)-lib or --without-m4_tolower(Metis)-lib was given.
 if test "${with_metis_lib+set}" = set; then
   withval="$with_metis_lib"
-  coin_has_metis=yes
+  if test "$withval" = no ; then
+       coin_has_metis=skipping
+     else
+       coin_has_metis=yes
        METIS_LIBS="$withval"
 
          HSL_PCLIBS="$withval $HSL_PCLIBS"
          HSL_LIBS="$withval $HSL_LIBS"
 
+     fi
 
 fi;
+fi
 
+if test $coin_has_metis != skipping; then
 
 # Check whether --with-m4_tolower(Metis)-incdir or --without-m4_tolower(Metis)-incdir was given.
 if test "${with_metis_incdir+set}" = set; then
   withval="$with_metis_incdir"
-  coin_has_metis=yes
-     METIS_CFLAGS="-I`${CYGPATH_W} $withval`"
-     HSL_CFLAGS="$withval $HSL_CFLAGS"
-
+  if test "$withval" = no ; then
+       coin_has_metis=skipping
+     else
+       coin_has_metis=yes
+       METIS_CFLAGS="-I`${CYGPATH_W} $withval`"
+       HSL_CFLAGS="$withval $HSL_CFLAGS"
+     fi
 
 fi;
+fi
 
+if test $coin_has_metis != skipping; then
 
 # Check whether --with-m4_tolower(Metis)-datadir or --without-m4_tolower(Metis)-datadir was given.
 if test "${with_metis_datadir+set}" = set; then
   withval="$with_metis_datadir"
-  coin_has_metis=yes
-     METIS_DATA="$withval"
+  if test "$withval" = no ; then
+       coin_has_metis=skipping
+     else
+       coin_has_metis=yes
+       METIS_DATA="$withval"
+     fi
+
 fi;
 fi
 
@@ -22449,14 +22467,25 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 
-  # construct dependencies variables from LIBS variables
-  # we add an extra space in LIBS so we can substitute out everything starting with " -"
-  # before, substitute out everything of the form -framework xxx as used on Mac
-  # also substitute out everything of the form `xxx`yyy (may have been added for cygwin/cl)
-  METIS_DEPENDENCIES=`echo " $METIS_LIBS" | sed -e 's/ -framework  *[^ ]*//g' -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
+  # Check whether --enable-interpackage-dependencies or --disable-interpackage-dependencies was given.
+if test "${enable_interpackage_dependencies+set}" = set; then
+  enableval="$enable_interpackage_dependencies"
 
-    HSL_DEPENDENCIES=`echo " $HSL_LIBS " | sed -e 's/ -framework  *[^ ]*//g' -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
+else
+  enable_interpackage_dependencies=yes
+fi;
 
+  if test $enable_interpackage_dependencies = yes ; then
+     # construct dependencies variables from LIBS variables
+     # we add an extra space in LIBS so we can substitute out everything starting with " -"
+     # remove everything of the form -framework xxx as used on Mac and mklxxx as used on Windows
+     # then remove everything of the form -xxx
+     # also remove everything of the form `xxx`yyy (may have been added for cygwin/cl)
+     METIS_DEPENDENCIES=`echo " $METIS_LIBS" | sed -e 's/ mkl[^ ]*//g' -e 's/ -framework  *[^ ]*//g' -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
+
+       HSL_DEPENDENCIES=`echo " $HSL_LIBS " | sed -e 's/ mkl[^ ]*//g' -e 's/ -framework  *[^ ]*//g' -e 's/ -[^ ]*//g' -e 's/\`[^\`]*\`[^ ]* //g'`
+
+  fi
 
   if test 1 = 0 ; then  #change this test to enable a bit of debugging output
     if test -n "$METIS_CFLAGS" ; then

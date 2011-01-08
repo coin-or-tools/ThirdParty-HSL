@@ -79,19 +79,7 @@ endif
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
 
-if COIN_HAS_PKGCONFIG
-addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/HSL
-	
-install-data-hook:
-	@$(mkdir_p) "$(addlibsdir)"
-	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
-	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
-
-uninstall-hook:
-	rm -f $(addlibsdir)/hsl_addlibs.txt
-endif
-
-test: $(libampl)
+test:
 	@echo "No test available for HSL."
 
 # Need to overwrite automake definition since otherwise libtool does not
