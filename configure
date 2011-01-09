@@ -22533,6 +22533,11 @@ fi
 
 
 
+  if test $coin_has_metis != yes ; then
+    { { echo "$as_me:$LINENO: error: MA57 requires METIS, which is not found." >&5
+echo "$as_me: error: MA57 requires METIS, which is not found." >&2;}
+   { (exit 1); exit 1; }; }
+  fi
 else
 
 

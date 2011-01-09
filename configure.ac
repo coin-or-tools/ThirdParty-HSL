@@ -143,6 +143,9 @@ fi
 if test $coin_has_ma57ad = yes; then
   HAVE_MXXX_CFLAGS="-DHAVE_MA57 $HAVE_MXXX_CFLAGS"
   AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+  if test $coin_has_metis != yes ; then
+    AC_MSG_ERROR([MA57 requires METIS, which is not found.])
+  fi
 else
   AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
 fi
