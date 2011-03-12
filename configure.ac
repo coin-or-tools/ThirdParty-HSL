@@ -222,6 +222,4 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 
 AC_CONFIG_FILES([Makefile coinhsl.pc coinhsl-uninstalled.pc])
 
-AC_CONFIG_HEADER([config_hsl.h])
-
 AC_COIN_FINALIZE

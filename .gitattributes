@@ -5,7 +5,6 @@
 /coinhsl.pc.in -text
 /config.guess -text
 /config.sub -text
-/config_hsl.h.in -text
 /configure -text
 /depcomp -text
 /install-sh -text
