@@ -2832,7 +2832,7 @@ if test x"$CFLAGS" = x; then
       *)
         coin_opt_cflags="-O3"
         coin_add_cflags="-pipe"
-        coin_dbg_cflags="-g"
+        coin_dbg_cflags="-g -O0"
         coin_warn_cflags="-Wimplicit -Wparentheses -Wsequence-point -Wreturn-type -Wcast-qual -Wall -Wno-unknown-pragmas -Wno-long-long"
         case $build in
           *-darwin*)
@@ -3597,7 +3597,7 @@ if test "$F77" != "unavailable" && test x"$FFLAGS" = x ; then
   if test "$G77" = "yes"; then
     coin_opt_fflags="-O3"
     coin_add_fflags="-pipe"
-    coin_dbg_fflags="-g"
+    coin_dbg_fflags="-g -O0"
     case $enable_doscompile in
       mingw)
 	FFLAGS="-mno-cygwin"
@@ -22143,6 +22143,10 @@ fi
 METIS_LIBS=
 METIS_CFLAGS=
 METIS_DATA=
+METIS_DEPENDENCIES=
+METIS_PCLIBS=
+METIS_PCREQUIRES=
+METIS_DATA=
 
 
 
@@ -22171,6 +22175,7 @@ if test "${with_metis_lib+set}" = set; then
      else
        coin_has_metis=yes
        METIS_LIBS="$withval"
+       METIS_PCLIBS="$withval"
 
          HSL_PCLIBS="$withval $HSL_PCLIBS"
          HSL_LIBS="$withval $HSL_LIBS"
@@ -22261,6 +22266,7 @@ echo "${ECHO_T}yes: $METIS_VERSIONS" >&6
         then
           METIS_LIBS=`echo " $METIS_LIBS " | sed -e 's/ \(\/[^ ]*\/\)\([^ ]*\)\.lib / \`$(CYGPATH_W) \1 | sed -e "s|\\\\\\\\\\\\\\\\\\\\|\/|g"\`\2.lib /g'`
         fi
+        METIS_PCREQUIRES="coinmetis"
 
         # augment X_PCREQUIRES, X_CFLAGS, and X_LIBS for each build target X in HSL
 
@@ -22304,8 +22310,10 @@ METIS_CFLAGS=
 METIS_CFLAGS_INSTALLED=
 METIS_DATA=
 METIS_DATA_INSTALLED=
+METIS_PCLIBS=
+METIS_PCREQUIRES=
 
-# initial list of dependencies is "coinmetis", but we need to filter out version number specifications (= x, <= x, >= x)
+# initial list of dependencies is "coinmetis", but we need to filter out version number specifications (= x, <= x, >= x, != x)
 projtoprocess="coinmetis"
 
 # we first expand the list of projects to process by adding all dependencies just behind the project which depends on it
@@ -22501,6 +22509,7 @@ _ACEOF
     METIS_LIBS_INSTALLED=`echo " $METIS_LIBS_INSTALLED" | sed -e 's/ \(\/[^ ]*\/\)/ \`$(CYGPATH_W) \1\`/g' -e 's/ -L\([^ ]*\)/ \/libpath:\`$(CYGPATH_W) \1\`/g' -e 's/ -l\([^ ]*\)/ lib\1.lib/g'`
   fi
 
+  METIS_PCREQUIRES="coinmetis"
 
     HSL_PCREQUIRES="coinmetis $HSL_PCREQUIRES"
     HSL_CFLAGS="$METIS_CFLAGS $HSL_CFLAGS"
@@ -22576,9 +22585,13 @@ echo "$as_me: Metis DEPENDENCIES are $METIS_DEPENDENCIES" >&6;}
       { echo "$as_me:$LINENO: Metis DATA   is  $METIS_DATA" >&5
 echo "$as_me: Metis DATA   is  $METIS_DATA" >&6;}
     fi
-    if test -n "$METIS_CFLAGS" ; then
-      { echo "$as_me:$LINENO: Metis CFLAGS are $METIS_CFLAGS" >&5
-echo "$as_me: Metis CFLAGS are $METIS_CFLAGS" >&6;}
+    if test -n "$METIS_PCLIBS" ; then
+      { echo "$as_me:$LINENO: Metis PCLIBS are $METIS_PCLIBS" >&5
+echo "$as_me: Metis PCLIBS are $METIS_PCLIBS" >&6;}
+    fi
+    if test -n "$METIS_PCREQUIRES" ; then
+      { echo "$as_me:$LINENO: Metis PCREQUIRES are $METIS_PCREQUIRES" >&5
+echo "$as_me: Metis PCREQUIRES are $METIS_PCREQUIRES" >&6;}
     fi
 
       { echo "$as_me:$LINENO: HSL CFLAGS are $HSL_CFLAGS" >&5
