@@ -1,11 +1,14 @@
 * text=auto !eol
+/CoinHslConfig.h -text
 /INSTALL.HSL -text
 /Makefile.am -text
 /coinhsl-uninstalled.pc.in -text
 /coinhsl.pc.in -text
 /config.guess -text
+/config.h.in -text
 /config.sub -text
-/config_hsl.h.in -text
+/config_coinhsl.h.in -text
+/config_coinhsl_default.h -text
 /configure -text
 /depcomp -text
 /install-sh -text

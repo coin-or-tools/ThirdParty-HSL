@@ -1,4 +1,34 @@
-/* config_hsl.h.in.  Generated from configure.ac by autoheader.  */
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define to 1 if MA27 is available. */
+#undef COINHSL_HAS_MA27
+
+/* Define to 1 if MA28 is available. */
+#undef COINHSL_HAS_MA28
+
+/* Define to 1 if MA57 is available. */
+#undef COINHSL_HAS_MA57
+
+/* Define to 1 if MA77 is available. */
+#undef COINHSL_HAS_MA77
+
+/* Define to 1 if MC19 is available. */
+#undef COINHSL_HAS_MC19
+
+/* SVN revision number of project */
+#undef COINHSL_SVN_REV
+
+/* Version number of project */
+#undef COINHSL_VERSION
+
+/* Major Version number of project */
+#undef COINHSL_VERSION_MAJOR
+
+/* Minor Version number of project */
+#undef COINHSL_VERSION_MINOR
+
+/* Release Version number of project */
+#undef COINHSL_VERSION_RELEASE
 
 /* Define to 1 if the Metis package is available */
 #undef COIN_HAS_METIS
@@ -52,12 +82,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* SVN revision number of project */
-#undef HSL_SVN_REV
-
-/* Version number of project */
-#undef HSL_VERSION
 
 /* Name of package */
 #undef PACKAGE

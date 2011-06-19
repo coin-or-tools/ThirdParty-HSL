@@ -31,7 +31,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT(HSL)
+AC_COIN_PROJECTDIR_INIT(COINHSL)
 
 #############################################################################
 #                         Standard build tool stuff                         #
@@ -100,9 +100,13 @@ AC_COMPILE_IFELSE([        MODULE BLA
 AC_MSG_RESULT([$have_f90])
 AC_LANG_POP(Fortran 77)
 
+coin_has_something=no
+
 AC_DEFUN([MY_CHECK_HSLFILE],
 [AC_COIN_CHECK_FILE([$srcdir/$1.f],
                     [hsl_files="$hsl_files $1.f"
+                     AC_DEFINE(COINHSL_HAS_$2, [1], [Define to 1 if $2 is available.])
+                     coin_has_something=yes
                      coin_has_$1=yes],
                     [coin_has_$1=no])
 AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
@@ -111,6 +115,8 @@ AC_DEFUN([MY_CHECK_HSLFILE_F90],
 [if test $have_f90 = yes; then
    AC_COIN_CHECK_FILE([$srcdir/$1.f90],
                       [hsl_files="$hsl_files $1.f"
+                       AC_DEFINE(COINHSL_HAS_$2, [1], [Define to 1 if $2 is available.])
+                       coin_has_something=yes
                        coin_has_$1=yes],
                       [coin_has_$1=no])
 else
@@ -128,32 +134,26 @@ if test $coin_has_ma27ad = yes; then
     AC_MSG_ERROR([Please obtain the threadsafe (newer) version of MA27])
   fi
 fi
-MY_CHECK_HSLFILE(mc19ad,MC19)
-MY_CHECK_HSLFILE(ma57ad,MA57)
-MY_CHECK_HSLFILE(ma28ad,MA28)
-MY_CHECK_HSLFILE_F90(hsl_ma77d,MA77)
 
-HAVE_MXXX_CFLAGS=
-if test $coin_has_ma27ad = yes; then
-  HAVE_MXXX_CFLAGS="-DHAVE_MA27 $HAVE_MXXX_CFLAGS"
-fi
-if test $coin_has_mc19ad = yes; then
-  HAVE_MXXX_CFLAGS="-DHAVE_MC19 $HAVE_MXXX_CFLAGS"
-fi
+MY_CHECK_HSLFILE(ma57ad,MA57)
 if test $coin_has_ma57ad = yes; then
-  HAVE_MXXX_CFLAGS="-DHAVE_MA57 $HAVE_MXXX_CFLAGS"
   AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+  if test $coin_has_metis != yes ; then
+    AC_MSG_ERROR([MA57 requires METIS, which is not found.])
+  fi
 else
   AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
 fi
-if test $coin_has_ma28ad = yes; then
-  HAVE_MXXX_CFLAGS="-DHAVE_MA28 $HAVE_MXXX_CFLAGS"
-fi
-if test $coin_has_hsl_ma77d = yes; then
-  HAVE_MXXX_CFLAGS="-DHAVE_MA77 $HAVE_MXXX_CFLAGS"
-fi
-AC_SUBST(HAVE_MXXX_CFLAGS)
 
+MY_CHECK_HSLFILE(mc19ad,MC19)
+MY_CHECK_HSLFILE(ma28ad,MA28)
+MY_CHECK_HSLFILE_F90(hsl_ma77d,MA77)
+
+#############################################################################
+#                        Setup build of loadable library                    #
+#############################################################################
+
+HSL_SHARED_LIB=
 if test x$enable_loadable_library = xyes; then
   case $build in
     *-cygwin* | *-mingw*)
@@ -217,8 +217,17 @@ AM_CONDITIONAL([EXTRA_SHARED_COMMAND],[test ! x"$F77_SHARED_CMD" = x])
 #                              Write the output                             #
 #############################################################################
 
-AC_CONFIG_FILES([Makefile coinhsl.pc coinhsl-uninstalled.pc])
+AC_CONFIG_FILES([Makefile])
 
-AC_CONFIG_HEADER([config_hsl.h])
+# we build the library and setup the .pc files only if there is at least one source code
+# if there is no source code, then .pc files should not be setup, so for others this is as if we do not exist
+if test $coin_has_something = yes ; then
+  AC_CONFIG_FILES([coinhsl.pc coinhsl-uninstalled.pc])
+  AC_CONFIG_HEADER(config.h config_coinhsl.h)
+else
+  # in case something is left over from a previous build
+  rm -f coinhsl.pc coinhsl-uninstalled.pc
+fi
+AM_CONDITIONAL(BUILD_COINHSL, [test $coin_has_something = yes])
 
 AC_COIN_FINALIZE

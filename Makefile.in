@@ -51,20 +51,21 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@COIN_HAS_MA27_TRUE@am__append_1 = ma27ad.f
-@COIN_HAS_MA57_TRUE@am__append_2 = ma57ad.f
-@COIN_HAS_MC19_TRUE@am__append_3 = mc19ad.f
-@COIN_HAS_MA28_TRUE@am__append_4 = ma28ad.f ma30ad.f mc13dd.f mc20ad.f \
-@COIN_HAS_MA28_TRUE@	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__append_1 = ma27ad.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__append_2 = ma57ad.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__append_3 = mc19ad.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__append_4 = ma28ad.f ma30ad.f mc13dd.f mc20ad.f \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@	mc21ad.f mc22ad.f mc23ad.f mc24ad.f
 
-@COIN_HAS_MA77_TRUE@am__append_5 = hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA77_TRUE@am__append_5 = hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
 DIST_COMMON = $(am__configure_deps) $(srcdir)/BuildTools/Makemain.inc \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/coinhsl-uninstalled.pc.in $(srcdir)/coinhsl.pc.in \
-	$(srcdir)/config_hsl.h.in $(top_srcdir)/configure config.guess \
-	config.sub depcomp install-sh ltmain.sh missing
-@HAVE_EXTERNALS_TRUE@am__append_6 = Externals
-@HAVE_EXTERNALS_TRUE@am__append_7 = .Externals-stamp
+	$(srcdir)/config.h.in $(srcdir)/config_coinhsl.h.in \
+	$(top_srcdir)/configure config.guess config.sub depcomp \
+	install-sh ltmain.sh missing
+@HAVE_EXTERNALS_TRUE@am__append_6 = Dependencies
+@HAVE_EXTERNALS_TRUE@am__append_7 = .Dependencies-stamp
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -74,7 +75,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = config_hsl.h
+CONFIG_HEADER = config.h config_coinhsl.h
 CONFIG_CLEAN_FILES = coinhsl.pc coinhsl-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -86,31 +87,26 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
-am__libcoinhsl_la_SOURCES_DIST = dummy.c ma27ad.f ma57ad.f mc19ad.f \
-	ma28ad.f ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f \
-	mc24ad.f hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
-@COIN_HAS_MA27_TRUE@am__objects_1 = ma27ad.lo
-@COIN_HAS_MA57_TRUE@am__objects_2 = ma57ad.lo
-@COIN_HAS_MC19_TRUE@am__objects_3 = mc19ad.lo
-@COIN_HAS_MA28_TRUE@am__objects_4 = ma28ad.lo ma30ad.lo mc13dd.lo \
-@COIN_HAS_MA28_TRUE@	mc20ad.lo mc21ad.lo mc22ad.lo mc23ad.lo \
-@COIN_HAS_MA28_TRUE@	mc24ad.lo
-@COIN_HAS_MA77_TRUE@am__objects_5 = hsl_ma77d.lo hsl_ma77d.deps90.lo \
-@COIN_HAS_MA77_TRUE@	hsl_ma77d.deps77.lo
-am_libcoinhsl_la_OBJECTS = dummy.lo $(am__objects_1) $(am__objects_2) \
-	$(am__objects_3) $(am__objects_4) $(am__objects_5)
+am__libcoinhsl_la_SOURCES_DIST = ma27ad.f ma57ad.f mc19ad.f ma28ad.f \
+	ma30ad.f mc13dd.f mc20ad.f mc21ad.f mc22ad.f mc23ad.f mc24ad.f \
+	hsl_ma77d.f90 hsl_ma77d.deps90.f90 hsl_ma77d.deps77.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__objects_1 = ma27ad.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__objects_2 = ma57ad.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__objects_3 = mc19ad.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__objects_4 = ma28ad.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@	ma30ad.lo mc13dd.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@	mc20ad.lo mc21ad.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@	mc22ad.lo mc23ad.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@	mc24ad.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA77_TRUE@am__objects_5 = hsl_ma77d.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA77_TRUE@	hsl_ma77d.deps90.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA77_TRUE@	hsl_ma77d.deps77.lo
+@BUILD_COINHSL_TRUE@am_libcoinhsl_la_OBJECTS = $(am__objects_1) \
+@BUILD_COINHSL_TRUE@	$(am__objects_2) $(am__objects_3) \
+@BUILD_COINHSL_TRUE@	$(am__objects_4) $(am__objects_5)
 libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
-DEFAULT_INCLUDES = -I. -I$(srcdir) -I.
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__depfiles_maybe = depfiles
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_COINHSL_TRUE@am_libcoinhsl_la_rpath = -rpath $(libdir)
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I. -I.
 F77COMPILE = $(F77) $(AM_FFLAGS) $(FFLAGS)
 LTF77COMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) \
 	$(FFLAGS)
@@ -154,10 +150,13 @@ AUTOMAKE = @AUTOMAKE@
 AUX_DIR = @AUX_DIR@
 AWK = @AWK@
 BUILDTOOLSDIR = @BUILDTOOLSDIR@
+BUILD_COINHSL_FALSE = @BUILD_COINHSL_FALSE@
+BUILD_COINHSL_TRUE = @BUILD_COINHSL_TRUE@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CDEFS = @CDEFS@
 CFLAGS = @CFLAGS@
+COINHSL_SVN_REV = @COINHSL_SVN_REV@
 COIN_CC_IS_CL_FALSE = @COIN_CC_IS_CL_FALSE@
 COIN_CC_IS_CL_TRUE = @COIN_CC_IS_CL_TRUE@
 COIN_HAS_MA27_FALSE = @COIN_HAS_MA27_FALSE@
@@ -206,7 +205,6 @@ FFLAGS = @FFLAGS@
 FLIBS = @FLIBS@
 HAVE_EXTERNALS_FALSE = @HAVE_EXTERNALS_FALSE@
 HAVE_EXTERNALS_TRUE = @HAVE_EXTERNALS_TRUE@
-HAVE_MXXX_CFLAGS = @HAVE_MXXX_CFLAGS@
 HSL_CFLAGS = @HSL_CFLAGS@
 HSL_CFLAGS_INSTALLED = @HSL_CFLAGS_INSTALLED@
 HSL_DEPENDENCIES = @HSL_DEPENDENCIES@
@@ -215,7 +213,6 @@ HSL_LIBS_INSTALLED = @HSL_LIBS_INSTALLED@
 HSL_PCLIBS = @HSL_PCLIBS@
 HSL_PCREQUIRES = @HSL_PCREQUIRES@
 HSL_SHARED_LIB = @HSL_SHARED_LIB@
-HSL_SVN_REV = @HSL_SVN_REV@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_LOADABLE_LIBRARY_FALSE = @INSTALL_LOADABLE_LIBRARY_FALSE@
 INSTALL_LOADABLE_LIBRARY_TRUE = @INSTALL_LOADABLE_LIBRARY_TRUE@
@@ -322,13 +319,14 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = INSTALL.HSL $(am__append_6)
-lib_LTLIBRARIES = libcoinhsl.la
-libcoinhsl_la_SOURCES = dummy.c $(am__append_1) $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(am__append_5)
-libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
-pkgconfiglibdir = $(libdir)/pkgconfig
-pkgconfiglib_DATA = coinhsl.pc
-@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/HSL
+@BUILD_COINHSL_TRUE@lib_LTLIBRARIES = libcoinhsl.la
+@BUILD_COINHSL_TRUE@libcoinhsl_la_SOURCES = $(am__append_1) \
+@BUILD_COINHSL_TRUE@	$(am__append_2) $(am__append_3) \
+@BUILD_COINHSL_TRUE@	$(am__append_4) $(am__append_5)
+@BUILD_COINHSL_TRUE@libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+@BUILD_COINHSL_TRUE@includecoindir = $(includedir)/coin/ThirdParty
+@BUILD_COINHSL_TRUE@pkgconfiglibdir = $(libdir)/pkgconfig
+@BUILD_COINHSL_TRUE@pkgconfiglib_DATA = coinhsl.pc
 
 # Need to overwrite automake definition since otherwise libtool does not
 # understand the fortran file (need to add --tag=F77)
@@ -343,11 +341,11 @@ CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE)
 DISTCLEANFILES = $(am__append_7) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
 DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
-all: config_hsl.h
+all: config.h config_coinhsl.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .f .f90 .lo .o .obj
+.SUFFIXES: .f .f90 .lo .o .obj
 am--refresh:
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/BuildTools/Makemain.inc $(am__configure_deps)
@@ -382,22 +380,32 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
-config_hsl.h: stamp-h1
+config.h: stamp-h1
 	@if test ! -f $@; then \
 	  rm -f stamp-h1; \
 	  $(MAKE) stamp-h1; \
 	else :; fi
 
-stamp-h1: $(srcdir)/config_hsl.h.in $(top_builddir)/config.status
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status config_hsl.h
-$(srcdir)/config_hsl.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
+$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
 	cd $(top_srcdir) && $(AUTOHEADER)
 	rm -f stamp-h1
 	touch $@
 
+config_coinhsl.h: stamp-h2
+	@if test ! -f $@; then \
+	  rm -f stamp-h2; \
+	  $(MAKE) stamp-h2; \
+	else :; fi
+
+stamp-h2: $(srcdir)/config_coinhsl.h.in $(top_builddir)/config.status
+	@rm -f stamp-h2
+	cd $(top_builddir) && $(SHELL) ./config.status config_coinhsl.h
+
 distclean-hdr:
-	-rm -f config_hsl.h stamp-h1
+	-rm -f config.h stamp-h1 config_coinhsl.h stamp-h2
 coinhsl.pc: $(top_builddir)/config.status $(srcdir)/coinhsl.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinhsl-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinhsl-uninstalled.pc.in
@@ -430,36 +438,13 @@ clean-libLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libcoinhsl.la: $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_DEPENDENCIES) 
-	$(F77LINK) -rpath $(libdir) $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
+	$(F77LINK) $(am_libcoinhsl_la_rpath) $(libcoinhsl_la_LDFLAGS) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
-
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dummy.Plo@am__quote@
-
-.c.o:
-@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c $<
-
-.c.obj:
-@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-.c.lo:
-@am__fastdepCC_TRUE@	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
 .f.o:
 	$(F77COMPILE) -c -o $@ $<
@@ -516,11 +501,11 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	mkid -fID $$unique
 tags: TAGS
 
-TAGS:  $(HEADERS) $(SOURCES) config_hsl.h.in $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES) config.h.in config_coinhsl.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS) config_hsl.h.in $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) config.h.in config_coinhsl.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -532,11 +517,11 @@ TAGS:  $(HEADERS) $(SOURCES) config_hsl.h.in $(TAGS_DEPENDENCIES) \
 	    $$tags $$unique; \
 	fi
 ctags: CTAGS
-CTAGS:  $(HEADERS) $(SOURCES) config_hsl.h.in $(TAGS_DEPENDENCIES) \
+CTAGS:  $(HEADERS) $(SOURCES) config.h.in config_coinhsl.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS) config_hsl.h.in $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) config.h.in config_coinhsl.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -683,7 +668,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA) config_hsl.h
+all-am: Makefile $(LTLIBRARIES) $(DATA) config.h config_coinhsl.h
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
@@ -714,10 +699,8 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-@EXTRA_SHARED_COMMAND_FALSE@uninstall-local:
-@EXTRA_SHARED_COMMAND_FALSE@install-exec-local:
-@COIN_HAS_PKGCONFIG_FALSE@install-data-hook:
-@COIN_HAS_PKGCONFIG_FALSE@uninstall-hook:
+@BUILD_COINHSL_FALSE@uninstall-local:
+@BUILD_COINHSL_FALSE@install-exec-local:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
@@ -725,7 +708,6 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -741,8 +723,6 @@ info: info-am
 info-am:
 
 install-data-am: install-pkgconfiglibDATA
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
 install-exec-am: install-exec-local install-libLTLIBRARIES
 
@@ -755,7 +735,6 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -774,8 +753,6 @@ ps-am:
 
 uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
 	uninstall-local uninstall-pkgconfiglibDATA
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-libLTLIBRARIES clean-libtool ctags dist \
@@ -784,62 +761,55 @@ uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
 	distclean-hdr distclean-libtool distclean-tags distcleancheck \
 	distdir distuninstallcheck dvi dvi-am html html-am info \
 	info-am install install-am install-data install-data-am \
-	install-data-hook install-exec install-exec-am \
-	install-exec-local install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pkgconfiglibDATA \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am uninstall-hook \
-	uninstall-info-am uninstall-libLTLIBRARIES uninstall-local \
+	install-exec install-exec-am install-exec-local install-info \
+	install-info-am install-libLTLIBRARIES install-man \
+	install-pkgconfiglibDATA install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am \
+	uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-pkgconfiglibDATA
 
 
 # dependencies
-hsl_ma77d.lo: hsl_ma77d.deps90.lo
+@BUILD_COINHSL_TRUE@hsl_ma77d.lo: hsl_ma77d.deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading
 
-@EXTRA_SHARED_COMMAND_TRUE@$(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
-@EXTRA_SHARED_COMMAND_TRUE@	bla=; \
-@EXTRA_SHARED_COMMAND_TRUE@	for i in $(nodist_libcoinhsl_la_SOURCES); do \
-@EXTRA_SHARED_COMMAND_TRUE@	  case $$i in \
-@EXTRA_SHARED_COMMAND_TRUE@	    *.f) \
-@EXTRA_SHARED_COMMAND_TRUE@	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
-@EXTRA_SHARED_COMMAND_TRUE@	      if test -r $$obj; then \
-@EXTRA_SHARED_COMMAND_TRUE@	        bla="$$bla $$obj" ;\
-@EXTRA_SHARED_COMMAND_TRUE@	      else \
-@EXTRA_SHARED_COMMAND_TRUE@	        bla="$$bla `echo $$i| sed -e 's|\(.*\).[cf]|\1.$(OBJEXT)|g'`" ;\
-@EXTRA_SHARED_COMMAND_TRUE@	      fi ;\
-@EXTRA_SHARED_COMMAND_TRUE@	      ;; \
-@EXTRA_SHARED_COMMAND_TRUE@	  esac ;\
-@EXTRA_SHARED_COMMAND_TRUE@	done ;\
-@EXTRA_SHARED_COMMAND_TRUE@	$(F77_SHARED_CMD) $$bla -o $(HSL_SHARED_LIB) $(F77_DLL_LINKFLAGS)
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@$(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	bla=; \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	for i in $(nodist_libcoinhsl_la_SOURCES); do \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	  case $$i in \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	    *.f) \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      if test -r $$obj; then \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	        bla="$$bla $$obj" ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      else \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	        bla="$$bla `echo $$i| sed -e 's|\(.*\).[cf]|\1.$(OBJEXT)|g'`" ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      fi ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      ;; \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	  esac ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	done ;\
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	$(F77_SHARED_CMD) $$bla -o $(HSL_SHARED_LIB) $(F77_DLL_LINKFLAGS)
 
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@$(DEFFILE): config.status
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	echo 'LIBRARY LIBHSL' > $(DEFFILE)
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	echo 'EXPORTS' >> $(DEFFILE)
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	for i in $(EXPORT_SYMBOLS); do \
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	  echo "  $$i" >> $(DEFFILE); \
-@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	done
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@$(DEFFILE): config.status
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	echo 'LIBRARY LIBHSL' > $(DEFFILE)
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	echo 'EXPORTS' >> $(DEFFILE)
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	for i in $(EXPORT_SYMBOLS); do \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	  echo "  $$i" >> $(DEFFILE); \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@@NEED_DEFFILE_TRUE@	done
+@BUILD_COINHSL_TRUE@install-exec-local: $(HSL_SHARED_LIB)
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	test -z "$(DESTDIR)$(libdir)/coin/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/coin/ThirdParty"
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
+@BUILD_COINHSL_TRUE@	$(install_sh_DATA) config_coinhsl.h $(DESTDIR)$(includecoindir)/CoinHslConfig.h
 
-@EXTRA_SHARED_COMMAND_TRUE@install-exec-local: $(HSL_SHARED_LIB)
-@EXTRA_SHARED_COMMAND_TRUE@	test -z "$(DESTDIR)$(libdir)/coin/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/coin/ThirdParty"
-@EXTRA_SHARED_COMMAND_TRUE@	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
+@BUILD_COINHSL_TRUE@uninstall-local:
+@BUILD_COINHSL_TRUE@	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
+@BUILD_COINHSL_TRUE@	rm -f $(DESTDIR)$(includecoindir)/CoinHslConfig.h
 
-@EXTRA_SHARED_COMMAND_TRUE@uninstall-local:
-@EXTRA_SHARED_COMMAND_TRUE@	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
-
-@COIN_HAS_PKGCONFIG_TRUE@install-data-hook:
-@COIN_HAS_PKGCONFIG_TRUE@	@$(mkdir_p) "$(addlibsdir)"
-@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
-@COIN_HAS_PKGCONFIG_TRUE@	$(PKG_CONFIG) --libs coinhsl > $(addlibsdir)/hsl_addlibs.txt
-
-@COIN_HAS_PKGCONFIG_TRUE@uninstall-hook:
-@COIN_HAS_PKGCONFIG_TRUE@	rm -f $(addlibsdir)/hsl_addlibs.txt
-
-test: $(libampl)
+test:
 	@echo "No test available for HSL."
 
 install-doc: $(DocFiles)
@@ -881,14 +851,14 @@ uninstall-doc:
 @MAINTAINER_MODE_TRUE@$(AUX_DIR)/ltmain.sh: $(BUILDTOOLSDIR)/ltmain.sh
 @MAINTAINER_MODE_TRUE@	cp $< $@
 
-# Take care of updating externals (if Externals file exists)
-@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@$(top_builddir)/Makefile: .Externals-stamp
+# Take care of updating externals (if Dependencies file exists)
+@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@$(top_builddir)/Makefile: .Dependencies-stamp
 
-@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@.Externals-stamp: $(srcdir)/Externals
-@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	cd $(srcdir); svn propset svn:externals -F Externals .
-@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	touch .Externals-stamp
+@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@.Dependencies-stamp: $(srcdir)/Dependencies
+@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	cd $(srcdir); BuildTools/set_externals Dependencies
+@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	touch .Dependencies-stamp
 
-@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@update-externals: .Externals-stamp
+@HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@update-externals: .Dependencies-stamp
 @HAVE_EXTERNALS_TRUE@@MAINTAINER_MODE_TRUE@	cd $(srcdir); svn update
 
 .PHONY: install-doc uninstall-doc update-externals
