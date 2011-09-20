@@ -141,8 +141,13 @@ if test $coin_has_ma57ad = yes; then
   if test $coin_has_metis != yes ; then
     AC_MSG_ERROR([MA57 requires METIS, which is not found.])
   fi
+  AC_COIN_CHECK_PACKAGE_BLAS(HSL)
+  if test $coin_has_blas != yes ; then
+    AC_MSG_ERROR([MA57 requires BLAS, which is not found.])
+  fi
 else
   AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
+  AM_CONDITIONAL(COIN_HAS_BLAS, [test 0 = 1])
 fi
 
 MY_CHECK_HSLFILE(mc19ad,MC19)
