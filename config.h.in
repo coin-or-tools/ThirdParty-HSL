@@ -30,6 +30,9 @@
 /* Release Version number of project */
 #undef COINHSL_VERSION_RELEASE
 
+/* If defined, the BLAS Library is available. */
+#undef COIN_HAS_BLAS
+
 /* Define to 1 if the Metis package is available */
 #undef COIN_HAS_METIS
 
