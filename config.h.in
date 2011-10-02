@@ -12,8 +12,17 @@
 /* Define to 1 if MA77 is available. */
 #undef COINHSL_HAS_MA77
 
+/* Define to 1 if MA86 is available. */
+#undef COINHSL_HAS_MA86
+
+/* Define to 1 if MA97 is available. */
+#undef COINHSL_HAS_MA97
+
 /* Define to 1 if MC19 is available. */
 #undef COINHSL_HAS_MC19
+
+/* Define to 1 if MC68 is available. */
+#undef COINHSL_HAS_MC68
 
 /* SVN revision number of project */
 #undef COINHSL_SVN_REV

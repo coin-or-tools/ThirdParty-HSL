@@ -17,7 +17,7 @@ AC_INIT([ThirdPartyHSL],[trunk],[http://projects.coin-or.org/BuildTools/newticke
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
 All Rights Reserved.
-This file is part of the open source package Coin which is distributed
+This file is part of the open source package BuildTools which is distributed
 under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test
@@ -103,56 +103,73 @@ AC_LANG_POP(Fortran 77)
 coin_has_something=no
 
 AC_DEFUN([MY_CHECK_HSLFILE],
-[AC_COIN_CHECK_FILE([$srcdir/$1.f],
-                    [hsl_files="$hsl_files $1.f"
-                     AC_DEFINE(COINHSL_HAS_$2, [1], [Define to 1 if $2 is available.])
+[AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
+AC_COIN_CHECK_FILE([$srcdir/$1/$1d.f],
+                    [AC_DEFINE(m4_toupper(COINHSL_HAS_$1), [1], Define to 1 if m4_toupper(m4_bpatsubst($1, hsl_)) is available.)
                      coin_has_something=yes
                      coin_has_$1=yes],
                     [coin_has_$1=no])
-AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
+AC_MSG_RESULT($coin_has_$1)
+AM_CONDITIONAL(m4_toupper(COIN_HAS_$1),[test $coin_has_$1 = yes])
+])
 
 AC_DEFUN([MY_CHECK_HSLFILE_F90],
 [if test $have_f90 = yes; then
-   AC_COIN_CHECK_FILE([$srcdir/$1.f90],
-                      [hsl_files="$hsl_files $1.f"
-                       AC_DEFINE(COINHSL_HAS_$2, [1], [Define to 1 if $2 is available.])
+   AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
+   AC_COIN_CHECK_FILE([$srcdir/$1/$1d.f90],
+                      [AC_DEFINE([COINHSL_HAS_]m4_toupper(m4_bpatsubst($1, hsl_)), [1], Define to 1 if m4_toupper(m4_bpatsubst($1, hsl_)) is available.)
                        coin_has_something=yes
                        coin_has_$1=yes],
                       [coin_has_$1=no])
+   AC_MSG_RESULT($coin_has_$1)
 else
   coin_has_$1=no
 fi
-AM_CONDITIONAL([COIN_HAS_$2],[test $coin_has_$1 = yes])])
+AM_CONDITIONAL(m4_toupper(COIN_HAS_$1),[test $coin_has_$1 = yes])
+])
 
-MY_CHECK_HSLFILE(ma27ad,MA27)
-if test $coin_has_ma27ad = yes; then
-  AC_MSG_CHECKING([whether MA27 is threadsafe])
-  if $EGREP MA27UD $srcdir/ma27ad.f >/dev/null 2>&1; then
-    AC_MSG_RESULT(yes)
-  else
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR([Please obtain the threadsafe (newer) version of MA27])
-  fi
+MY_CHECK_HSLFILE(mc19)
+MY_CHECK_HSLFILE(ma27)
+MY_CHECK_HSLFILE(ma28)
+MY_CHECK_HSLFILE(ma57)
+MY_CHECK_HSLFILE_F90(hsl_ma77)
+MY_CHECK_HSLFILE_F90(hsl_ma86)
+MY_CHECK_HSLFILE_F90(hsl_ma97)
+
+if test $have_f90 = yes; then
+  AC_MSG_CHECKING([for MC68])
+  AC_COIN_CHECK_FILE([$srcdir/hsl_mc68/C/hsl_mc68i_ciface.f90],
+                     [AC_DEFINE(COINHSL_HAS_MC68, [1], Define to 1 if MC68 is available.)
+                      coin_has_something=yes
+                      coin_has_hsl_mc68=yes],
+                     [coin_has_hsl_mc68=no])
+  AC_MSG_RESULT($coin_has_hsl_mc68)
+else
+  coin_has_hsl_mc68=no
 fi
+AM_CONDITIONAL(COIN_HAS_HSL_MC68,[test $coin_has_hsl_mc68 = yes])
 
-MY_CHECK_HSLFILE(ma57ad,MA57)
-if test $coin_has_ma57ad = yes; then
-  AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
-  if test $coin_has_metis != yes ; then
-    AC_MSG_ERROR([MA57 requires METIS, which is not found.])
-  fi
+# MA57, MA77, and MA86 require BLAS
+if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86 != nonono ; then
   AC_COIN_CHECK_PACKAGE_BLAS(HSL)
   if test $coin_has_blas != yes ; then
-    AC_MSG_ERROR([MA57 requires BLAS, which is not found.])
+    AC_MSG_ERROR([Required package BLAS not found.])
   fi
 else
-  AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
   AM_CONDITIONAL(COIN_HAS_BLAS, [test 0 = 1])
 fi
 
-MY_CHECK_HSLFILE(mc19ad,MC19)
-MY_CHECK_HSLFILE(ma28ad,MA28)
-MY_CHECK_HSLFILE_F90(hsl_ma77d,MA77)
+# MA57, MA77, and MC68 require Metis
+if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
+  AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+  if test $coin_has_metis != yes ; then
+    AC_MSG_ERROR([Required package METIS not found.])
+  fi
+else
+  AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
+fi
+
+AM_CONDITIONAL(COIN_HAS_HSL_F90,[test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono])
 
 #############################################################################
 #                        Setup build of loadable library                    #
@@ -167,35 +184,47 @@ if test x$enable_loadable_library = xyes; then
       case $F77 in
         compile_f2c*)
           EXPORT_SYMBOLS=
-          if test $coin_has_ma27ad = yes; then
+          if test $coin_has_ma27 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma27id_ ma27ad_ ma27bd_ ma27cd_"
           fi
-          if test $coin_has_ma28ad = yes; then
+          if test $coin_has_ma28 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma28ad_"
           fi
-          if test $coin_has_ma57ad = yes; then
+          if test $coin_has_ma57 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma57id_ ma57ad_ ma57bd_ ma57cd_ ma57ed_"
           fi
-          if test $coin_has_mc19ad = yes; then
+          if test $coin_has_mc19 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc19ad_"
           fi
+          if test $coin_has_hsl_ma86 = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma86_default_control_ ma86_analyse_ ma86_factor_ ma86_factor_solve_ ma86_solve_ ma86_finalise_"
+	  fi
+          if test $coin_has_hsl_mc68 = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc68_default_control_ mc68_order_"
+	  fi
           F77_SHARED_CMD='$(F77) -shared $(FFLAGS) -def:$(DEFFILE)'
 	  DEFFILE='Export.def'
           ;;
         ifort* | IFORT*)
 	  EXPORT_SYMBOLS=
-          if test $coin_has_ma27ad = yes; then
+          if test $coin_has_ma27 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA27ID MA27AD MA27BD MA27CD"
           fi
-          if test $coin_has_ma28ad = yes; then
+          if test $coin_has_ma28 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA28AD"
           fi
-          if test $coin_has_ma57ad = yes; then
+          if test $coin_has_ma57 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA57ID MA57AD MA57BD MA57CD MA57ED"
           fi
-          if test $coin_has_mc19ad = yes; then
+          if test $coin_has_mc19 = yes; then
 	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC19AD"
           fi
+          if test $coin_has_hsl_ma86 = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA86_DEFAULT_CONTROL MA86_ANALAYSE MA86_FACTOR MA86_FACTOR_SOLVE MA86_SOLVE MA86_FINALISE"
+	  fi
+          if test $coin_has_hsl_mc68 = yes; then
+	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC68_DEFAULT_CONTROL MC68_ORDER"
+	  fi
 	  DEFFILE='Export.def'
           F77_SHARED_CMD='$(F77) $(FFLAGS)'
 	  F77_DLL_LINKFLAGS='-link -dll -def:$(DEFFILE)'
