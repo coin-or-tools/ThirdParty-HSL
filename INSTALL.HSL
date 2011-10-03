@@ -1,4 +1,4 @@
-Installation of certain Harwell subroutines for IPOPT.
+Installation of certain Harwell subroutines.
 
 *********************************************************************
 Note: It is YOUR RESPONSIBILITY to ensure that you are entitled to
@@ -9,94 +9,51 @@ Information on the Harwell Subroutine Library (HSL) is available at
 
 http://www.hsl.rl.ac.uk/
 
-Some of the required HSL routines are available in the HSL Archive.
-The subroutines in the HSL Archive are free for non-commercial
-purposes (make sure you read the license).
+For use by COIN-OR, STFC provides special packages at
 
-The sparse symmetric linear solvers that you can use in Ipopt are MA57
-(if you have access for a commercial copy of the HSL library or are an
-academic who wants to use the "HSL 2007 for Researchers" library)
-and/or MA27 (if you have only access to the HSL Archive).  In
-addition, you should get MC19 (from the ASL archive).
+http://www.hsl.rl.ac.uk/ipopt/
 
-Different ways to use the HSL routines in Ipopt:
-------------------------------------------------
+which can be build independently or within the buildsystem in this
+directory.
+
+Different ways to use the HSL routines in COIN-OR Ipopt:
+--------------------------------------------------------
 
 1. If you download the HSL sources when you configure and compile
    Ipopt, those files will be compiled and included into the Ipopt
-   library and executable.
+   executable.
 
 2. You can also compile Ipopt without the HSL source files.  In this
    case, Ipopt will be built without the HSL routines, but it will be
    possible to load a shared library at runtime that contains the HSL
    routines.  For this, you need to provide this shared library.  You
-   can use the Makefiles in this ThirdParty/HSL directory to generate
+   can use the Makefile of the coinhsl package obtained from HSL or
+   the Makefiles in this ThirdParty/HSL directory to generate
    this shared library.  For details, please look at the
 
    "Compiling a shared library with HSL" 
 
    below in this file.
 
-Instructions on how to download files from the HSL Archive or HSL 2007:
------------------------------------------------------------------------
+Instructions on providing the source code for ThirdParty/HSL:
+-------------------------------------------------------------
 
-If you need to download subroutines from the HSL Archive or from the
-HSL2007 for Researchers website, this is how it goes:
+First, follow the links at http://www.hsl.rl.ac.uk/ipopt to register and
+obtain an archive coinhsl-x.y.z.tar.gz.
 
-In order to download the HSL Archive subroutines (like ma27 and mc19),
-you need to register at the HSL Archive website
+Unpack this archive via
+  gunzip coinhsl-x.y.z.tar.gz
+  tar xf coinhsl-x.y.z.tar
 
-http://hsl.rl.ac.uk/archive/hslarchive.html
+Then copy the directories for all HSL codes that you want to use
+(e.g., mc19, ma27, ma28, hsl_ma77) and the directory named "common"
+to this directory before running the `configure' script.
+The configuration script will detect which source files you have
+and prepare the Makefile accordingly.
 
-or the HSL 2007 for Researchers website:
-
-http://hsl.rl.ac.uk/hsl2007/hsl20074researchers.html
-
-After that you can log in and go to the page that lists all the
-available HSL packages for download.  If you then click on the name of
-the desired routine (like MA27), you get to a download page, where one
-of the button reads "Download Package (comments removed)".
-
-Click on that button (leave the precision choice at default "Double
-Precision").  This brings up a webpage which contains the code for the
-subroutine as text.  All you have to do now is to save this page (all
-of it, even if there are more than one subroutines in it) into the a
-file called "ma27ad.f".  (If "Save page to..." doesn't work, you can
-copy the content of this page into an editor and save it there.)
-
-Similarly, if you want to get the MC19 routine, do the same steps as above
-and safe the context in a file called "mc19ad.f" .
-
-For neither MA27 or MC19 it is necessary to download any dependencies.
-
-If you want to use MA57, please make sure that all source code for
-MA57 ***including dependencies*** is in a file called ma57ad.f.
-(By using the button "Download HSL depencies" on the ma57 download
-page you can obtain everything already packed into one single file.)
-Currently, the dependencies are the files:
-
- fd15ad.f
- mc21ad.f
- mc34ad.f
- mc47ad.f
- mc59ad.f
- mc64ad.f
- mc71ad.f
-
-plus possibly a dummy file (metis.f) for METIS.  However, it is
-strongly suggested that you use METIS (look at the ThirdParty/Metis
-directory for instructions, or use the --with-metis configure flag to
-specify a procompiled Metis library).
-
-
-Instructions on where to put the source code:
----------------------------------------------
-
-Copy the source files for the required HSL routines into this
-directory before running the `configure' script.  The configuration
-script will detect which source files you have and prepare the
-Makefile accordingly.
-
+Note, that in difference to previous versions of ThirdParty/HSL, the
+configure script now checks for the HSL routines in subdirectories
+as they are given in the coinhsl-x.y.z.tar.gz archive.
 
 Compiling a shared library with HSL
 ===================================
@@ -131,7 +88,7 @@ An easy way to generate this shared library is to use the "configure"
 script in this directory, using the following instructions:
 
 1. Put the HSL routines that are available to you into this directory
-   (see above for the proper names, and how to get them).
+   (see above).
 
 2. Run the configure script of ThirdParty/HSL (not the one in the
    Ipopt base directory!).  As arguments, you would essentially
