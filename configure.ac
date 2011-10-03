@@ -149,6 +149,33 @@ else
 fi
 AM_CONDITIONAL(COIN_HAS_HSL_MC68,[test $coin_has_hsl_mc68 = yes])
 
+# all codes depend on deps.f
+if test $coin_has_something = yes ; then
+  AC_MSG_CHECKING([for deps.f])
+  AC_COIN_CHECK_FILE([$srcdir/common/deps.f],
+                     [coin_has_depsf=yes],
+                     [coin_has_depsf=no])
+  AC_MSG_RESULT($coin_has_depsf)
+  if test $coin_has_depsf = no; then
+    AC_MSG_ERROR([Required file common/deps.f not found])
+  fi
+fi
+
+# the F90 codes depend on deps90.f90
+if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
+  AC_MSG_CHECKING([for deps90.f90])
+  AC_COIN_CHECK_FILE([$srcdir/common/deps90.f90],
+                     [coin_has_depsf90=yes],
+                     [coin_has_depsf90=no])
+  AC_MSG_RESULT($coin_has_depsf90)
+  if test $coin_has_depsf90 = no; then
+    AC_MSG_ERROR([Required file common/deps90.f90 not found])
+  fi
+else
+  coin_has_depsf90=no
+fi
+AM_CONDITIONAL(COIN_HAS_DEPSF90,[test $coin_has_depsf90 = yes])
+
 # MA57, MA77, and MA86 require BLAS
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86 != nonono ; then
   AC_COIN_CHECK_PACKAGE_BLAS(HSL)
@@ -168,8 +195,6 @@ if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
 else
   AM_CONDITIONAL(COIN_HAS_METIS, [test 0 = 1])
 fi
-
-AM_CONDITIONAL(COIN_HAS_HSL_F90,[test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono])
 
 #############################################################################
 #                        Setup build of loadable library                    #

@@ -33,7 +33,7 @@ if COIN_HAS_MA57
   libcoinhsl_la_SOURCES += ma57/ma57d.f
 endif
 
-if COIN_HAS_HSL_F90
+if COIN_HAS_DEPSF90
   libcoinhsl_la_SOURCES += common/deps90.f90
 endif
 
