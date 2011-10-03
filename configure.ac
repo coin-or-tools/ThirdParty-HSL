@@ -40,10 +40,6 @@ AC_COIN_PROJECTDIR_INIT(COINHSL)
 # Get the system type
 AC_CANONICAL_BUILD
 
-# turn off warnings and pedantic mode since they could make trouble on some platforms,
-# and we couldn't fix them anyway
-coin_skip_warn_fflags=yes
-
 # provide flag to allow compilation of a stand-alone shared library
 AC_ARG_ENABLE([loadable-library],
 [AC_HELP_STRING([--enable-loadable-library],
