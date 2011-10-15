@@ -57,6 +57,11 @@ if COIN_HAS_HSL_MA97
   includecoin_HEADERS += hsl_ma97/C/hsl_ma97d.h
 endif
 
+if COIN_HAS_METIS
+else
+  libcoinhsl_la_SOURCES += metis_dummy.c
+endif
+
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies

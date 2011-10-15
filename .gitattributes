@@ -13,4 +13,5 @@
 /depcomp -text
 /install-sh -text
 /ltmain.sh -text
+/metis_dummy.c -text
 /missing -text

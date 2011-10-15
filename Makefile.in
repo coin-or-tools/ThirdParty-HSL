@@ -64,14 +64,15 @@ host_triplet = @host@
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_10 = hsl_ma86/C/hsl_ma86d.h
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_11 = hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_12 = hsl_ma97/C/hsl_ma97d.h
+@BUILD_COINHSL_TRUE@@COIN_HAS_METIS_FALSE@am__append_13 = metis_dummy.c
 DIST_COMMON = $(am__configure_deps) $(am__includecoin_HEADERS_DIST) \
 	$(srcdir)/BuildTools/Makemain.inc $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/coinhsl-uninstalled.pc.in \
 	$(srcdir)/coinhsl.pc.in $(srcdir)/config.h.in \
 	$(srcdir)/config_coinhsl.h.in $(top_srcdir)/configure \
 	config.guess config.sub depcomp install-sh ltmain.sh missing
-@HAVE_EXTERNALS_TRUE@am__append_13 = Dependencies
-@HAVE_EXTERNALS_TRUE@am__append_14 = .Dependencies-stamp
+@HAVE_EXTERNALS_TRUE@am__append_14 = Dependencies
+@HAVE_EXTERNALS_TRUE@am__append_15 = .Dependencies-stamp
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -98,7 +99,8 @@ am__libcoinhsl_la_SOURCES_DIST = common/deps.f mc19/mc19d.f \
 	ma27/ma27d.f ma28/ma28d.f ma57/ma57d.f common/deps90.f90 \
 	hsl_mc68/C/hsl_mc68i_ciface.f90 hsl_ma77/hsl_ma77d.f90 \
 	hsl_ma86/hsl_ma86d.f90 hsl_ma86/C/hsl_ma86d_ciface.f90 \
-	hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90
+	hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90 \
+	metis_dummy.c
 @BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__objects_1 = mc19d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__objects_2 = ma27d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__objects_3 = ma28d.lo
@@ -113,15 +115,27 @@ am__libcoinhsl_la_SOURCES_DIST = common/deps.f mc19/mc19d.f \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__objects_9 =  \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@	hsl_ma97d.lo \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@	hsl_ma97d_ciface.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_METIS_FALSE@am__objects_10 =  \
+@BUILD_COINHSL_TRUE@@COIN_HAS_METIS_FALSE@	metis_dummy.lo
 @BUILD_COINHSL_TRUE@am_libcoinhsl_la_OBJECTS = deps.lo \
 @BUILD_COINHSL_TRUE@	$(am__objects_1) $(am__objects_2) \
 @BUILD_COINHSL_TRUE@	$(am__objects_3) $(am__objects_4) \
 @BUILD_COINHSL_TRUE@	$(am__objects_5) $(am__objects_6) \
 @BUILD_COINHSL_TRUE@	$(am__objects_7) $(am__objects_8) \
-@BUILD_COINHSL_TRUE@	$(am__objects_9)
+@BUILD_COINHSL_TRUE@	$(am__objects_9) $(am__objects_10)
 libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
 @BUILD_COINHSL_TRUE@am_libcoinhsl_la_rpath = -rpath $(libdir)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I. -I.
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 F77COMPILE = $(F77) $(AM_FFLAGS) $(FFLAGS)
 LTF77COMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) \
 	$(FFLAGS)
@@ -355,7 +369,7 @@ sol_cc_compiler = @sol_cc_compiler@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
-EXTRA_DIST = INSTALL.HSL $(am__append_13)
+EXTRA_DIST = INSTALL.HSL $(am__append_14)
 @BUILD_COINHSL_TRUE@includecoindir = $(includedir)/coin/ThirdParty
 @BUILD_COINHSL_TRUE@includecoin_HEADERS = $(am__append_7) \
 @BUILD_COINHSL_TRUE@	$(am__append_10) $(am__append_12)
@@ -365,7 +379,7 @@ EXTRA_DIST = INSTALL.HSL $(am__append_13)
 @BUILD_COINHSL_TRUE@	$(am__append_3) $(am__append_4) \
 @BUILD_COINHSL_TRUE@	$(am__append_5) $(am__append_6) \
 @BUILD_COINHSL_TRUE@	$(am__append_8) $(am__append_9) \
-@BUILD_COINHSL_TRUE@	$(am__append_11)
+@BUILD_COINHSL_TRUE@	$(am__append_11) $(am__append_13)
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@nodist_includecoin_HEADERS = hsl_ma77_double.mod
 @BUILD_COINHSL_TRUE@libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 @BUILD_COINHSL_TRUE@pkgconfiglibdir = $(libdir)/pkgconfig
@@ -381,14 +395,14 @@ LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) *.mod
 
 # Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = $(am__append_14) $(VPATH_DISTCLEANFILES)
+DISTCLEANFILES = $(am__append_15) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
 DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
 all: config.h config_coinhsl.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .f .f90 .lo .o .obj
+.SUFFIXES: .c .f .f90 .lo .o .obj
 am--refresh:
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/BuildTools/Makemain.inc $(am__configure_deps)
@@ -488,6 +502,29 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metis_dummy.Plo@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	if $(LTCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Plo"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
 .f.o:
 	$(F77COMPILE) -c -o $@ $<
@@ -822,6 +859,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -850,6 +888,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

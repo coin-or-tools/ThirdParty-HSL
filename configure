@@ -25726,7 +25726,8 @@ fi
 
 fi
 
-# MA57, MA77, and MC68 require Metis
+# MA57, MA77, and MC68 can use Metis
+# if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
 
 echo "$as_me:$LINENO: checking for COIN-OR package Metis" >&5
@@ -26239,15 +26240,11 @@ fi
 
 
 
-  if test $coin_has_metis != yes ; then
-    { { echo "$as_me:$LINENO: error: Required package METIS not found." >&5
-echo "$as_me: error: Required package METIS not found." >&2;}
-   { (exit 1); exit 1; }; }
-  fi
 else
+  # do as if we had metis, so metis.f is not compiled
 
 
-if test 0 = 1; then
+if test 1 = 1; then
   COIN_HAS_METIS_TRUE=
   COIN_HAS_METIS_FALSE='#'
 else
