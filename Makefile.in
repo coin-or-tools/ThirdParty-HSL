@@ -57,7 +57,7 @@ host_triplet = @host@
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__append_3 = ma28/ma28d.f
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__append_4 = ma57/ma57d.f
 @BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__append_5 = common/deps90.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = hsl_mc68/C/hsl_mc68i_ciface.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = hsl_mc68/hsl_mc68i.f90 hsl_mc68/C/hsl_mc68i_ciface.f90
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_7 = hsl_mc68/C/hsl_mc68i.h
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__append_8 = hsl_ma77/hsl_ma77d.f90
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_9 = hsl_ma86/hsl_ma86d.f90 hsl_ma86/C/hsl_ma86d_ciface.f90
@@ -97,16 +97,18 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
 am__libcoinhsl_la_SOURCES_DIST = common/deps.f mc19/mc19d.f \
 	ma27/ma27d.f ma28/ma28d.f ma57/ma57d.f common/deps90.f90 \
-	hsl_mc68/C/hsl_mc68i_ciface.f90 hsl_ma77/hsl_ma77d.f90 \
-	hsl_ma86/hsl_ma86d.f90 hsl_ma86/C/hsl_ma86d_ciface.f90 \
-	hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90 \
-	metis_dummy.c
+	hsl_mc68/hsl_mc68i.f90 hsl_mc68/C/hsl_mc68i_ciface.f90 \
+	hsl_ma77/hsl_ma77d.f90 hsl_ma86/hsl_ma86d.f90 \
+	hsl_ma86/C/hsl_ma86d_ciface.f90 hsl_ma97/hsl_ma97d.f90 \
+	hsl_ma97/C/hsl_ma97d_ciface.f90 metis_dummy.c
 @BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__objects_1 = mc19d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__objects_2 = ma27d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__objects_3 = ma28d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__objects_4 = ma57d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__objects_5 = deps90.lo
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__objects_6 = hsl_mc68i_ciface.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__objects_6 =  \
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@	hsl_mc68i.lo \
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@	hsl_mc68i_ciface.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__objects_7 =  \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@	hsl_ma77d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__objects_8 =  \
@@ -562,6 +564,9 @@ ma57d.lo: ma57/ma57d.f
 deps90.lo: common/deps90.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o deps90.lo `test -f 'common/deps90.f90' || echo '$(srcdir)/'`common/deps90.f90
 
+hsl_mc68i.lo: hsl_mc68/hsl_mc68i.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i.lo `test -f 'hsl_mc68/hsl_mc68i.f90' || echo '$(srcdir)/'`hsl_mc68/hsl_mc68i.f90
+
 @BUILD_COINHSL_FALSE@hsl_mc68i_ciface.lo: hsl_mc68/C/hsl_mc68i_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i_ciface.lo `test -f 'hsl_mc68/C/hsl_mc68i_ciface.f90' || echo '$(srcdir)/'`hsl_mc68/C/hsl_mc68i_ciface.f90
 
@@ -931,7 +936,7 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-info-am \
 
 # dependencies
 @BUILD_COINHSL_TRUE@hsl_ma86d_ciface.lo: hsl_ma86d.lo
-@BUILD_COINHSL_TRUE@hsl_ma97d_ciface.lo: hsl_ma97d.lo
+@BUILD_COINHSL_TRUE@hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
 @BUILD_COINHSL_TRUE@hsl_mc68i_ciface.lo: deps90.lo
 
 #############################################################################
