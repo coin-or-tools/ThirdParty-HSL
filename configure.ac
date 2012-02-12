@@ -173,6 +173,9 @@ fi
 # if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
   AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+  if test $coin_has_metis = yes ; then
+    AC_DEFINE(COINHSL_HAS_METIS, [1], Define to 1 if METIS is available)
+  fi
 else
   # do as if we had metis, so metis.f is not compiled
   AM_CONDITIONAL(COIN_HAS_METIS, [test 1 = 1])

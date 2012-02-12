@@ -26230,6 +26230,13 @@ fi
 
 
 
+  if test $coin_has_metis = yes ; then
+
+cat >>confdefs.h <<\_ACEOF
+#define COINHSL_HAS_METIS 1
+_ACEOF
+
+  fi
 else
   # do as if we had metis, so metis.f is not compiled
 
