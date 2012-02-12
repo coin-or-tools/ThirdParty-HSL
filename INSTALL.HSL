@@ -45,11 +45,11 @@ Unpack this archive via
   gunzip coinhsl-x.y.z.tar.gz
   tar xf coinhsl-x.y.z.tar
 
-Then copy the directories for all HSL codes that you want to use
-(e.g., mc19, ma27, ma28, hsl_ma77) and the directory named "common"
-to this directory before running the `configure' script.
-The configuration script will detect which source files you have
-and prepare the Makefile accordingly.
+Then rename the directory coinhsl-x.y.z to coinhsl, or set a symbolic link:
+  ln -s coinhsl-x.y.z coinhsl
+
+The configuration script will then detect which source files are available
+in your coinhsl package and prepare the Makefile accordingly.
 
 Note, that in difference to previous versions of ThirdParty/HSL, the
 configure script now checks for the HSL routines in subdirectories

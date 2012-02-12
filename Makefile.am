@@ -15,46 +15,46 @@ includecoin_HEADERS =
 
 lib_LTLIBRARIES = libcoinhsl.la
 
-libcoinhsl_la_SOURCES = common/deps.f
+libcoinhsl_la_SOURCES = coinhsl/common/deps.f
 
 if COIN_HAS_MC19
-  libcoinhsl_la_SOURCES += mc19/mc19d.f
+  libcoinhsl_la_SOURCES += coinhsl/mc19/mc19d.f
 endif
 
 if COIN_HAS_MA27
-  libcoinhsl_la_SOURCES += ma27/ma27d.f
+  libcoinhsl_la_SOURCES += coinhsl/ma27/ma27d.f
 endif
 
 if COIN_HAS_MA28
-  libcoinhsl_la_SOURCES += ma28/ma28d.f
+  libcoinhsl_la_SOURCES += coinhsl/ma28/ma28d.f
 endif
 
 if COIN_HAS_MA57
-  libcoinhsl_la_SOURCES += ma57/ma57d.f
+  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57d.f
 endif
 
 if COIN_HAS_DEPSF90
-  libcoinhsl_la_SOURCES += common/deps90.f90
+  libcoinhsl_la_SOURCES += coinhsl/common/deps90.f90
 endif
 
 if COIN_HAS_HSL_MC68
-  libcoinhsl_la_SOURCES += hsl_mc68/hsl_mc68i.f90 hsl_mc68/C/hsl_mc68i_ciface.f90
-  includecoin_HEADERS += hsl_mc68/C/hsl_mc68i.h
+  libcoinhsl_la_SOURCES += coinhsl/hsl_mc68/hsl_mc68i.f90 coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+  includecoin_HEADERS += coinhsl/hsl_mc68/C/hsl_mc68i.h
 endif
 
 if COIN_HAS_HSL_MA77
-  libcoinhsl_la_SOURCES += hsl_ma77/hsl_ma77d.f90
+  libcoinhsl_la_SOURCES += coinhsl/hsl_ma77/hsl_ma77d.f90
   nodist_includecoin_HEADERS = hsl_ma77_double.mod
 endif
 
 if COIN_HAS_HSL_MA86
-  libcoinhsl_la_SOURCES += hsl_ma86/hsl_ma86d.f90 hsl_ma86/C/hsl_ma86d_ciface.f90
-  includecoin_HEADERS += hsl_ma86/C/hsl_ma86d.h
+  libcoinhsl_la_SOURCES += coinhsl/hsl_ma86/hsl_ma86d.f90 coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
+  includecoin_HEADERS += coinhsl/hsl_ma86/C/hsl_ma86d.h
 endif
 
 if COIN_HAS_HSL_MA97
-  libcoinhsl_la_SOURCES += hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90
-  includecoin_HEADERS += hsl_ma97/C/hsl_ma97d.h
+  libcoinhsl_la_SOURCES += coinhsl/hsl_ma97/hsl_ma97d.f90 coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
+  includecoin_HEADERS += coinhsl/hsl_ma97/C/hsl_ma97d.h
 endif
 
 if COIN_HAS_METIS

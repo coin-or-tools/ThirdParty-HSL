@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyHSL],[trunk],[http://projects.coin-or.org/BuildTools/newticket])
+AC_INIT([ThirdPartyHSL],[1.4],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -22,8 +22,7 @@ under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test
 # whether the package is actually there
-# Here we don't know yet which files are actually provided...
-AC_CONFIG_SRCDIR(configure.ac)
+AC_CONFIG_SRCDIR([coinhsl/common/deps.f])
 
 # Where should everything be installed by default?  Here, we want it
 # to be installed directly in 'bin', 'lib', 'include' subdirectories
@@ -100,7 +99,7 @@ coin_has_something=no
 
 AC_DEFUN([MY_CHECK_HSLFILE],
 [AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
-AC_COIN_CHECK_FILE([$srcdir/$1/$1d.f],
+AC_COIN_CHECK_FILE([$srcdir/coinhsl/$1/$1d.f],
                     [AC_DEFINE(m4_toupper(COINHSL_HAS_$1), [1], Define to 1 if m4_toupper(m4_bpatsubst($1, hsl_)) is available.)
                      coin_has_something=yes
                      coin_has_$1=yes],
@@ -112,7 +111,7 @@ AM_CONDITIONAL(m4_toupper(COIN_HAS_$1),[test $coin_has_$1 = yes])
 AC_DEFUN([MY_CHECK_HSLFILE_F90],
 [if test $have_f90 = yes; then
    AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
-   AC_COIN_CHECK_FILE([$srcdir/$1/$1d.f90],
+   AC_COIN_CHECK_FILE([$srcdir/coinhsl/$1/$1d.f90],
                       [AC_DEFINE([COINHSL_HAS_]m4_toupper(m4_bpatsubst($1, hsl_)), [1], Define to 1 if m4_toupper(m4_bpatsubst($1, hsl_)) is available.)
                        coin_has_something=yes
                        coin_has_$1=yes],
@@ -134,7 +133,7 @@ MY_CHECK_HSLFILE_F90(hsl_ma97)
 
 if test $have_f90 = yes; then
   AC_MSG_CHECKING([for MC68])
-  AC_COIN_CHECK_FILE([$srcdir/hsl_mc68/C/hsl_mc68i_ciface.f90],
+  AC_COIN_CHECK_FILE([$srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90],
                      [AC_DEFINE(COINHSL_HAS_MC68, [1], Define to 1 if MC68 is available.)
                       coin_has_something=yes
                       coin_has_hsl_mc68=yes],
@@ -145,22 +144,10 @@ else
 fi
 AM_CONDITIONAL(COIN_HAS_HSL_MC68,[test $coin_has_hsl_mc68 = yes])
 
-# all codes depend on deps.f
-if test $coin_has_something = yes ; then
-  AC_MSG_CHECKING([for deps.f])
-  AC_COIN_CHECK_FILE([$srcdir/common/deps.f],
-                     [coin_has_depsf=yes],
-                     [coin_has_depsf=no])
-  AC_MSG_RESULT($coin_has_depsf)
-  if test $coin_has_depsf = no; then
-    AC_MSG_ERROR([Required file common/deps.f not found])
-  fi
-fi
-
 # the F90 codes depend on deps90.f90
 if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
   AC_MSG_CHECKING([for deps90.f90])
-  AC_COIN_CHECK_FILE([$srcdir/common/deps90.f90],
+  AC_COIN_CHECK_FILE([$srcdir/coinhsl/common/deps90.f90],
                      [coin_has_depsf90=yes],
                      [coin_has_depsf90=no])
   AC_MSG_RESULT($coin_has_depsf90)

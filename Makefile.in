@@ -52,18 +52,18 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__append_1 = mc19/mc19d.f
-@BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__append_2 = ma27/ma27d.f
-@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__append_3 = ma28/ma28d.f
-@BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__append_4 = ma57/ma57d.f
-@BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__append_5 = common/deps90.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = hsl_mc68/hsl_mc68i.f90 hsl_mc68/C/hsl_mc68i_ciface.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_7 = hsl_mc68/C/hsl_mc68i.h
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__append_8 = hsl_ma77/hsl_ma77d.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_9 = hsl_ma86/hsl_ma86d.f90 hsl_ma86/C/hsl_ma86d_ciface.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_10 = hsl_ma86/C/hsl_ma86d.h
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_11 = hsl_ma97/hsl_ma97d.f90 hsl_ma97/C/hsl_ma97d_ciface.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_12 = hsl_ma97/C/hsl_ma97d.h
+@BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__append_1 = coinhsl/mc19/mc19d.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__append_2 = coinhsl/ma27/ma27d.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__append_3 = coinhsl/ma28/ma28d.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__append_4 = coinhsl/ma57/ma57d.f
+@BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__append_5 = coinhsl/common/deps90.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = coinhsl/hsl_mc68/hsl_mc68i.f90 coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_7 = coinhsl/hsl_mc68/C/hsl_mc68i.h
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__append_8 = coinhsl/hsl_ma77/hsl_ma77d.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_9 = coinhsl/hsl_ma86/hsl_ma86d.f90 coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA86_TRUE@am__append_10 = coinhsl/hsl_ma86/C/hsl_ma86d.h
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_11 = coinhsl/hsl_ma97/hsl_ma97d.f90 coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA97_TRUE@am__append_12 = coinhsl/hsl_ma97/C/hsl_ma97d.h
 @BUILD_COINHSL_TRUE@@COIN_HAS_METIS_FALSE@am__append_13 = metis_dummy.c
 DIST_COMMON = $(am__configure_deps) $(am__includecoin_HEADERS_DIST) \
 	$(srcdir)/BuildTools/Makemain.inc $(srcdir)/Makefile.am \
@@ -95,12 +95,15 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" \
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libcoinhsl_la_LIBADD =
-am__libcoinhsl_la_SOURCES_DIST = common/deps.f mc19/mc19d.f \
-	ma27/ma27d.f ma28/ma28d.f ma57/ma57d.f common/deps90.f90 \
-	hsl_mc68/hsl_mc68i.f90 hsl_mc68/C/hsl_mc68i_ciface.f90 \
-	hsl_ma77/hsl_ma77d.f90 hsl_ma86/hsl_ma86d.f90 \
-	hsl_ma86/C/hsl_ma86d_ciface.f90 hsl_ma97/hsl_ma97d.f90 \
-	hsl_ma97/C/hsl_ma97d_ciface.f90 metis_dummy.c
+am__libcoinhsl_la_SOURCES_DIST = coinhsl/common/deps.f \
+	coinhsl/mc19/mc19d.f coinhsl/ma27/ma27d.f coinhsl/ma28/ma28d.f \
+	coinhsl/ma57/ma57d.f coinhsl/common/deps90.f90 \
+	coinhsl/hsl_mc68/hsl_mc68i.f90 \
+	coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90 \
+	coinhsl/hsl_ma77/hsl_ma77d.f90 coinhsl/hsl_ma86/hsl_ma86d.f90 \
+	coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90 \
+	coinhsl/hsl_ma97/hsl_ma97d.f90 \
+	coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90 metis_dummy.c
 @BUILD_COINHSL_TRUE@@COIN_HAS_MC19_TRUE@am__objects_1 = mc19d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA27_TRUE@am__objects_2 = ma27d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__objects_3 = ma28d.lo
@@ -152,8 +155,8 @@ SOURCES = $(libcoinhsl_la_SOURCES)
 DIST_SOURCES = $(am__libcoinhsl_la_SOURCES_DIST)
 pkgconfiglibDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(pkgconfiglib_DATA)
-am__includecoin_HEADERS_DIST = hsl_mc68/C/hsl_mc68i.h \
-	hsl_ma86/C/hsl_ma86d.h hsl_ma97/C/hsl_ma97d.h
+am__includecoin_HEADERS_DIST = coinhsl/hsl_mc68/C/hsl_mc68i.h \
+	coinhsl/hsl_ma86/C/hsl_ma86d.h coinhsl/hsl_ma97/C/hsl_ma97d.h
 includecoinHEADERS_INSTALL = $(INSTALL_HEADER)
 nodist_includecoinHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(includecoin_HEADERS) $(nodist_includecoin_HEADERS)
@@ -376,7 +379,7 @@ EXTRA_DIST = INSTALL.HSL $(am__append_14)
 @BUILD_COINHSL_TRUE@includecoin_HEADERS = $(am__append_7) \
 @BUILD_COINHSL_TRUE@	$(am__append_10) $(am__append_12)
 @BUILD_COINHSL_TRUE@lib_LTLIBRARIES = libcoinhsl.la
-@BUILD_COINHSL_TRUE@libcoinhsl_la_SOURCES = common/deps.f \
+@BUILD_COINHSL_TRUE@libcoinhsl_la_SOURCES = coinhsl/common/deps.f \
 @BUILD_COINHSL_TRUE@	$(am__append_1) $(am__append_2) \
 @BUILD_COINHSL_TRUE@	$(am__append_3) $(am__append_4) \
 @BUILD_COINHSL_TRUE@	$(am__append_5) $(am__append_6) \
@@ -537,20 +540,20 @@ distclean-compile:
 .f.lo:
 	$(LTF77COMPILE) -c -o $@ $<
 
-deps.lo: common/deps.f
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o deps.lo `test -f 'common/deps.f' || echo '$(srcdir)/'`common/deps.f
+deps.lo: coinhsl/common/deps.f
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o deps.lo `test -f 'coinhsl/common/deps.f' || echo '$(srcdir)/'`coinhsl/common/deps.f
 
-mc19d.lo: mc19/mc19d.f
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o mc19d.lo `test -f 'mc19/mc19d.f' || echo '$(srcdir)/'`mc19/mc19d.f
+mc19d.lo: coinhsl/mc19/mc19d.f
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o mc19d.lo `test -f 'coinhsl/mc19/mc19d.f' || echo '$(srcdir)/'`coinhsl/mc19/mc19d.f
 
-ma27d.lo: ma27/ma27d.f
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma27d.lo `test -f 'ma27/ma27d.f' || echo '$(srcdir)/'`ma27/ma27d.f
+ma27d.lo: coinhsl/ma27/ma27d.f
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma27d.lo `test -f 'coinhsl/ma27/ma27d.f' || echo '$(srcdir)/'`coinhsl/ma27/ma27d.f
 
-ma28d.lo: ma28/ma28d.f
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma28d.lo `test -f 'ma28/ma28d.f' || echo '$(srcdir)/'`ma28/ma28d.f
+ma28d.lo: coinhsl/ma28/ma28d.f
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma28d.lo `test -f 'coinhsl/ma28/ma28d.f' || echo '$(srcdir)/'`coinhsl/ma28/ma28d.f
 
-ma57d.lo: ma57/ma57d.f
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma57d.lo `test -f 'ma57/ma57d.f' || echo '$(srcdir)/'`ma57/ma57d.f
+ma57d.lo: coinhsl/ma57/ma57d.f
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ma57d.lo `test -f 'coinhsl/ma57/ma57d.f' || echo '$(srcdir)/'`coinhsl/ma57/ma57d.f
 
 .f90.o:
 	$(FCCOMPILE) -c -o $@ $<
@@ -561,29 +564,29 @@ ma57d.lo: ma57/ma57d.f
 .f90.lo:
 	$(LTFCCOMPILE) -c -o $@ $<
 
-deps90.lo: common/deps90.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o deps90.lo `test -f 'common/deps90.f90' || echo '$(srcdir)/'`common/deps90.f90
+deps90.lo: coinhsl/common/deps90.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o deps90.lo `test -f 'coinhsl/common/deps90.f90' || echo '$(srcdir)/'`coinhsl/common/deps90.f90
 
-hsl_mc68i.lo: hsl_mc68/hsl_mc68i.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i.lo `test -f 'hsl_mc68/hsl_mc68i.f90' || echo '$(srcdir)/'`hsl_mc68/hsl_mc68i.f90
+hsl_mc68i.lo: coinhsl/hsl_mc68/hsl_mc68i.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i.lo `test -f 'coinhsl/hsl_mc68/hsl_mc68i.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/hsl_mc68i.f90
 
-@BUILD_COINHSL_FALSE@hsl_mc68i_ciface.lo: hsl_mc68/C/hsl_mc68i_ciface.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i_ciface.lo `test -f 'hsl_mc68/C/hsl_mc68i_ciface.f90' || echo '$(srcdir)/'`hsl_mc68/C/hsl_mc68i_ciface.f90
+@BUILD_COINHSL_FALSE@hsl_mc68i_ciface.lo: coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i_ciface.lo `test -f 'coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 
-hsl_ma77d.lo: hsl_ma77/hsl_ma77d.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma77d.lo `test -f 'hsl_ma77/hsl_ma77d.f90' || echo '$(srcdir)/'`hsl_ma77/hsl_ma77d.f90
+hsl_ma77d.lo: coinhsl/hsl_ma77/hsl_ma77d.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma77d.lo `test -f 'coinhsl/hsl_ma77/hsl_ma77d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma77/hsl_ma77d.f90
 
-hsl_ma86d.lo: hsl_ma86/hsl_ma86d.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d.lo `test -f 'hsl_ma86/hsl_ma86d.f90' || echo '$(srcdir)/'`hsl_ma86/hsl_ma86d.f90
+hsl_ma86d.lo: coinhsl/hsl_ma86/hsl_ma86d.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d.lo `test -f 'coinhsl/hsl_ma86/hsl_ma86d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma86/hsl_ma86d.f90
 
-@BUILD_COINHSL_FALSE@hsl_ma86d_ciface.lo: hsl_ma86/C/hsl_ma86d_ciface.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d_ciface.lo `test -f 'hsl_ma86/C/hsl_ma86d_ciface.f90' || echo '$(srcdir)/'`hsl_ma86/C/hsl_ma86d_ciface.f90
+@BUILD_COINHSL_FALSE@hsl_ma86d_ciface.lo: coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d_ciface.lo `test -f 'coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
 
-hsl_ma97d.lo: hsl_ma97/hsl_ma97d.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d.lo `test -f 'hsl_ma97/hsl_ma97d.f90' || echo '$(srcdir)/'`hsl_ma97/hsl_ma97d.f90
+hsl_ma97d.lo: coinhsl/hsl_ma97/hsl_ma97d.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d.lo `test -f 'coinhsl/hsl_ma97/hsl_ma97d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma97/hsl_ma97d.f90
 
-@BUILD_COINHSL_FALSE@hsl_ma97d_ciface.lo: hsl_ma97/C/hsl_ma97d_ciface.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d_ciface.lo `test -f 'hsl_ma97/C/hsl_ma97d_ciface.f90' || echo '$(srcdir)/'`hsl_ma97/C/hsl_ma97d_ciface.f90
+@BUILD_COINHSL_FALSE@hsl_ma97d_ciface.lo: coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
+	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d_ciface.lo `test -f 'coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -697,7 +700,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/. $(distdir)/BuildTools $(distdir)/hsl_ma86/C $(distdir)/hsl_ma97/C $(distdir)/hsl_mc68/C
+	$(mkdir_p) $(distdir)/. $(distdir)/BuildTools $(distdir)/coinhsl/hsl_ma86/C $(distdir)/coinhsl/hsl_ma97/C $(distdir)/coinhsl/hsl_mc68/C
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
