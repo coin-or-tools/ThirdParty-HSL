@@ -5,13 +5,13 @@
 /***************************************************************************/
 
 /* Version number of project */
-#define COINHSL_VERSION        "1.4"
+#define COINHSL_VERSION      "trunk"
 
 /* Major Version number of project */
-#define COINHSL_VERSION_MAJOR      1
+#define COINHSL_VERSION_MAJOR   9999
 
 /* Minor Version number of project */
-#define COINHSL_VERSION_MINOR      4
+#define COINHSL_VERSION_MINOR   9999
 
 /* Release Version number of project */
 #define COINHSL_VERSION_RELEASE 9999
