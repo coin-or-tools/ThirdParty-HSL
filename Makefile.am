@@ -43,8 +43,8 @@ if COIN_HAS_HSL_MC68
 endif
 
 if COIN_HAS_HSL_MA77
-  libcoinhsl_la_SOURCES += coinhsl/hsl_ma77/hsl_ma77d.f90
-  nodist_includecoin_HEADERS = hsl_ma77_double.mod
+  libcoinhsl_la_SOURCES += coinhsl/hsl_ma77/hsl_ma77d.f90 coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
+  includecoin_HEADERS += coinhsl/hsl_ma77/C/hsl_ma77d.h
 endif
 
 if COIN_HAS_HSL_MA86
@@ -65,6 +65,7 @@ endif
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
+hsl_ma77d_ciface.lo: hsl_ma77d.lo
 hsl_ma86d_ciface.lo: hsl_ma86d.lo
 hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
 hsl_mc68i_ciface.lo: deps90.lo
