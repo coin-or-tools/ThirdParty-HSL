@@ -90,7 +90,11 @@ AC_COIN_INIT_AUTO_TOOLS([$flag])
 AC_MSG_CHECKING([whether we can compile Fortran 90 code])
 AC_LANG_PUSH(Fortran 77)
 AC_COMPILE_IFELSE([        MODULE BLA
+      PUBLIC TEST_TYPE
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      TYPE TEST_TYPE
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: TTVAR
+      END TYPE TEST_TYPE
       END MODULE BLA],[have_f90=yes ; rm -f bla.mod],[have_f90=no])
 AC_MSG_RESULT([$have_f90])
 AC_LANG_POP(Fortran 77)
