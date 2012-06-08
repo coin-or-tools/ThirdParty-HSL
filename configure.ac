@@ -135,9 +135,13 @@ if test $coin_has_ma27ad = yes; then
   fi
 fi
 
+AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
+if test $coin_has_metis = yes ; then
+  AC_DEFINE(COINHSL_HAS_METIS, [1], Define to 1 if METIS is available)
+fi
+
 MY_CHECK_HSLFILE(ma57ad,MA57)
 if test $coin_has_ma57ad = yes; then
-  AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
   if test $coin_has_metis != yes ; then
     AC_MSG_ERROR([MA57 requires METIS, which is not found.])
   fi
