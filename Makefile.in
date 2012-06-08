@@ -574,25 +574,25 @@ deps90.lo: coinhsl/common/deps90.f90
 hsl_mc68i.lo: coinhsl/hsl_mc68/hsl_mc68i.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i.lo `test -f 'coinhsl/hsl_mc68/hsl_mc68i.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/hsl_mc68i.f90
 
-@BUILD_COINHSL_FALSE@hsl_mc68i_ciface.lo: coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+hsl_mc68i_ciface.lo: coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i_ciface.lo `test -f 'coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 
 hsl_ma77d.lo: coinhsl/hsl_ma77/hsl_ma77d.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma77d.lo `test -f 'coinhsl/hsl_ma77/hsl_ma77d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma77/hsl_ma77d.f90
 
-@BUILD_COINHSL_FALSE@hsl_ma77d_ciface.lo: coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
+hsl_ma77d_ciface.lo: coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma77d_ciface.lo `test -f 'coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
 
 hsl_ma86d.lo: coinhsl/hsl_ma86/hsl_ma86d.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d.lo `test -f 'coinhsl/hsl_ma86/hsl_ma86d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma86/hsl_ma86d.f90
 
-@BUILD_COINHSL_FALSE@hsl_ma86d_ciface.lo: coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
+hsl_ma86d_ciface.lo: coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma86d_ciface.lo `test -f 'coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
 
 hsl_ma97d.lo: coinhsl/hsl_ma97/hsl_ma97d.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d.lo `test -f 'coinhsl/hsl_ma97/hsl_ma97d.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma97/hsl_ma97d.f90
 
-@BUILD_COINHSL_FALSE@hsl_ma97d_ciface.lo: coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
+hsl_ma97d_ciface.lo: coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_ma97d_ciface.lo `test -f 'coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
 
 mostlyclean-libtool:
@@ -926,10 +926,13 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-info-am \
 
 
 # dependencies
-@BUILD_COINHSL_TRUE@hsl_ma77d_ciface.lo: hsl_ma77d.lo
-@BUILD_COINHSL_TRUE@hsl_ma86d_ciface.lo: hsl_ma86d.lo
-@BUILD_COINHSL_TRUE@hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
-@BUILD_COINHSL_TRUE@hsl_mc68i_ciface.lo: deps90.lo
+#  the following attempt to specify additional dependencies does not work
+#  it's not clear yet how to specify F90 module dependencies nicely
+#  until then, parallel make builds may fail
+#hsl_ma77d_ciface.lo: hsl_ma77d.lo
+#hsl_ma86d_ciface.lo: hsl_ma86d.lo
+#hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
+#hsl_mc68i_ciface.lo: deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading

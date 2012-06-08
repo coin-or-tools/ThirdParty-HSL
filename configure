@@ -22001,7 +22001,11 @@ ac_compiler_gnu=$ac_cv_f77_compiler_gnu
 
 cat >conftest.$ac_ext <<_ACEOF
         MODULE BLA
+      PUBLIC TEST_TYPE
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      TYPE TEST_TYPE
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: TTVAR
+      END TYPE TEST_TYPE
       END MODULE BLA
 _ACEOF
 rm -f conftest.$ac_objext
