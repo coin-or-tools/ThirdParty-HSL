@@ -65,10 +65,13 @@ endif
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
-hsl_ma77d_ciface.lo: hsl_ma77d.lo
-hsl_ma86d_ciface.lo: hsl_ma86d.lo
-hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
-hsl_mc68i_ciface.lo: deps90.lo
+#  the following attempt to specify additional dependencies does not work
+#  it's not clear yet how to specify F90 module dependencies nicely
+#  until then, parallel make builds may fail
+#hsl_ma77d_ciface.lo: hsl_ma77d.lo
+#hsl_ma86d_ciface.lo: hsl_ma86d.lo
+#hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
+#hsl_mc68i_ciface.lo: deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading
