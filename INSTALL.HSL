@@ -44,49 +44,60 @@ If you need to download subroutines from the HSL Archive or from the
 HSL2007 for Researchers website, this is how it goes:
 
 In order to download the HSL Archive subroutines (like ma27 and mc19),
-you need to register at the HSL Archive website
+you need to register at the HSL 2011 catalogue website:
 
-http://hsl.rl.ac.uk/archive/hslarchive.html
-
-or the HSL 2007 for Researchers website:
-
-http://hsl.rl.ac.uk/hsl2007/hsl20074researchers.html
+http://www.hsl.rl.ac.uk/catalogue/
 
 After that you can log in and go to the page that lists all the
-available HSL packages for download.  If you then click on the name of
-the desired routine (like MA27), you get to a download page, where one
-of the button reads "Download Package (comments removed)".
+available HSL packages for download. There, follow the instructions
+on how to download the desired routines.
+After downloading a routine, the source files need to be extracted
+and possibly renamed or rearranged as following:
 
-Click on that button (leave the precision choice at default "Double
-Precision").  This brings up a webpage which contains the code for the
-subroutine as text.  All you have to do now is to save this page (all
-of it, even if there are more than one subroutines in it) into the a
-file called "ma27ad.f".  (If "Save page to..." doesn't work, you can
-copy the content of this page into an editor and save it there.)
+MA27:
+- get ma27d.f from the zip/tar file, src subdirectory
+- rename ma27d.f to ma27ad.f
 
-Similarly, if you want to get the MC19 routine, do the same steps as above
-and safe the context in a file called "mc19ad.f" .
+MA28:
+- get ma28d.f and ddeps.f from the zip/tar file, src subdirectory
+- rename ma28d.f to ma28ad.f
+- take the contents of ddeps.f and create the following new files:
+  - ma30ad.f (including MA30AD, MA30BD, MA30CD, and MA30DD subroutines)
+  - mc13dd.f (including MC13DD and MC13ED subroutines)
+  - mc20ad.f (including MC20AD and MC20BD subroutines)
+  - mc21ad.f (including MC21AD and MC21BD subroutines)
+  - mc22ad.f (MC22AD subroutine)
+  - mc23ad.f (MC23AD subroutine)
+  - mc24ad.f (MC24AD subroutine)
+- don't worry about the FA01AD, FA01BD, FA01CD, FA01DD, and FA01FD
+  subroutines in ddeps.f, they appear to never get used
+- if you are also compiling ma57, open mc21ad.f and replace
+  "SUBROUTINE MC21AD" -> "SUBROUTINE MC21AD2", and
+  "SUBROUTINE MC21BD" -> "SUBROUTINE MC21BD2"
+  (MC21AD and MC21BD are included in ma57's ddeps.f, they will
+   conflict if you don't rename or delete one of the copies)
 
-For neither MA27 or MC19 it is necessary to download any dependencies.
+MA57:
+- note: you want MA57 (the Fortran 77 version), NOT HSL_MA57 (which is Fortran 95)
+- get ma57d.f and ddeps.f from the zip/tar file, src subdirectory
+- rename ma57d.f to ma57ad.f
+- add the contents of ddeps.f to the end of the new ma57ad.f file
+- get the dummy file (metis.f) for METIS; however, it is strongly suggested
+  that you use METIS (look at the ThirdParty/Metis directory for instructions)
 
-If you want to use MA57, please make sure that all source code for
-MA57 ***including dependencies*** is in a file called ma57ad.f.
-(By using the button "Download HSL depencies" on the ma57 download
-page you can obtain everything already packed into one single file.)
-Currently, the dependencies are the files:
+MA77:
+- get hsl_ma77d.f90, hsl_ma77d_ciface.f90, ddeps90.f90, common90.f90, and common.f
+  from the zip/tar file, src subdirectory
+- rename ddeps90.f90 to hsl_ma77d.deps90.f90
+- rename common.f to hsl_ma77d.deps77.f
+- copy the contents of hsl_ma77d_ciface.f90 to the end of hsl_ma77d.f90
+- copy the contents of common90.f90 to the end of hsl_ma77d.deps90.f90
 
- fd15ad.f
- mc21ad.f
- mc34ad.f
- mc47ad.f
- mc59ad.f
- mc64ad.f
- mc71ad.f
-
-plus possibly a dummy file (metis.f) for METIS.  However, it is
-strongly suggested that you use METIS (look at the ThirdParty/Metis
-directory for instructions, or use the --with-metis configure flag to
-specify a procompiled Metis library).
+MC19:
+- get mc19d.f from the zip/tar file, src subdirectory
+- rename mc19d.f to mc19ad.f
+- don't worry about ddeps.f from the src directory, it is only FA01AD,
+  FA01BD, FA01CD, FA01DD, and FA01FD, which appear to never get used
 
 
 Instructions on where to put the source code:
@@ -148,3 +159,22 @@ script in this directory, using the following instructions:
    find it when it is looking for it.  On most UNIX systems, you need
    to put the shared library into a directory in the LD_LIBRARY_PATH
    search path, and on Windows it needs to be in the PATH.
+
+
+Possible issues when compiling MA77
+===================================
+
+If you encounter errors such as:
+"Error: Attribute at (1) is not allowed in a TYPE definition" referring to
+"allocatable",
+or "Error: '<variable>' at (1) is not a member of the 'of01_data_private'
+structure",
+or "Error: Syntax error in DATA statement at (1)", or "Error: Symbol 'array'
+at (1) has
+no IMPLICIT type", or "Error: 'array' argument of 'size' intrinsic at (1)
+must be an array",
+these are Fortran 90 issues with gfortran versions pre-4.2.0. Try a
+different Fortran 90 compiler or a newer version of gfortran.
+
+Similarly, you may encounter "Error: Stat-variable at (1) shall not be
+DEALLOCATEd within the same DEALLOCATE statement" if you are using gfortran 4.5.0 or 4.5.1.
