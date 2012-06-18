@@ -391,6 +391,13 @@ EXTRA_DIST = INSTALL.HSL $(am__append_15)
 @BUILD_COINHSL_TRUE@	$(am__append_8) $(am__append_10) \
 @BUILD_COINHSL_TRUE@	$(am__append_12) $(am__append_14)
 @BUILD_COINHSL_TRUE@libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+
+# dependencies
+#  need to define dependencies in terms of variables, since automake does not allow multiple rules for the same target
+@BUILD_COINHSL_TRUE@ma77 = hsl_ma77d
+@BUILD_COINHSL_TRUE@ma86 = hsl_ma86d
+@BUILD_COINHSL_TRUE@ma97 = hsl_ma97d
+@BUILD_COINHSL_TRUE@mc68 = hsl_mc68i
 @BUILD_COINHSL_TRUE@pkgconfiglibdir = $(libdir)/pkgconfig
 @BUILD_COINHSL_TRUE@pkgconfiglib_DATA = coinhsl.pc
 
@@ -924,15 +931,14 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-info-am \
 	uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-pkgconfiglibDATA
 
-
-# dependencies
-#  the following attempt to specify additional dependencies does not work
-#  it's not clear yet how to specify F90 module dependencies nicely
-#  until then, parallel make builds may fail
-#hsl_ma77d_ciface.lo: hsl_ma77d.lo
-#hsl_ma86d_ciface.lo: hsl_ma86d.lo
-#hsl_ma97d_ciface.lo: hsl_ma97d.lo hsl_mc68i.lo
-#hsl_mc68i_ciface.lo: deps90.lo
+@BUILD_COINHSL_TRUE@$(ma77).lo: deps90.lo
+@BUILD_COINHSL_TRUE@$(ma86).lo: deps90.lo
+@BUILD_COINHSL_TRUE@$(ma97).lo: deps90.lo $(mc68).lo
+@BUILD_COINHSL_TRUE@$(mc68).lo: deps90.lo
+@BUILD_COINHSL_TRUE@$(ma77)_ciface.lo: $(ma77).lo
+@BUILD_COINHSL_TRUE@$(ma86)_ciface.lo: $(ma86).lo
+@BUILD_COINHSL_TRUE@$(ma97)_ciface.lo: $(ma97).lo
+@BUILD_COINHSL_TRUE@$(mc68)_ciface.lo: $(mc68).lo
 
 #############################################################################
 #  Generating a shared library for delay loading
