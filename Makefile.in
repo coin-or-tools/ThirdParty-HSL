@@ -57,7 +57,7 @@ host_triplet = @host@
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__append_3 = coinhsl/ma28/ma28d.f
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__append_4 = coinhsl/ma57/ma57d.f
 @BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__append_5 = coinhsl/common/deps90.f90
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = coinhsl/hsl_mc68/hsl_mc68i.f90 coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_6 = coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__append_7 = coinhsl/hsl_mc68/C/hsl_mc68i.h
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__append_8 = coinhsl/hsl_ma77/hsl_ma77d.f90 coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__append_9 = coinhsl/hsl_ma77/C/hsl_ma77d.h
@@ -99,7 +99,6 @@ libcoinhsl_la_LIBADD =
 am__libcoinhsl_la_SOURCES_DIST = coinhsl/common/deps.f \
 	coinhsl/mc19/mc19d.f coinhsl/ma27/ma27d.f coinhsl/ma28/ma28d.f \
 	coinhsl/ma57/ma57d.f coinhsl/common/deps90.f90 \
-	coinhsl/hsl_mc68/hsl_mc68i.f90 \
 	coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90 \
 	coinhsl/hsl_ma77/hsl_ma77d.f90 \
 	coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90 \
@@ -112,9 +111,7 @@ am__libcoinhsl_la_SOURCES_DIST = coinhsl/common/deps.f \
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA28_TRUE@am__objects_3 = ma28d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_MA57_TRUE@am__objects_4 = ma57d.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_DEPSF90_TRUE@am__objects_5 = deps90.lo
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__objects_6 =  \
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@	hsl_mc68i.lo \
-@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@	hsl_mc68i_ciface.lo
+@BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MC68_TRUE@am__objects_6 = hsl_mc68i_ciface.lo
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@am__objects_7 =  \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@	hsl_ma77d.lo \
 @BUILD_COINHSL_TRUE@@COIN_HAS_HSL_MA77_TRUE@	hsl_ma77d_ciface.lo
@@ -578,9 +575,6 @@ ma57d.lo: coinhsl/ma57/ma57d.f
 deps90.lo: coinhsl/common/deps90.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o deps90.lo `test -f 'coinhsl/common/deps90.f90' || echo '$(srcdir)/'`coinhsl/common/deps90.f90
 
-hsl_mc68i.lo: coinhsl/hsl_mc68/hsl_mc68i.f90
-	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i.lo `test -f 'coinhsl/hsl_mc68/hsl_mc68i.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/hsl_mc68i.f90
-
 hsl_mc68i_ciface.lo: coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 	$(LIBTOOL) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o hsl_mc68i_ciface.lo `test -f 'coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90' || echo '$(srcdir)/'`coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
 
@@ -933,12 +927,11 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-info-am \
 
 @BUILD_COINHSL_TRUE@$(ma77).lo: deps90.lo
 @BUILD_COINHSL_TRUE@$(ma86).lo: deps90.lo
-@BUILD_COINHSL_TRUE@$(ma97).lo: deps90.lo $(mc68).lo
-@BUILD_COINHSL_TRUE@$(mc68).lo: deps90.lo
+@BUILD_COINHSL_TRUE@$(ma97).lo: deps90.lo
 @BUILD_COINHSL_TRUE@$(ma77)_ciface.lo: $(ma77).lo
 @BUILD_COINHSL_TRUE@$(ma86)_ciface.lo: $(ma86).lo
 @BUILD_COINHSL_TRUE@$(ma97)_ciface.lo: $(ma97).lo
-@BUILD_COINHSL_TRUE@$(mc68)_ciface.lo: $(mc68).lo
+@BUILD_COINHSL_TRUE@$(mc68)_ciface.lo: deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading

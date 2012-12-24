@@ -38,7 +38,7 @@ if COIN_HAS_DEPSF90
 endif
 
 if COIN_HAS_HSL_MC68
-  libcoinhsl_la_SOURCES += coinhsl/hsl_mc68/hsl_mc68i.f90 coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+  libcoinhsl_la_SOURCES += coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
   includecoin_HEADERS += coinhsl/hsl_mc68/C/hsl_mc68i.h
 endif
 
@@ -72,12 +72,11 @@ ma97=hsl_ma97d
 mc68=hsl_mc68i
 $(ma77).lo: deps90.lo
 $(ma86).lo: deps90.lo
-$(ma97).lo: deps90.lo $(mc68).lo
-$(mc68).lo: deps90.lo
+$(ma97).lo: deps90.lo
 $(ma77)_ciface.lo: $(ma77).lo
 $(ma86)_ciface.lo: $(ma86).lo
 $(ma97)_ciface.lo: $(ma97).lo
-$(mc68)_ciface.lo: $(mc68).lo
+$(mc68)_ciface.lo: deps90.lo
 
 #############################################################################
 #  Generating a shared library for delay loading
