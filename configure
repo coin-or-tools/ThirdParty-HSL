@@ -26432,49 +26432,61 @@ if test x$enable_loadable_library = xyes; then
         compile_f2c*)
           EXPORT_SYMBOLS=
           if test $coin_has_ma27 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma27id_ ma27ad_ ma27bd_ ma27cd_"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma27ad_ ma27bd_ ma27cd_ ma27id_"
           fi
           if test $coin_has_ma28 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma28ad_"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma28ad_"
           fi
           if test $coin_has_ma57 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma57id_ ma57ad_ ma57bd_ ma57cd_ ma57ed_"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma57ad_ ma57bd_ ma57cd_ ma57ed_ ma57id_"
           fi
           if test $coin_has_mc19 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc19ad_"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc19ad_"
+          fi
+          if test $coin_has_hsl_ma77 = yes; then
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma77_default_control_ ma77_open_nelt_ ma77_open_ ma77_input_vars_ ma77_input_reals_ ma77_analyse_ ma77_factor_ ma77_factor_solve_ ma77_solve_ ma77_resid_ ma77_scale_ ma77_enquire_posdef_ ma77_enquire_indef_ ma77_alter_ ma77_restart_ ma77_finalise_"
           fi
           if test $coin_has_hsl_ma86 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma86_default_control_ ma86_analyse_ ma86_factor_ ma86_factor_solve_ ma86_solve_ ma86_finalise_"
-	  fi
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma86_default_control_ ma86_analyse_ ma86_factor_ ma86_factor_solve_ ma86_solve_ ma86_finalise_"
+          fi
+          if test $coin_has_hsl_ma97 = yes; then
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS ma97_default_control_ ma97_analyse_ ma97_factor_ ma97_factor_solve_ ma97_solve_ ma97_finalise_ ma97_free_akeep_"
+          fi
           if test $coin_has_hsl_mc68 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc68_default_control_ mc68_order_"
-	  fi
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS mc68_default_control_ mc68_order_"
+          fi
           F77_SHARED_CMD='$(F77) -shared $(FFLAGS) -def:$(DEFFILE)'
-	  DEFFILE='Export.def'
+          DEFFILE='Export.def'
           ;;
         ifort* | IFORT*)
-	  EXPORT_SYMBOLS=
+          EXPORT_SYMBOLS=
           if test $coin_has_ma27 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA27ID MA27AD MA27BD MA27CD"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA27AD MA27BD MA27CD MA27ID"
           fi
           if test $coin_has_ma28 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA28AD"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA28AD"
           fi
           if test $coin_has_ma57 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA57ID MA57AD MA57BD MA57CD MA57ED"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA57AD MA57BD MA57CD MA57ED MA57ID"
+          fi
+          if test $coin_has_hsl_ma77 = yes; then
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA77_DEFAULT_CONTROL MA77_OPEN_NELT MA77_OPEN MA77_INPUT_VARS MA77_INPUT_REALS MA77_ANALYSE MA77_FACTOR MA77_FACTOR_SOLVE MA77_SOLVE MA77_RESID MA77_SCALE MA77_ENQUIRE_POSDEF MA77_ENQUIRE_INDEF MA77_ALTER MA77_RESTART MA77_FINALISE"
           fi
           if test $coin_has_mc19 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC19AD"
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC19AD"
           fi
           if test $coin_has_hsl_ma86 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA86_DEFAULT_CONTROL MA86_ANALAYSE MA86_FACTOR MA86_FACTOR_SOLVE MA86_SOLVE MA86_FINALISE"
-	  fi
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA86_DEFAULT_CONTROL MA86_ANALAYSE MA86_FACTOR MA86_FACTOR_SOLVE MA86_SOLVE MA86_FINALISE"
+          fi
+          if test $coin_has_hsl_ma97 = yes; then
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MA97_DEFAULT_CONTROL MA97_ANALAYSE MA97_FACTOR MA97_FACTOR_SOLVE MA97_SOLVE MA97_FINALISE MA97_FREE_AKEEP"
+          fi
           if test $coin_has_hsl_mc68 = yes; then
-	    EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC68_DEFAULT_CONTROL MC68_ORDER"
-	  fi
-	  DEFFILE='Export.def'
+            EXPORT_SYMBOLS="$EXPORT_SYMBOLS MC68_DEFAULT_CONTROL MC68_ORDER"
+          fi
+          DEFFILE='Export.def'
           F77_SHARED_CMD='$(F77) $(FFLAGS)'
-	  F77_DLL_LINKFLAGS='-link -dll -def:$(DEFFILE)'
+          F77_DLL_LINKFLAGS='-link -dll -def:$(DEFFILE)'
           ;;
         *)
           F77_SHARED_CMD='$(F77) -shared $(FFLAGS)'
