@@ -22433,8 +22433,8 @@ fi
 
 
 if test $have_f90 = yes; then
-  echo "$as_me:$LINENO: checking for MC68" >&5
-echo $ECHO_N "checking for MC68... $ECHO_C" >&6
+  echo "$as_me:$LINENO: checking for C interface to MC68" >&5
+echo $ECHO_N "checking for C interface to MC68... $ECHO_C" >&6
   if test -r $srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90; then
 
 cat >>confdefs.h <<\_ACEOF
@@ -25883,9 +25883,9 @@ fi
 
 fi
 
-# MA57, MA77, and MC68 can use Metis
+# MA57, MA77, MA97, and MC68 can use Metis
 # if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
+if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
 
 echo "$as_me:$LINENO: checking for COIN-OR package Metis" >&5
 echo $ECHO_N "checking for COIN-OR package Metis... $ECHO_C" >&6

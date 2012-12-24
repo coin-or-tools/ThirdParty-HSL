@@ -136,7 +136,7 @@ MY_CHECK_HSLFILE_F90(hsl_ma86)
 MY_CHECK_HSLFILE_F90(hsl_ma97)
 
 if test $have_f90 = yes; then
-  AC_MSG_CHECKING([for MC68])
+  AC_MSG_CHECKING([for C interface to MC68])
   AC_COIN_CHECK_FILE([$srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90],
                      [AC_DEFINE(COINHSL_HAS_MC68, [1], Define to 1 if MC68 is available.)
                       coin_has_something=yes
@@ -173,9 +173,9 @@ else
   AM_CONDITIONAL(COIN_HAS_BLAS, [test 0 = 1])
 fi
 
-# MA57, MA77, and MC68 can use Metis
+# MA57, MA77, MA97, and MC68 can use Metis
 # if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_mc68 != nonono ; then
+if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
   AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], HSL)
   if test $coin_has_metis = yes ; then
     AC_DEFINE(COINHSL_HAS_METIS, [1], Define to 1 if METIS is available)
