@@ -76,6 +76,10 @@ if test "$FCFLAGS" = ""; then
 fi
 AC_PROG_FC
 
+# recent autotools versions can recognize OpenMP with the following macro
+# this would be useful when using MA86 and MA97 
+# AC_OPENMP
+
 # Initialize autotools
 
 if test x$enable_loadable_library = xyes; then
