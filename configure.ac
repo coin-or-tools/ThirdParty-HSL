@@ -104,6 +104,7 @@ AC_MSG_RESULT([$have_f90])
 AC_LANG_POP(Fortran 77)
 
 coin_has_something=no
+hsl2013=no
 
 AC_DEFUN([MY_CHECK_HSLFILE],
 [AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
@@ -144,6 +145,7 @@ if test $have_f90 = yes; then
   AC_COIN_CHECK_FILE([$srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90],
                      [AC_DEFINE(COINHSL_HAS_MC68, [1], Define to 1 if MC68 is available.)
                       coin_has_something=yes
+                      grep -q mc68_default_control_i $srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90 && hsl2013=yes
                       coin_has_hsl_mc68=yes],
                      [coin_has_hsl_mc68=no])
   AC_MSG_RESULT($coin_has_hsl_mc68)
@@ -187,6 +189,17 @@ if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != 
 else
   # do as if we had metis, so metis.f is not compiled
   AM_CONDITIONAL(COIN_HAS_METIS, [test 1 = 1])
+fi
+
+# MC68 and MA77 changed the interface from HSL 2012 to HSL 2013,
+# so we check whether we have the 2013 version (for mc68, we did this test above)
+# and set a compiletime define
+if test $coin_has_hsl_ma77 = yes ; then
+  grep -q ma77_solve_fredholm $srcdir/coinhsl/hsl_ma77/hsl_ma77d.f90 && hsl2013=yes
+fi
+if test $hsl2013 = yes ; then
+  AC_DEFINE(COINHSL_HSL2013, [1], Define to 1 if HSL library is from 2013)
+  AC_MSG_NOTICE([HSL source recognized as HSL 2013])
 fi
 
 #############################################################################
