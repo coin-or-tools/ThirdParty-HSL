@@ -27,6 +27,9 @@
 /* Define to 1 if METIS is available */
 #undef COINHSL_HAS_METIS
 
+/* Define to 1 if HSL library is from 2013 */
+#undef COINHSL_HSL2013
+
 /* SVN revision number of project */
 #undef COINHSL_SVN_REV
 

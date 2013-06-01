@@ -28,5 +28,17 @@
 /* Define to 1 if MA77 is available */
 /* #undef COINHSL_HAS_MA77 */
 
+/* Define to 1 if MA86 is available */
+/* #undef COINHSL_HAS_MA86 */
+
+/* Define to 1 if MA97 is available */
+/* #undef COINHSL_HAS_MA97 */
+
 /* Define to 1 if MC19 is available */
 #define COINHSL_HAS_MC19 1
+
+/* Define to 1 if MC68 is available. */
+/* #undef COINHSL_HAS_MC68 */
+
+/* Define to 1 if METIS is available */
+/* #undef COINHSL_HAS_METIS */
