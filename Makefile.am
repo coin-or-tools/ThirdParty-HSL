@@ -85,7 +85,7 @@ if EXTRA_SHARED_COMMAND
 
 $(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
 	bla=; \
-	for i in $(nodist_libcoinhsl_la_SOURCES); do \
+	for i in $(libcoinhsl_la_SOURCES); do \
 	  case $$i in \
 	    *.f) \
 	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
