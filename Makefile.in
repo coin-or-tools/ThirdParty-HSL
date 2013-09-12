@@ -328,10 +328,10 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_FC = @ac_ct_FC@
+ac_ct_PKG_CONFIG = @ac_ct_PKG_CONFIG@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
 ac_cxx_preproc_warn_flag = @ac_cxx_preproc_warn_flag@
-ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -938,7 +938,7 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-info-am \
 
 @BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@$(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
 @BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	bla=; \
-@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	for i in $(nodist_libcoinhsl_la_SOURCES); do \
+@BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	for i in $(libcoinhsl_la_SOURCES); do \
 @BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	  case $$i in \
 @BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	    *.f) \
 @BUILD_COINHSL_TRUE@@EXTRA_SHARED_COMMAND_TRUE@	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
