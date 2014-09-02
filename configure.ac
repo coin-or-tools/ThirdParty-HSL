@@ -179,6 +179,16 @@ else
   AM_CONDITIONAL(COIN_HAS_BLAS, [test 0 = 1])
 fi
 
+# MA97 requires LAPACK (dpotrf)
+if test $coin_has_hsl_ma97 != no ; then
+  AC_COIN_CHECK_PACKAGE_LAPACK(HSL)
+  if test $coin_has_lapack != yes ; then
+    AC_MSG_ERROR([Required package LAPACK not found.])
+  fi
+else
+  AM_CONDITIONAL(COIN_HAS_LAPACK, [test 0 = 1])
+fi
+
 # MA57, MA77, MA97, and MC68 can use Metis
 # if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
