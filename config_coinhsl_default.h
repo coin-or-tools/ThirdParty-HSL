@@ -8,10 +8,10 @@
 #define COINHSL_VERSION      "trunk"
 
 /* Major Version number of project */
-#define COINHSL_VERSION_MAJOR   9999
+#define COINHSL_VERSION_MAJOR   1
 
 /* Minor Version number of project */
-#define COINHSL_VERSION_MINOR   9999
+#define COINHSL_VERSION_MINOR   5
 
 /* Release Version number of project */
 #define COINHSL_VERSION_RELEASE 9999
