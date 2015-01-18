@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyHSL],[1.5],[http://projects.coin-or.org/BuildTools/newticket])
+AC_INIT([ThirdPartyHSL],[1.4],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -177,6 +177,16 @@ if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86 != nonono ; then
   fi
 else
   AM_CONDITIONAL(COIN_HAS_BLAS, [test 0 = 1])
+fi
+
+# MA97 requires LAPACK (dpotrf)
+if test $coin_has_hsl_ma97 != no ; then
+  AC_COIN_CHECK_PACKAGE_LAPACK(HSL)
+  if test $coin_has_lapack != yes ; then
+    AC_MSG_ERROR([Required package LAPACK not found.])
+  fi
+else
+  AM_CONDITIONAL(COIN_HAS_LAPACK, [test 0 = 1])
 fi
 
 # MA57, MA77, MA97, and MC68 can use Metis

@@ -48,6 +48,9 @@
 /* If defined, the BLAS Library is available. */
 #undef COIN_HAS_BLAS
 
+/* If defined, the LAPACK Library is available. */
+#undef COIN_HAS_LAPACK
+
 /* Define to 1 if the Metis package is available */
 #undef COIN_HAS_METIS
 
