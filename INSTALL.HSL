@@ -24,9 +24,9 @@ Different ways to use the HSL routines in COIN-OR Ipopt:
    executable.
 
 2. If you download the HSL prebuild libraries, then you can use the
-   --with-coinhsl-include and --with-coinhsl-lib flags of Ipopts
-   configure to specify the header files directory ("include" subdir)
-   and the linker flags.
+   --with-hsl-incdir and --with-hsl-lib flags of Ipopts configure to
+   specify the header files directory ("include" subdir) and the linker
+   flags.
 
 3. You can also compile Ipopt without the HSL source files or library.
    In this case, Ipopt will be built without the HSL routines, but it
