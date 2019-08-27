@@ -28,6 +28,9 @@ AC_COIN_INITIALIZE(COINHSL)
 #                         Standard build tool stuff                         #
 #############################################################################
 
+# Get the name of the C compiler (for metis_dummy.c)
+AC_COIN_PROG_CC
+
 # Get the name of the Fortran 77 compiler and appropriate compiler options
 AC_COIN_PROG_F77
 if test -z "$F77" ; then
@@ -37,9 +40,6 @@ AC_COIN_F77_SETUP
 
 # Get the name of the Fortran 90 compiler and appropriate compiler options
 AC_COIN_PROG_FC
-
-# Get the name of the C compiler (for metis_dummy.c)
-AC_COIN_PROG_CC
 
 # Initialize libtool
 AC_COIN_PROG_LIBTOOL(no-win32-dll)
