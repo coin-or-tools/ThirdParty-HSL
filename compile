@@ -205,11 +205,6 @@ func_cl_wrapper ()
 	  eat=1
 	  linker_opts="$linker_opts $2"
 	  ;;
-	#workaround for libtool removing the -Wl, from flags in LDFLAGS, thus preventing to specify linker flags
-	#(maybe libtool should be patched up instead)
-	-EXPORT*)
-	  linker_opts="$linker_opts $1"
-	  ;;
 	-*)
 	  set x "$@" "$1"
 	  shift
