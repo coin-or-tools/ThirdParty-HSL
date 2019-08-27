@@ -58,6 +58,8 @@ else
   libcoinhsl_la_SOURCES += metis_dummy.c
 endif
 
+libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
+
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies

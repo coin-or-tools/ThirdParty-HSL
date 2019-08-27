@@ -164,7 +164,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" \
 	"$(DESTDIR)$(includecoindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libcoinhsl_la_LIBADD =
+am__DEPENDENCIES_1 =
+libcoinhsl_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 @COIN_HAS_MC19_TRUE@am__objects_1 = coinhsl/mc19/mc19d.lo
 @COIN_HAS_MA27_TRUE@am__objects_2 = coinhsl/ma27/ma27d.lo
@@ -438,6 +439,7 @@ libcoinhsl_la_SOURCES = coinhsl/common/deps.f $(am__append_1) \
 	$(am__append_2) $(am__append_3) $(am__append_4) \
 	$(am__append_5) $(am__append_6) $(am__append_8) \
 	$(am__append_10) $(am__append_12) $(am__append_14)
+libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
