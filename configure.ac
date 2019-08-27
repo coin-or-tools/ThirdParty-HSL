@@ -138,9 +138,6 @@ else
   AM_CONDITIONAL(COIN_HAS_METIS, [true])
 fi
 
-# TODO remove (need to adapt Ipopt)
-AC_DEFINE(COINHSL_HSL2013, [1], Define to 1 if HSL library is from 2013)
-
 #############################################################################
 #                              Write the output                             #
 #############################################################################
