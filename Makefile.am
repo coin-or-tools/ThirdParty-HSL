@@ -2,15 +2,11 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-## $Id$
-
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign subdir-objects
 
 EXTRA_DIST = INSTALL.HSL
 
-if BUILD_COINHSL
-
-includecoindir = $(includedir)/coin/ThirdParty
+includecoindir = $(includedir)/coin-or/hsl
 includecoin_HEADERS =
 
 lib_LTLIBRARIES = libcoinhsl.la
@@ -62,10 +58,6 @@ else
   libcoinhsl_la_SOURCES += metis_dummy.c
 endif
 
-if DEPENDENCY_LINKING
-libcoinhsl_la_LIBADD = $(HSL_LIBS) $(HSL_PCLIBS)
-endif
-
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
@@ -82,67 +74,23 @@ $(ma86)_ciface.lo: $(ma86).lo
 $(ma97)_ciface.lo: $(ma97).lo
 $(mc68)_ciface.lo: deps90.lo
 
-#############################################################################
-#  Generating a shared library for delay loading
-
-if EXTRA_SHARED_COMMAND
-
-$(HSL_SHARED_LIB): $(thirdpartylib_LTLIBRARIES) $(DEFFILE)
-	bla=; \
-	for i in $(libcoinhsl_la_SOURCES); do \
-	  case $$i in \
-	    *.f) \
-	      obj=`echo $$i| sed -e 's|\(.*\).[cf]|.libs/\1.$(OBJEXT)|g'` ;\
-	      if test -r $$obj; then \
-	        bla="$$bla $$obj" ;\
-	      else \
-	        bla="$$bla `echo $$i| sed -e 's|\(.*\).[cf]|\1.$(OBJEXT)|g'`" ;\
-	      fi ;\
-	      ;; \
-	  esac ;\
-	done ;\
-	$(F77_SHARED_CMD) $$bla -o $(HSL_SHARED_LIB) $(F77_DLL_LINKFLAGS)
-
-if NEED_DEFFILE
-$(DEFFILE): config.status
-	echo 'LIBRARY LIBHSL' > $(DEFFILE)
-	echo 'EXPORTS' >> $(DEFFILE)
-	for i in $(EXPORT_SYMBOLS); do \
-	  echo "  $$i" >> $(DEFFILE); \
-	done
-endif
-
-endif  # EXTRA_SHARED_COMMAND
-
-install-exec-local: $(HSL_SHARED_LIB)
-if EXTRA_SHARED_COMMAND
-	test -z "$(DESTDIR)$(libdir)/coin/ThirdParty" || $(mkdir_p) "$(DESTDIR)$(libdir)/coin/ThirdParty"
-	$(libLTLIBRARIES_INSTALL) $(HSL_SHARED_LIB) "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
-endif
+install-exec-local:
 	$(install_sh_DATA) config_coinhsl.h $(DESTDIR)$(includecoindir)/CoinHslConfig.h
 
 uninstall-local:
-	rm -f "$(DESTDIR)$(libdir)/coin/ThirdParty/$(HSL_SHARED_LIB)"
 	rm -f $(DESTDIR)$(includecoindir)/CoinHslConfig.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
 
-endif  # BUILD_COINHSL
-
 test:
 	@echo "No test available for HSL."
-
-# Need to overwrite automake definition since otherwise libtool does not
-# understand the fortran file (need to add --tag=F77)
-LTFCCOMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
-
 
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
 
-CLEANFILES = $(HSL_SHARED_LIB) $(DEFFILE) *.mod
+CLEANFILES = $(DEFFILE) *.mod
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES =

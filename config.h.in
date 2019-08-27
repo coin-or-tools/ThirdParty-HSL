@@ -36,29 +36,27 @@
 /* Version number of project */
 #undef COINHSL_VERSION
 
-/* Major Version number of project */
+/* Major version number of project. */
 #undef COINHSL_VERSION_MAJOR
 
-/* Minor Version number of project */
+/* Minor version number of project. */
 #undef COINHSL_VERSION_MINOR
 
-/* Release Version number of project */
+/* Release version number of project. */
 #undef COINHSL_VERSION_RELEASE
 
-/* If defined, the BLAS Library is available. */
-#undef COIN_HAS_BLAS
-
-/* If defined, the LAPACK Library is available. */
+/* Define to 1 if the LAPACK package is available */
 #undef COIN_HAS_LAPACK
 
-/* Define to 1 if the Metis package is available */
+/* Define to 1 if Metis is available. */
 #undef COIN_HAS_METIS
 
-/* Define to the debug sanity check level (0 is no test) */
-#undef COIN_HSL_CHECKLEVEL
+/* Define to a macro mangling the given C identifier (in lower and upper
+   case). */
+#undef COIN_LAPACK_FUNC
 
-/* Define to the debug verbosity level (0 is no output) */
-#undef COIN_HSL_VERBOSITY
+/* As COIN_LAPACK_FUNC, but for C identifiers containing underscores. */
+#undef COIN_LAPACK_FUNC_
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
@@ -71,8 +69,14 @@
 /* As F77_FUNC, but for C identifiers containing underscores. */
 #undef F77_FUNC_
 
+/* Define to 1 if your Fortran compiler doesn't accept -c and -o together. */
+#undef F77_NO_MINUS_C_MINUS_O
+
 /* Define if F77 and FC dummy `main' functions are identical. */
 #undef FC_DUMMY_MAIN_EQ_F77
+
+/* Define to 1 if your Fortran compiler doesn't accept -c and -o together. */
+#undef FC_NO_MINUS_C_MINUS_O
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
@@ -104,8 +108,11 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Name of package */
-#undef PACKAGE
+/* Library Visibility Attribute */
+#undef HSL_EXPORT
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
 
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
@@ -119,11 +126,11 @@
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
 
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
-
-/* Version number of package */
-#undef VERSION
