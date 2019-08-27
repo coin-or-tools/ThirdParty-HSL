@@ -7,7 +7,7 @@ AUTOMAKE_OPTIONS = foreign subdir-objects
 EXTRA_DIST = INSTALL.HSL
 
 includecoindir = $(includedir)/coin-or/hsl
-includecoin_HEADERS =
+includecoin_HEADERS = CoinHslConfig.h
 
 lib_LTLIBRARIES = libcoinhsl.la
 
@@ -74,12 +74,6 @@ $(ma86)_ciface.lo: $(ma86).lo
 $(ma97)_ciface.lo: $(ma97).lo
 $(mc68)_ciface.lo: deps90.lo
 
-install-exec-local:
-	$(install_sh_DATA) config_coinhsl.h $(DESTDIR)$(includecoindir)/CoinHslConfig.h
-
-uninstall-local:
-	rm -f $(DESTDIR)$(includecoindir)/CoinHslConfig.h
-
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinhsl.pc
 
@@ -90,7 +84,7 @@ test:
 #                         Maintainer Stuff                             #
 ########################################################################
 
-CLEANFILES = $(DEFFILE) *.mod
+CLEANFILES = *.mod
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES =

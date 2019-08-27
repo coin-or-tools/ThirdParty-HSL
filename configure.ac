@@ -216,7 +216,7 @@ fi
 
 AC_CONFIG_FILES([Makefile coinhsl.pc])
 
-AC_CONFIG_HEADER(config.h config_coinhsl.h)
+AC_CONFIG_HEADER(config.h CoinHslConfig.h)
 
 AC_COIN_FINALIZE_FLAGS([HSL])
 AC_COIN_FINALIZE

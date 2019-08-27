@@ -131,7 +131,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = config.h config_coinhsl.h
+CONFIG_HEADER = config.h CoinHslConfig.h
 CONFIG_CLEAN_FILES = coinhsl.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -264,12 +264,12 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 DATA = $(pkgconfiglib_DATA)
-am__includecoin_HEADERS_DIST = coinhsl/hsl_mc68/C/hsl_mc68i.h \
-	coinhsl/hsl_ma77/C/hsl_ma77d.h coinhsl/hsl_ma86/C/hsl_ma86d.h \
-	coinhsl/hsl_ma97/C/hsl_ma97d.h
+am__includecoin_HEADERS_DIST = CoinHslConfig.h \
+	coinhsl/hsl_mc68/C/hsl_mc68i.h coinhsl/hsl_ma77/C/hsl_ma77d.h \
+	coinhsl/hsl_ma86/C/hsl_ma86d.h coinhsl/hsl_ma97/C/hsl_ma97d.h
 HEADERS = $(includecoin_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
-	$(LISP)config.h.in config_coinhsl.h.in
+	$(LISP)config.h.in CoinHslConfig.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -309,7 +309,6 @@ COIN_PKG_CONFIG_PATH = @COIN_PKG_CONFIG_PATH@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DEFFILE = @DEFFILE@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -320,7 +319,6 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
-EXPORT_SYMBOLS = @EXPORT_SYMBOLS@
 F77 = @F77@
 FC = @FC@
 FCFLAGS = @FCFLAGS@
@@ -433,8 +431,8 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign subdir-objects
 EXTRA_DIST = INSTALL.HSL
 includecoindir = $(includedir)/coin-or/hsl
-includecoin_HEADERS = $(am__append_7) $(am__append_9) $(am__append_11) \
-	$(am__append_13)
+includecoin_HEADERS = CoinHslConfig.h $(am__append_7) $(am__append_9) \
+	$(am__append_11) $(am__append_13)
 lib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = coinhsl/common/deps.f $(am__append_1) \
 	$(am__append_2) $(am__append_3) $(am__append_4) \
@@ -454,7 +452,7 @@ pkgconfiglib_DATA = coinhsl.pc
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
-CLEANFILES = $(DEFFILE) *.mod
+CLEANFILES = *.mod
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = 
@@ -477,7 +475,7 @@ COIN_HAS_LATEX = @COIN_HAS_LATEX_TRUE@TRUE
 # Needless to say, it's important that baredocdir_nosub not be a target for
 # autoconf substitution.
 DOXYTAG_EDIT = sed -e 's|@baredocdir_nosub@|$(datarootdir)/doc|g'
-all: config.h config_coinhsl.h
+all: config.h CoinHslConfig.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
@@ -529,16 +527,16 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	rm -f stamp-h1
 	touch $@
 
-config_coinhsl.h: stamp-h2
+CoinHslConfig.h: stamp-h2
 	@test -f $@ || rm -f stamp-h2
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h2
 
-stamp-h2: $(srcdir)/config_coinhsl.h.in $(top_builddir)/config.status
+stamp-h2: $(srcdir)/CoinHslConfig.h.in $(top_builddir)/config.status
 	@rm -f stamp-h2
-	cd $(top_builddir) && $(SHELL) ./config.status config_coinhsl.h
+	cd $(top_builddir) && $(SHELL) ./config.status CoinHslConfig.h
 
 distclean-hdr:
-	-rm -f config.h stamp-h1 config_coinhsl.h stamp-h2
+	-rm -f config.h stamp-h1 CoinHslConfig.h stamp-h2
 coinhsl.pc: $(top_builddir)/config.status $(srcdir)/coinhsl.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
@@ -886,7 +884,7 @@ distclean-tags:
 check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) config.h \
-		config_coinhsl.h
+		CoinHslConfig.h
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(includecoindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -977,7 +975,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-exec-local install-libLTLIBRARIES
+install-exec-am: install-libLTLIBRARIES
 
 install-html: install-html-am
 
@@ -1020,7 +1018,7 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
-	uninstall-local uninstall-pkgconfiglibDATA
+	uninstall-pkgconfiglibDATA
 
 .MAKE: all install-am install-strip
 
@@ -1031,16 +1029,16 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
 	distclean-libtool distclean-tags dvi dvi-am html html-am info \
 	info-am install install-am install-data install-data-am \
 	install-dvi install-dvi-am install-exec install-exec-am \
-	install-exec-local install-html install-html-am \
-	install-includecoinHEADERS install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-html install-html-am install-includecoinHEADERS \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-pdf install-pdf-am \
 	install-pkgconfiglibDATA install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
 	uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
-	uninstall-local uninstall-pkgconfiglibDATA
+	uninstall-pkgconfiglibDATA
 
 .PRECIOUS: Makefile
 
@@ -1051,12 +1049,6 @@ $(ma77)_ciface.lo: $(ma77).lo
 $(ma86)_ciface.lo: $(ma86).lo
 $(ma97)_ciface.lo: $(ma97).lo
 $(mc68)_ciface.lo: deps90.lo
-
-install-exec-local:
-	$(install_sh_DATA) config_coinhsl.h $(DESTDIR)$(includecoindir)/CoinHslConfig.h
-
-uninstall-local:
-	rm -f $(DESTDIR)$(includecoindir)/CoinHslConfig.h
 
 test:
 	@echo "No test available for HSL."
