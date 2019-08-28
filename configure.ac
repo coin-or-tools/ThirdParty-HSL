@@ -47,10 +47,6 @@ AC_COIN_PROG_LIBTOOL(no-win32-dll)
 # Add FLIBS to HSL_LFLAGS, so that they get into the .pc files section for static builds
 HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 
-# recent autotools versions can recognize OpenMP with the following macro
-# this would be useful when using MA86 and MA97 
-# AC_OPENMP
-
 #############################################################################
 #                    Find out which files are available                     #
 #############################################################################
@@ -137,6 +133,15 @@ else
   # do as if we had metis, so metis.f is not compiled
   AM_CONDITIONAL(COIN_HAS_METIS, [true])
 fi
+
+# MA86 and MA97 can use OpenMP
+if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then
+  AC_LANG_PUSH(Fortran)
+  AC_OPENMP
+  FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+  AC_LANG_POP(Fortran)
+fi
+AC_SUBST(OPENMP_FCFLAGS)
 
 #############################################################################
 #                              Write the output                             #

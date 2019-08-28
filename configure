@@ -645,6 +645,7 @@ LTLIBOBJS
 LIBOBJS
 HSL_CFLAGS_NOPC
 HSL_LFLAGS_NOPC
+OPENMP_FCFLAGS
 COIN_HAS_METIS_FALSE
 COIN_HAS_METIS_TRUE
 COIN_HAS_LAPACK_FALSE
@@ -828,6 +829,7 @@ with_lapack_cflags
 with_metis
 with_metis_lflags
 with_metis_cflags
+enable_openmp
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1480,6 +1482,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --disable-openmp        do not use OpenMP
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -19743,10 +19746,6 @@ $as_echo "no" >&6; }
 # Add FLIBS to HSL_LFLAGS, so that they get into the .pc files section for static builds
 HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 
-# recent autotools versions can recognize OpenMP with the following macro
-# this would be useful when using MA86 and MA97
-# AC_OPENMP
-
 #############################################################################
 #                    Find out which files are available                     #
 #############################################################################
@@ -21500,6 +21499,89 @@ else
 fi
 
 fi
+
+# MA86 and MA97 can use OpenMP
+if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then
+  ac_ext=${ac_fc_srcext-f}
+ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
+ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_fc_compiler_gnu
+
+
+  OPENMP_FCFLAGS=
+  # Check whether --enable-openmp was given.
+if test "${enable_openmp+set}" = set; then :
+  enableval=$enable_openmp;
+fi
+
+  if test "$enable_openmp" != no; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $FC option to support OpenMP" >&5
+$as_echo_n "checking for $FC option to support OpenMP... " >&6; }
+if ${ac_cv_prog_fc_openmp+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat > conftest.$ac_ext <<_ACEOF
+
+      program main
+      implicit none
+!$    integer tid
+      tid = 42
+      call omp_set_num_threads(2)
+      end
+
+_ACEOF
+if ac_fn_fc_try_link "$LINENO"; then :
+  ac_cv_prog_fc_openmp='none needed'
+else
+  ac_cv_prog_fc_openmp='unsupported'
+	  	  	  	  	  	  	                                	  	  	  	  	  	  for ac_option in -fopenmp -xopenmp -openmp -mp -omp -qsmp=omp -homp \
+                           -Popenmp --openmp; do
+	    ac_save_FCFLAGS=$FCFLAGS
+	    FCFLAGS="$FCFLAGS $ac_option"
+	    cat > conftest.$ac_ext <<_ACEOF
+
+      program main
+      implicit none
+!$    integer tid
+      tid = 42
+      call omp_set_num_threads(2)
+      end
+
+_ACEOF
+if ac_fn_fc_try_link "$LINENO"; then :
+  ac_cv_prog_fc_openmp=$ac_option
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+	    FCFLAGS=$ac_save_FCFLAGS
+	    if test "$ac_cv_prog_fc_openmp" != unsupported; then
+	      break
+	    fi
+	  done
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_fc_openmp" >&5
+$as_echo "$ac_cv_prog_fc_openmp" >&6; }
+    case $ac_cv_prog_fc_openmp in #(
+      "none needed" | unsupported)
+	;; #(
+      *)
+	OPENMP_FCFLAGS=$ac_cv_prog_fc_openmp ;;
+    esac
+  fi
+
+
+  FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+fi
+
 
 #############################################################################
 #                              Write the output                             #
