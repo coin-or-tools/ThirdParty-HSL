@@ -5230,6 +5230,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
   if test $ac_cv_prog_f77_c_o = no ; then
     F77="$am_aux_dir/compile $F77"
+  else
+    case "$F77" in *ifort ) F77="$am_aux_dir/compile $F77" ;; esac
   fi
   # AC_MSG_NOTICE([Leaving COIN_F77_SETUP])
 
@@ -5238,9 +5240,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-  if test -z "$FC" && test -n "F77" ; then
-    comps="$F77"
-  elif test $enable_msvc = yes ; then
+  if test $enable_msvc = yes ; then
     # if enable-msvc, then test only for Intel (on Windows) Fortran compiler
     comps="ifort"
   else
@@ -5522,6 +5522,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     if test $ac_cv_prog_fc_c_o = no ; then
       FC="$am_aux_dir/compile $FC"
+    else
+      case "$FC" in *ifort ) FC="$am_aux_dir/compile $FC" ;; esac
     fi
   fi
 
@@ -11168,12 +11170,12 @@ fi
 
     cygwin* | mingw* | pw32* | cegcc*)
       # When not using gcc, we currently assume that we are using
-      # Microsoft Visual C++ or Intel C++ Compiler.
+      # Microsoft Visual C++ or Intel C++/Fortran Compiler.
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
       case $cc_basename in
-      cl* | icl*)
-	# Native MSVC or ICC
+      cl* | icl*| ifort*)
+	# Native MSVC or ICC or IFORT
 	hardcode_libdir_flag_spec=' '
 	allow_undefined_flag=unsupported
 	always_export_symbols=yes
@@ -11214,7 +11216,7 @@ fi
           fi'
 	;;
       *)
-	# Assume MSVC and ICC wrapper
+	# Assume MSVC and ICC and IFORT wrapper
 	hardcode_libdir_flag_spec=' '
 	allow_undefined_flag=unsupported
 	# Tell ltmain to make .lib files, not .a files.
@@ -15040,12 +15042,12 @@ fi
 
     cygwin* | mingw* | pw32* | cegcc*)
       # When not using gcc, we currently assume that we are using
-      # Microsoft Visual C++ or Intel C++ Compiler.
+      # Microsoft Visual C++ or Intel C++/Fortran Compiler.
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
       case $cc_basename in
-      cl* | icl*)
-	# Native MSVC or ICC
+      cl* | icl*| ifort*)
+	# Native MSVC or ICC or IFORT
 	hardcode_libdir_flag_spec_F77=' '
 	allow_undefined_flag_F77=unsupported
 	always_export_symbols_F77=yes
@@ -15086,7 +15088,7 @@ fi
           fi'
 	;;
       *)
-	# Assume MSVC and ICC wrapper
+	# Assume MSVC and ICC and IFORT wrapper
 	hardcode_libdir_flag_spec_F77=' '
 	allow_undefined_flag_F77=unsupported
 	# Tell ltmain to make .lib files, not .a files.
@@ -18149,12 +18151,12 @@ fi
 
     cygwin* | mingw* | pw32* | cegcc*)
       # When not using gcc, we currently assume that we are using
-      # Microsoft Visual C++ or Intel C++ Compiler.
+      # Microsoft Visual C++ or Intel C++/Fortran Compiler.
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
       case $cc_basename in
-      cl* | icl*)
-	# Native MSVC or ICC
+      cl* | icl*| ifort*)
+	# Native MSVC or ICC or IFORT
 	hardcode_libdir_flag_spec_FC=' '
 	allow_undefined_flag_FC=unsupported
 	always_export_symbols_FC=yes
@@ -18195,7 +18197,7 @@ fi
           fi'
 	;;
       *)
-	# Assume MSVC and ICC wrapper
+	# Assume MSVC and ICC and IFORT wrapper
 	hardcode_libdir_flag_spec_FC=' '
 	allow_undefined_flag_FC=unsupported
 	# Tell ltmain to make .lib files, not .a files.
