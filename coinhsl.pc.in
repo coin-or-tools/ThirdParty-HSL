@@ -9,5 +9,5 @@ URL: https://github.com/coin-or-tools/ThirdParty-HSL
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lcoinhsl
 Libs.private: @HSL_LFLAGS_NOPC@
-Cflags: -I${includedir} @OPENMP_FCFLAGS@
+Cflags: -I${includedir}
 Requires.private: @HSL_PCFILES@

@@ -139,6 +139,7 @@ if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then
   AC_LANG_PUSH(Fortran)
   AC_OPENMP
   FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+  HSL_LFLAGS="$HSL_LFLAGS $OPENMP_FCFLAGS"
   AC_LANG_POP(Fortran)
 fi
 AC_SUBST(OPENMP_FCFLAGS)

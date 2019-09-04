@@ -765,8 +765,6 @@ build_cpu
 build
 ALWAYS_FALSE_FALSE
 ALWAYS_FALSE_TRUE
-COINHSL_SVN_REV
-have_svnversion
 target_alias
 host_alias
 build_alias
@@ -1464,9 +1462,10 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-msvc           Look for and allow only Intel/Microsoft compilers on
-                          MinGW/MSys/Cygwin.
-  --enable-debug          Build with debugging symbols.
+  --enable-msvc           look for and allow only Intel/Microsoft compilers on
+                          MinGW/MSys/Cygwin
+  --enable-debug          build debugging symbols and turn off compiler
+                          optimization
   --enable-silent-rules   less verbose build output (undo: "make V=1")
   --disable-silent-rules  verbose build output (undo: "make V=0")
   --enable-maintainer-mode
@@ -2424,18 +2423,15 @@ fi
 
 
 
+  # We want --enable-msvc setup and checked
+
+
   # Check whether --enable-debug was given.
 if test "${enable_debug+set}" = set; then :
   enableval=$enable_debug; enable_debug=$enableval
 else
   enable_debug=no
 fi
-
-
-
-# We want --enable-msvc setup and checked. Also --enable-debug
-
-
 
 
 # This macro should run before the compiler checks (doesn't seem to be
@@ -3014,100 +3010,35 @@ rmdir .tst 2>/dev/null
 # Set the project's version numbers
 
 
+  # break up package version number in major.minor.release
+  # AC_PACKAGE_VERSION is defined by AC_INIT
+
+
+
+
+  # ac-define AC_PACKAGE_VERSION macros, use 9999 for missing values
 
 cat >>confdefs.h <<_ACEOF
-#define COINHSL_VERSION "$PACKAGE_VERSION"
-_ACEOF
-
-
-# Parse package version, assuming major.minor.release. PACKAGE_VERSION is set
-# by AC_INIT. Force components to 9999 if they're empty; this deals with
-# things like `trunk' and other nonstandard forms.
-
-  coin_majorver=`echo $PACKAGE_VERSION | sed -n -e 's/^\([0-9]*\).*/\1/gp'`
-  coin_minorver=`echo $PACKAGE_VERSION | sed -n -e 's/^[0-9]*\.\([0-9]*\).*/\1/gp'`
-  coin_releasever=`echo $PACKAGE_VERSION | sed -n -e 's/^[0-9]*\.[0-9]*\.\([0-9]*\).*/\1/gp'`
-  test -z "$coin_majorver"   && coin_majorver=9999
-  test -z "$coin_minorver"   && coin_minorver=9999
-  test -z "$coin_releasever" && coin_releasever=9999
-
-cat >>confdefs.h <<_ACEOF
-#define COINHSL_VERSION_MAJOR $coin_majorver
+#define COINHSL_VERSION "trunk"
 _ACEOF
 
 
 cat >>confdefs.h <<_ACEOF
-#define COINHSL_VERSION_MINOR $coin_minorver
+#define COINHSL_VERSION_MAJOR 9999
 _ACEOF
 
 
 cat >>confdefs.h <<_ACEOF
-#define COINHSL_VERSION_RELEASE $coin_releasever
+#define COINHSL_VERSION_MINOR 9999
 _ACEOF
 
-
-# Create a variable set to the upper case version of the project name
-
-  COIN_PRJCT=COINHSL
-
-# Set the project's SVN revision number. The complicated sed expression
-# (made worse by quadrigraphs) ensures that things like 4123:4168MS end up
-# as a single number.
-
-  # Extract the first word of "svnversion", so it can be a program name with args.
-set dummy svnversion; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_have_svnversion+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$have_svnversion"; then
-  ac_cv_prog_have_svnversion="$have_svnversion" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_have_svnversion="yes"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_have_svnversion" && ac_cv_prog_have_svnversion="no"
-fi
-fi
-have_svnversion=$ac_cv_prog_have_svnversion
-if test -n "$have_svnversion"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_svnversion" >&5
-$as_echo "$have_svnversion" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  if test "x$have_svnversion" = xyes; then
-
-    svn_rev_tmp=`LANG=en_EN svnversion $srcdir 2>/dev/null`
-    if test "x$svn_rev_tmp" != xexported -a "x$svn_rev_tmp" != x -a "x$svn_rev_tmp" != "xUnversioned directory"; then
-      COINHSL_SVN_REV=`echo $svn_rev_tmp | sed -n -e 's/^[0-9]*://' -e 's/\([0-9]\)[^0-9]*$/\1/p'`
 
 cat >>confdefs.h <<_ACEOF
-#define COINHSL_SVN_REV $COINHSL_SVN_REV
+#define COINHSL_VERSION_RELEASE 9999
 _ACEOF
 
-    fi
-  fi
 
 
-
-# Capture the libtool library version, if given.
 
 
 
@@ -9272,19 +9203,6 @@ func_stripname_cnf ()
 } # func_stripname_cnf
 
 
-
-# (lh, 180302) Sadly, we can't use the obvious libtool macros
-# (AC_{ENABLE,DISABLE}_{SHARED,STATIC}, nor parameters to LT_INIT,
-# precisely because these macros record the default behaviour by defining
-# a macro, _LT_ENABLE_{SHARED,STATIC}_DEFAULT. No shell code involved, hence
-# any shell conditional has no effect. Either we trust libtool or we need
-# something more inventive. The relevant libtool macros are in ltoptions.m4,
-# _LT_ENABLE_SHARED and _LT_ENABLE_STATIC.
-# That is, something like the following will not work:
-# case $host_os in
-#   cygwin* | mingw* | msys* ) AC_DISABLE_SHARED  ;;
-#   *) AC_DISABLE_STATIC ;;
-# esac
 
 # Create libtool.
 
@@ -19715,28 +19633,36 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 #    This leads to a nm call that collects ALL C-functions from a library
 #    and explicitly dll-exporting them, leading to warnings about duplicates
 #    regarding those that are properly marked for dll-export in the source.
+#
+# Patch libtool also to circumbent some issues when using MinGW (Msys+GCC).
+# 1. Relax check which libraries can be used when linking a DLL.
+#    libtool's func_mode_link() would reject linking MinGW system libraries,
+#    e.g., -lmingw32, when building a DLL, because it does not find this
+#    library in the installation path, and then falls back to build only
+#    static libraries. Setting deplibs_check_method=pass_all will avoid
+#    this faulty check.
 
   case "$AR" in
     *lib* | *LIB* )
-      ac_config_commands="$ac_config_commands libtoolpatch"
+      ac_config_commands="$ac_config_commands libtoolclpatch"
 
+      ;;
+    * )
+      case $build in
+        *-mingw* )
+          ac_config_commands="$ac_config_commands libtoolmingwpatch"
+
+        ;;
+      esac
       ;;
   esac
 
-# Set up LT_LDFLAGS. Add the library version string to LT_LDFLAGS, if one
-# is supplied.
+  # Set up LT_LDFLAGS.
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking if the library version is set" >&5
-$as_echo_n "checking if the library version is set... " >&6; }
-  if test x"$coin_libversion" != x ; then
-    LT_LDFLAGS="$LT_LDFLAGS -version-info $coin_libversion"
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_libversion" >&5
-$as_echo "$coin_libversion" >&6; }
-  else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-  fi
+  # Use the libtool library info, if defined, otherwise use the project version info,
+  # if a full major.minor.release number was available
+
 
   # shared libraries should have no undefined symbols
   # for Windows DLLs, it is mandatory to add this
@@ -21574,6 +21500,7 @@ $as_echo "$ac_cv_prog_fc_openmp" >&6; }
 
 
   FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+  HSL_LFLAGS="$HSL_LFLAGS $OPENMP_FCFLAGS"
   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -22907,7 +22834,8 @@ do
   case $ac_config_target in
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
-    "libtoolpatch") CONFIG_COMMANDS="$CONFIG_COMMANDS libtoolpatch" ;;
+    "libtoolclpatch") CONFIG_COMMANDS="$CONFIG_COMMANDS libtoolclpatch" ;;
+    "libtoolmingwpatch") CONFIG_COMMANDS="$CONFIG_COMMANDS libtoolmingwpatch" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "coinhsl.pc") CONFIG_FILES="$CONFIG_FILES coinhsl.pc" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
@@ -24464,13 +24392,16 @@ compiler_lib_search_path=$lt_compiler_lib_search_path_FC
 _LT_EOF
 
  ;;
-    "libtoolpatch":C) sed -e 's|AR_FLAGS |AR_FLAGS|g' \
+    "libtoolclpatch":C) sed -e 's|AR_FLAGS |AR_FLAGS|g' \
              -e '/$AR x/s/.*/( cd $f_ex_an_ar_dir ; for f in `$AR -nologo -list "$f_ex_an_ar_oldlib" | tr "\\r" " "` ; do lib -nologo -extract:$f "$f_ex_an_ar_oldlib"; done ); : \\/g' \
              -e '/^deplibs_check_method/s/.*/deplibs_check_method="pass_all"/g' \
               \
          libtool > libtool.tmp
          mv libtool.tmp libtool
          chmod 755 libtool ;;
+    "libtoolmingwpatch":C) sed -e '/^deplibs_check_method/s/.*/deplibs_check_method="pass_all"/g' libtool > libtool.tmp
+             mv libtool.tmp libtool
+             chmod 755 libtool ;;
 
   esac
 done # for ac_tag
@@ -24510,9 +24441,7 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting" >&5
-$as_echo "$as_me: In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting" >&6;}
+  #AC_MSG_NOTICE([In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting])
   { $as_echo "$as_me:${as_lineno-$LINENO}: Configuration of $PACKAGE_NAME successful" >&5
 $as_echo "$as_me: Configuration of $PACKAGE_NAME successful" >&6;}
-
 
