@@ -5,16 +5,16 @@
 /***************************************************************************/
 
 /* Version number of project */
-#define COINHSL_VERSION      "trunk"
+#define COINHSL_VERSION      "2.0.0"
 
 /* Major Version number of project */
-#define COINHSL_VERSION_MAJOR   9999
+#define COINHSL_VERSION_MAJOR   2
 
 /* Minor Version number of project */
-#define COINHSL_VERSION_MINOR   9999
+#define COINHSL_VERSION_MINOR   0
 
 /* Release Version number of project */
-#define COINHSL_VERSION_RELEASE 9999
+#define COINHSL_VERSION_RELEASE 0
 
 /* Define to 1 if MA27 is available */
 #define COINHSL_HAS_MA27 1
