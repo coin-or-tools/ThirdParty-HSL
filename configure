@@ -650,11 +650,6 @@ COIN_HAS_METIS_FALSE
 COIN_HAS_METIS_TRUE
 COIN_HAS_LAPACK_FALSE
 COIN_HAS_LAPACK_TRUE
-COIN_PKG_CONFIG_PATH
-COIN_HAS_PKGCONFIG_FALSE
-COIN_HAS_PKGCONFIG_TRUE
-ac_ct_PKG_CONFIG
-PKG_CONFIG
 HSL_PCFILES
 HSL_LFLAGS
 HSL_CFLAGS
@@ -676,6 +671,11 @@ COIN_HAS_MA27_FALSE
 COIN_HAS_MA27_TRUE
 COIN_HAS_MC19_FALSE
 COIN_HAS_MC19_TRUE
+COIN_PKG_CONFIG_PATH
+COIN_HAS_PKGCONFIG_FALSE
+COIN_HAS_PKGCONFIG_TRUE
+ac_ct_PKG_CONFIG
+PKG_CONFIG
 LT_LDFLAGS
 CPP
 LT_SYS_LIBRARY_PATH
@@ -19866,6 +19866,170 @@ HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 #                    Find out which files are available                     #
 #############################################################################
 
+# do this unconditionally to make sure COIN_HAS_PKGCONFIG is also defined if no >= MA57
+
+
+
+# pkgconf is the up-and-coming thing, replacing pkg-config, so prefer it.
+# The next stanza is a modified version of PKG_PROG_PKG_CONFIG from pkg.m4.
+
+  if test -z "$PKG_CONFIG" ; then
+   if test -n "$ac_tool_prefix"; then
+  for ac_prog in pkgconf pkg-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PKG_CONFIG"; then
+  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PKG_CONFIG="$ac_tool_prefix$ac_prog"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    test -n "$PKG_CONFIG" && break
+  done
+fi
+if test -z "$PKG_CONFIG"; then
+  ac_ct_PKG_CONFIG=$PKG_CONFIG
+  for ac_prog in pkgconf pkg-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_ac_ct_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$ac_ct_PKG_CONFIG"; then
+  ac_cv_prog_ac_ct_PKG_CONFIG="$ac_ct_PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_PKG_CONFIG="$ac_prog"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+ac_ct_PKG_CONFIG=$ac_cv_prog_ac_ct_PKG_CONFIG
+if test -n "$ac_ct_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_ct_PKG_CONFIG" >&5
+$as_echo "$ac_ct_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  test -n "$ac_ct_PKG_CONFIG" && break
+done
+
+  if test "x$ac_ct_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_ct_PKG_CONFIG
+  fi
+fi
+
+  fi
+  if test -n "$PKG_CONFIG" ; then
+    pkg_min_version=0.16.0
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking $PKG_CONFIG is at least version $pkg_min_version" >&5
+$as_echo_n "checking $PKG_CONFIG is at least version $pkg_min_version... " >&6; }
+    if $PKG_CONFIG --atleast-pkgconfig-version $pkg_min_version ; then
+      pkg_version=`$PKG_CONFIG --version`
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes: $pkg_version" >&5
+$as_echo "yes: $pkg_version" >&6; }
+    else
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+     PKG_CONFIG=""
+   fi
+  fi
+
+# Check if PKG_CONFIG supports the short-errors flag. The next stanza is a
+# modified version of _PKG_SHORT_ERRORS_SUPPORTED from pkg.m4.
+
+  if test -n "$PKG_CONFIG" &&
+     $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
+    pkg_short_errors=" --short-errors "
+  else
+    pkg_short_errors=""
+  fi
+
+# Create a makefile variable and conditional.
+
+   if test -n "$PKG_CONFIG"; then
+  COIN_HAS_PKGCONFIG_TRUE=
+  COIN_HAS_PKGCONFIG_FALSE='#'
+else
+  COIN_HAS_PKGCONFIG_TRUE='#'
+  COIN_HAS_PKGCONFIG_FALSE=
+fi
+
+
+
+# Assemble a PKG_CONFIG search path that will include the installation
+# directory for .pc files for COIN packages.  Coin .pc files are installed in
+# ${libdir}/pkgconfig and COIN_INITIALIZE takes care of setting up
+# $expanded_libdir based on $libdir. Of course,
+# this whole house of cards balances on the shaky assumption that the user is
+# sane and has installed all packages in the same place and does not change
+# that place when make executes. If not, well, it's their responsibility to
+# augment PKG_CONFIG_PATH in the environment.
+
+  COIN_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
+
+
+  COIN_PKG_CONFIG_PATH="${expanded_libdir}/pkgconfig:${COIN_PKG_CONFIG_PATH}"
+  { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
+$as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
+
+
+
 
 
 
@@ -20077,168 +20241,6 @@ fi
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
-
-
-
-# pkgconf is the up-and-coming thing, replacing pkg-config, so prefer it.
-# The next stanza is a modified version of PKG_PROG_PKG_CONFIG from pkg.m4.
-
-  if test -z "$PKG_CONFIG" ; then
-   if test -n "$ac_tool_prefix"; then
-  for ac_prog in pkgconf pkg-config
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_PKG_CONFIG+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$PKG_CONFIG"; then
-  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_PKG_CONFIG="$ac_tool_prefix$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
-if test -n "$PKG_CONFIG"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
-$as_echo "$PKG_CONFIG" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-    test -n "$PKG_CONFIG" && break
-  done
-fi
-if test -z "$PKG_CONFIG"; then
-  ac_ct_PKG_CONFIG=$PKG_CONFIG
-  for ac_prog in pkgconf pkg-config
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_ac_ct_PKG_CONFIG+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$ac_ct_PKG_CONFIG"; then
-  ac_cv_prog_ac_ct_PKG_CONFIG="$ac_ct_PKG_CONFIG" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ac_ct_PKG_CONFIG="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-ac_ct_PKG_CONFIG=$ac_cv_prog_ac_ct_PKG_CONFIG
-if test -n "$ac_ct_PKG_CONFIG"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_ct_PKG_CONFIG" >&5
-$as_echo "$ac_ct_PKG_CONFIG" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$ac_ct_PKG_CONFIG" && break
-done
-
-  if test "x$ac_ct_PKG_CONFIG" = x; then
-    PKG_CONFIG=""
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
-$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
-ac_tool_warned=yes ;;
-esac
-    PKG_CONFIG=$ac_ct_PKG_CONFIG
-  fi
-fi
-
-  fi
-  if test -n "$PKG_CONFIG" ; then
-    pkg_min_version=0.16.0
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking $PKG_CONFIG is at least version $pkg_min_version" >&5
-$as_echo_n "checking $PKG_CONFIG is at least version $pkg_min_version... " >&6; }
-    if $PKG_CONFIG --atleast-pkgconfig-version $pkg_min_version ; then
-      pkg_version=`$PKG_CONFIG --version`
-      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes: $pkg_version" >&5
-$as_echo "yes: $pkg_version" >&6; }
-    else
-     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-     PKG_CONFIG=""
-   fi
-  fi
-
-# Check if PKG_CONFIG supports the short-errors flag. The next stanza is a
-# modified version of _PKG_SHORT_ERRORS_SUPPORTED from pkg.m4.
-
-  if test -n "$PKG_CONFIG" &&
-     $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
-    pkg_short_errors=" --short-errors "
-  else
-    pkg_short_errors=""
-  fi
-
-# Create a makefile variable and conditional.
-
-   if test -n "$PKG_CONFIG"; then
-  COIN_HAS_PKGCONFIG_TRUE=
-  COIN_HAS_PKGCONFIG_FALSE='#'
-else
-  COIN_HAS_PKGCONFIG_TRUE='#'
-  COIN_HAS_PKGCONFIG_FALSE=
-fi
-
-
-
-# Assemble a PKG_CONFIG search path that will include the installation
-# directory for .pc files for COIN packages.  Coin .pc files are installed in
-# ${libdir}/pkgconfig and COIN_INITIALIZE takes care of setting up
-# $expanded_libdir based on $libdir. Of course,
-# this whole house of cards balances on the shaky assumption that the user is
-# sane and has installed all packages in the same place and does not change
-# that place when make executes. If not, well, it's their responsibility to
-# augment PKG_CONFIG_PATH in the environment.
-
-  COIN_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
-
-
-  COIN_PKG_CONFIG_PATH="${expanded_libdir}/pkgconfig:${COIN_PKG_CONFIG_PATH}"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
-$as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
-
-
 
 # Make sure the necessary variables exist for each client package.
 
@@ -21905,6 +21907,10 @@ if test -z "${COIN_HAS_F77_TRUE}" && test -z "${COIN_HAS_F77_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_F77\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_PKGCONFIG\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${COIN_HAS_MC19_TRUE}" && test -z "${COIN_HAS_MC19_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_MC19\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -21939,10 +21945,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_DEPSF90_TRUE}" && test -z "${COIN_HAS_DEPSF90_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_DEPSF90\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
-  as_fn_error $? "conditional \"COIN_HAS_PKGCONFIG\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_LAPACK_TRUE}" && test -z "${COIN_HAS_LAPACK_FALSE}"; then

@@ -51,6 +51,9 @@ HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 #                    Find out which files are available                     #
 #############################################################################
 
+# do this unconditionally to make sure COIN_HAS_PKGCONFIG is also defined if no >= MA57
+AC_COIN_HAS_PKGCONFIG
+
 AC_DEFUN([MY_CHECK_HSLFILE],
 [AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1, hsl_))])
 if test -r "$srcdir/coinhsl/$1/$1d.f" ; then
