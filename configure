@@ -650,11 +650,6 @@ COIN_HAS_METIS_FALSE
 COIN_HAS_METIS_TRUE
 COIN_HAS_LAPACK_FALSE
 COIN_HAS_LAPACK_TRUE
-COIN_PKG_CONFIG_PATH
-COIN_HAS_PKGCONFIG_FALSE
-COIN_HAS_PKGCONFIG_TRUE
-ac_ct_PKG_CONFIG
-PKG_CONFIG
 HSL_PCFILES
 HSL_LFLAGS
 HSL_CFLAGS
@@ -676,6 +671,11 @@ COIN_HAS_MA27_FALSE
 COIN_HAS_MA27_TRUE
 COIN_HAS_MC19_FALSE
 COIN_HAS_MC19_TRUE
+COIN_PKG_CONFIG_PATH
+COIN_HAS_PKGCONFIG_FALSE
+COIN_HAS_PKGCONFIG_TRUE
+ac_ct_PKG_CONFIG
+PKG_CONFIG
 LT_LDFLAGS
 CPP
 LT_SYS_LIBRARY_PATH
@@ -700,15 +700,18 @@ EGREP
 GREP
 SED
 LIBTOOL
+ADD_FCFLAGS
 ac_ct_FC
 FCFLAGS
 FC
 FLIBS
+ADD_FFLAGS
 COIN_HAS_F77_FALSE
 COIN_HAS_F77_TRUE
 ac_ct_F77
 FFLAGS
 F77
+ADD_CFLAGS
 am__fastdepCC_FALSE
 am__fastdepCC_TRUE
 CCDEPMODE
@@ -724,6 +727,8 @@ ac_ct_CC
 CPPFLAGS
 LDFLAGS
 CFLAGS
+COIN_RELOCATABLE_FALSE
+COIN_RELOCATABLE_TRUE
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -811,6 +816,7 @@ enable_msvc
 enable_debug
 enable_silent_rules
 enable_maintainer_mode
+enable_relocatable
 enable_dependency_tracking
 enable_f77
 enable_static
@@ -837,12 +843,16 @@ CFLAGS
 LDFLAGS
 LIBS
 CPPFLAGS
+ADD_CFLAGS
 F77
 FFLAGS
+ADD_FFLAGS
 FC
 FCFLAGS
+ADD_FCFLAGS
 LT_SYS_LIBRARY_PATH
 CPP
+LT_LDFLAGS
 PKG_CONFIG'
 
 
@@ -1471,6 +1481,8 @@ Optional Features:
   --enable-maintainer-mode
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
+  --enable-relocatable    whether prefix in installed .pc files should be
+                          setup relative to pcfiledir
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -1522,13 +1534,19 @@ Some influential environment variables:
   LIBS        libraries to pass to the linker, e.g. -l<library>
   CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
               you have headers in a nonstandard directory <include dir>
+  ADD_CFLAGS  Additional C compiler options (if not overwriting CFLAGS)
   F77         Fortran 77 compiler command
   FFLAGS      Fortran 77 compiler flags
+  ADD_FFLAGS  Additional Fortran 77 compiler options (if not overwriting
+              FFLAGS)
   FC          Fortran compiler command
   FCFLAGS     Fortran compiler flags
+  ADD_FCFLAGS Additional Fortran compiler options (if not overwriting FCFLAGS)
   LT_SYS_LIBRARY_PATH
               User-defined run-time library search path.
   CPP         C preprocessor
+  LT_LDFLAGS  Flags passed to libtool when building libraries or executables
+              that are installed
   PKG_CONFIG  path to pkg-config utility
 
 Use these variables to override the choices made by `configure' or to help
@@ -2565,31 +2583,31 @@ fi
 
   if test "$enable_debug" = yes ; then
     if test "$enable_msvc" = yes ; then
-      : ${FFLAGS:="-nologo -fpp -Z7 -MDd"}
-      : ${FCFLAGS:="-nologo -fpp -Z7 -MDd"}
-      : ${CFLAGS:="-nologo -Z7 -MDd"}
-      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd"}
+      : ${FFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FFLAGS"}
+      : ${FCFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FCFLAGS"}
+      : ${CFLAGS:="-nologo -Z7 -MDd $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd $ADD_CXXFLAGS"}
       : ${AR:="lib"}
       : ${AR_FLAGS:="-nologo -out:"}
     else
-      : ${FFLAGS:="-g"}
-      : ${FCFLAGS:="-g"}
-      : ${CFLAGS:="-g"}
-      : ${CXXFLAGS:="-g"}
+      : ${FFLAGS:="-g $ADD_FFLAGS"}
+      : ${FCFLAGS:="-g $ADD_FCFLAGS"}
+      : ${CFLAGS:="-g $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-g $ADD_CXXFLAGS"}
     fi
   else
     if test "$enable_msvc" = yes ; then
-      : ${FFLAGS:="-nologo -fpp -O2 -MD"}
-      : ${FCFLAGS:="-nologo -fpp -O2 -MD"}
-      : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD"}
-      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD"}
+      : ${FFLAGS:="-nologo -fpp -O2 -MD $ADD_FFLAGS"}
+      : ${FCFLAGS:="-nologo -fpp -O2 -MD $ADD_FCFLAGS"}
+      : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD $ADD_CXXFLAGS"}
       : ${AR:="lib"}
       : ${AR_FLAGS:="-nologo -out:"}
     else
-      : ${FFLAGS:="-O2"}
-      : ${FCFLAGS:="-O2"}
-      : ${CFLAGS:="-O2 -DNDEBUG"}
-      : ${CXXFLAGS:="-O2 -DNDEBUG"}
+      : ${FFLAGS:="-O2 $ADD_FFLAGS"}
+      : ${FCFLAGS:="-O2 $ADD_FCFLAGS"}
+      : ${CFLAGS:="-O2 -DNDEBUG $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-O2 -DNDEBUG $ADD_CXXFLAGS"}
     fi
   fi
 
@@ -3329,6 +3347,24 @@ fi
   prefix=$save_prefix
   exec_prefix=$save_exec_prefix
 
+# add a configure flag to indicate whether .pc files should be made relocatable
+# off by default, as it creates libtool warnings
+  # Check whether --enable-relocatable was given.
+if test "${enable_relocatable+set}" = set; then :
+  enableval=$enable_relocatable; coin_enable_relocatable=$enableval
+else
+  coin_enable_relocatable=no
+fi
+
+   if test $coin_enable_relocatable = yes; then
+  COIN_RELOCATABLE_TRUE=
+  COIN_RELOCATABLE_FALSE='#'
+else
+  COIN_RELOCATABLE_TRUE='#'
+  COIN_RELOCATABLE_FALSE=
+fi
+
+
 
 #############################################################################
 #                         Standard build tool stuff                         #
@@ -3406,10 +3442,13 @@ fi
 
 
   # If enable-msvc, then test for Intel (on Windows) and MS C compiler
-  # explicitly and add compile-wrapper before AC_PROG_CC, because
-  # the compile-wrapper work around issues when having the wrong link.exe
-  # in the PATH first, which would upset tests in AC_PROG_CC.
-  # Further, if CC unset and not set by user, then stop with error.
+  # explicitly and add the compile wrapper before AC_PROG_CC. The compile
+  # wrapper works around issues related to finding MS link.exe. (Unix link.exe
+  # occurs first in PATH, which causes compile and link checks to fail.) For
+  # the same reason, set LD to use the compile wrapper. If CC remains unset
+  # (neither icl or cl was found, and CC was not set by the user), stop with
+  # an error.
+
   if test $enable_msvc = yes ; then
     for ac_prog in icl cl
 do
@@ -3455,14 +3494,18 @@ done
 
     if test -n "$CC" ; then
       CC="$am_aux_dir/compile $CC"
+      ac_cv_prog_CC="$CC"
+      LD="$CC"
     else
       as_fn_error $? "Neither MS nor Intel C compiler found in PATH and CC is unset." "$LINENO" 5
     fi
   fi
 
-  # look for some C compiler and check whether it works
-  # if user has set CC or we found icl/cl above, this shouldn't overwrite CC
-  # other than CXX of F77, this macro also takes care of adding the compile-wrapper
+  # Look for some C compiler and check that it works. If the user has set CC
+  # or we found icl/cl above, this shouldn't overwrite CC. Unlike the macros
+  # that establish C++ or Fortran compilers, PROG_CC also takes care of adding
+  # the compile wrapper if needed.
+
   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -4248,6 +4291,9 @@ fi
 
 
 
+  # Declare precious variable for additional compiler flags
+
+
 
 # Get the name of the Fortran 77 compiler and appropriate compiler options
 
@@ -4267,9 +4313,10 @@ fi
     unset F77
   else
     # If enable-msvc, then test for Intel Fortran compiler for Windows
-    # explicitly and add compile-wrapper before AC_PROG_F77, because
-    # the compile-wrapper work around issues when having the wrong link.exe
-    # in the PATH first, which could upset tests in AC_PROG_F77.
+    # explicitly and add the compile wrapper before AC_PROG_F77. The compile
+    # wrapper works around issues related to finding MS link.exe. (Unix
+    # link.exe occurs first in PATH, which causes compile and link checks to
+    # fail.) For the same reason, set LD to use the compile wrapper.
     if test $enable_msvc = yes ; then
       for ac_prog in ifort
 do
@@ -4315,11 +4362,13 @@ done
 
       if test -n "$F77" ; then
         F77="$am_aux_dir/compile $F77"
+        ac_cv_prog_F77="$F77"
+        LD="$F77"
       fi
     fi
 
-    # if not msvc-enabled, then look for some Fortran compiler and check whether it works
-    # if F77 is set, then this only checks whether it works
+    # If not msvc-enabled, then look for some Fortran compiler and check
+    # whether it works. If F77 is set, this simply checks whether it works.
     if test $enable_msvc = no || test -n "$F77" ; then
       ac_ext=f
 ac_compile='$F77 -c $FFLAGS conftest.$ac_ext >&5'
@@ -4547,6 +4596,10 @@ else
   COIN_HAS_F77_TRUE='#'
   COIN_HAS_F77_FALSE=
 fi
+
+
+  # Declare precious variable for additional compiler flags
+
 
   # AC_MSG_NOTICE([Leaving COIN_PROG_F77])
 
@@ -5650,6 +5703,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       FC="$am_aux_dir/compile $FC"
     fi
   fi
+
+  # Declare precious variable for additional compiler flags
+
 
 
 # Initialize libtool
@@ -19824,7 +19880,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 #    and explicitly dll-exporting them, leading to warnings about duplicates
 #    regarding those that are properly marked for dll-export in the source.
 #
-# Patch libtool also to circumbent some issues when using MinGW (Msys+GCC).
+# Patch libtool also to circumvent some issues when using MinGW (Msys+GCC).
 # 1. Relax check which libraries can be used when linking a DLL.
 #    libtool's func_mode_link() would reject linking MinGW system libraries,
 #    e.g., -lmingw32, when building a DLL, because it does not find this
@@ -19847,7 +19903,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       ;;
   esac
 
-  # Set up LT_LDFLAGS.
+  # Set up LT_LDFLAGS, user can initialize and we augment below
 
 
   # Use the libtool library info, if defined, otherwise use the project version info,
@@ -19868,6 +19924,170 @@ HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 #############################################################################
 #                    Find out which files are available                     #
 #############################################################################
+
+# do this unconditionally to make sure COIN_HAS_PKGCONFIG is also defined if no >= MA57
+
+
+
+# pkgconf is the up-and-coming thing, replacing pkg-config, so prefer it.
+# The next stanza is a modified version of PKG_PROG_PKG_CONFIG from pkg.m4.
+
+  if test -z "$PKG_CONFIG" ; then
+   if test -n "$ac_tool_prefix"; then
+  for ac_prog in pkgconf pkg-config
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PKG_CONFIG"; then
+  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PKG_CONFIG="$ac_tool_prefix$ac_prog"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    test -n "$PKG_CONFIG" && break
+  done
+fi
+if test -z "$PKG_CONFIG"; then
+  ac_ct_PKG_CONFIG=$PKG_CONFIG
+  for ac_prog in pkgconf pkg-config
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_ac_ct_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$ac_ct_PKG_CONFIG"; then
+  ac_cv_prog_ac_ct_PKG_CONFIG="$ac_ct_PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_PKG_CONFIG="$ac_prog"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+ac_ct_PKG_CONFIG=$ac_cv_prog_ac_ct_PKG_CONFIG
+if test -n "$ac_ct_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_ct_PKG_CONFIG" >&5
+$as_echo "$ac_ct_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  test -n "$ac_ct_PKG_CONFIG" && break
+done
+
+  if test "x$ac_ct_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_ct_PKG_CONFIG
+  fi
+fi
+
+  fi
+  if test -n "$PKG_CONFIG" ; then
+    pkg_min_version=0.16.0
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking $PKG_CONFIG is at least version $pkg_min_version" >&5
+$as_echo_n "checking $PKG_CONFIG is at least version $pkg_min_version... " >&6; }
+    if $PKG_CONFIG --atleast-pkgconfig-version $pkg_min_version ; then
+      pkg_version=`$PKG_CONFIG --version`
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes: $pkg_version" >&5
+$as_echo "yes: $pkg_version" >&6; }
+    else
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+     PKG_CONFIG=""
+   fi
+  fi
+
+# Check if PKG_CONFIG supports the short-errors flag. The next stanza is a
+# modified version of _PKG_SHORT_ERRORS_SUPPORTED from pkg.m4.
+
+  if test -n "$PKG_CONFIG" &&
+     $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
+    pkg_short_errors=" --short-errors "
+  else
+    pkg_short_errors=""
+  fi
+
+# Create a makefile variable and conditional.
+
+   if test -n "$PKG_CONFIG"; then
+  COIN_HAS_PKGCONFIG_TRUE=
+  COIN_HAS_PKGCONFIG_FALSE='#'
+else
+  COIN_HAS_PKGCONFIG_TRUE='#'
+  COIN_HAS_PKGCONFIG_FALSE=
+fi
+
+
+
+# Assemble a PKG_CONFIG search path that will include the installation
+# directory for .pc files for COIN packages.  Coin .pc files are installed in
+# ${libdir}/pkgconfig and COIN_INITIALIZE takes care of setting up
+# $expanded_libdir based on $libdir. Of course,
+# this whole house of cards balances on the shaky assumption that the user is
+# sane and has installed all packages in the same place and does not change
+# that place when make executes. If not, well, it's their responsibility to
+# augment PKG_CONFIG_PATH in the environment.
+
+  COIN_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
+
+
+  COIN_PKG_CONFIG_PATH="${expanded_libdir}/pkgconfig:${COIN_PKG_CONFIG_PATH}"
+  { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
+$as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
+
+
 
 
 
@@ -20080,168 +20300,6 @@ fi
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
-
-
-
-# pkgconf is the up-and-coming thing, replacing pkg-config, so prefer it.
-# The next stanza is a modified version of PKG_PROG_PKG_CONFIG from pkg.m4.
-
-  if test -z "$PKG_CONFIG" ; then
-   if test -n "$ac_tool_prefix"; then
-  for ac_prog in pkgconf pkg-config
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_PKG_CONFIG+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$PKG_CONFIG"; then
-  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_PKG_CONFIG="$ac_tool_prefix$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
-if test -n "$PKG_CONFIG"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
-$as_echo "$PKG_CONFIG" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-    test -n "$PKG_CONFIG" && break
-  done
-fi
-if test -z "$PKG_CONFIG"; then
-  ac_ct_PKG_CONFIG=$PKG_CONFIG
-  for ac_prog in pkgconf pkg-config
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_ac_ct_PKG_CONFIG+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$ac_ct_PKG_CONFIG"; then
-  ac_cv_prog_ac_ct_PKG_CONFIG="$ac_ct_PKG_CONFIG" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ac_ct_PKG_CONFIG="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-ac_ct_PKG_CONFIG=$ac_cv_prog_ac_ct_PKG_CONFIG
-if test -n "$ac_ct_PKG_CONFIG"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_ct_PKG_CONFIG" >&5
-$as_echo "$ac_ct_PKG_CONFIG" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$ac_ct_PKG_CONFIG" && break
-done
-
-  if test "x$ac_ct_PKG_CONFIG" = x; then
-    PKG_CONFIG=""
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
-$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
-ac_tool_warned=yes ;;
-esac
-    PKG_CONFIG=$ac_ct_PKG_CONFIG
-  fi
-fi
-
-  fi
-  if test -n "$PKG_CONFIG" ; then
-    pkg_min_version=0.16.0
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking $PKG_CONFIG is at least version $pkg_min_version" >&5
-$as_echo_n "checking $PKG_CONFIG is at least version $pkg_min_version... " >&6; }
-    if $PKG_CONFIG --atleast-pkgconfig-version $pkg_min_version ; then
-      pkg_version=`$PKG_CONFIG --version`
-      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes: $pkg_version" >&5
-$as_echo "yes: $pkg_version" >&6; }
-    else
-     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-     PKG_CONFIG=""
-   fi
-  fi
-
-# Check if PKG_CONFIG supports the short-errors flag. The next stanza is a
-# modified version of _PKG_SHORT_ERRORS_SUPPORTED from pkg.m4.
-
-  if test -n "$PKG_CONFIG" &&
-     $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
-    pkg_short_errors=" --short-errors "
-  else
-    pkg_short_errors=""
-  fi
-
-# Create a makefile variable and conditional.
-
-   if test -n "$PKG_CONFIG"; then
-  COIN_HAS_PKGCONFIG_TRUE=
-  COIN_HAS_PKGCONFIG_FALSE='#'
-else
-  COIN_HAS_PKGCONFIG_TRUE='#'
-  COIN_HAS_PKGCONFIG_FALSE=
-fi
-
-
-
-# Assemble a PKG_CONFIG search path that will include the installation
-# directory for .pc files for COIN packages.  Coin .pc files are installed in
-# ${libdir}/pkgconfig and COIN_INITIALIZE takes care of setting up
-# $expanded_libdir based on $libdir. Of course,
-# this whole house of cards balances on the shaky assumption that the user is
-# sane and has installed all packages in the same place and does not change
-# that place when make executes. If not, well, it's their responsibility to
-# augment PKG_CONFIG_PATH in the environment.
-
-  COIN_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
-
-
-  COIN_PKG_CONFIG_PATH="${expanded_libdir}/pkgconfig:${COIN_PKG_CONFIG_PATH}"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
-$as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
-
-
 
 # Make sure the necessary variables exist for each client package.
 
@@ -21896,6 +21954,10 @@ if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${COIN_RELOCATABLE_TRUE}" && test -z "${COIN_RELOCATABLE_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_RELOCATABLE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   as_fn_error $? "conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -21906,6 +21968,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_F77_TRUE}" && test -z "${COIN_HAS_F77_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_F77\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_PKGCONFIG\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_MC19_TRUE}" && test -z "${COIN_HAS_MC19_FALSE}"; then
@@ -21942,10 +22008,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_DEPSF90_TRUE}" && test -z "${COIN_HAS_DEPSF90_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_DEPSF90\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
-  as_fn_error $? "conditional \"COIN_HAS_PKGCONFIG\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_LAPACK_TRUE}" && test -z "${COIN_HAS_LAPACK_FALSE}"; then
