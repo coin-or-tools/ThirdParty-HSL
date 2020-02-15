@@ -1,6 +1,7 @@
 * text=auto !eol
 /CoinHslConfig.h.in -text
 /INSTALL.HSL -text
+/LICENSE -text
 /Makefile.am -text
 /coinhsl.pc.in -text
 /compile -text
