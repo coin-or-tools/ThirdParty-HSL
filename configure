@@ -829,7 +829,6 @@ with_sysroot
 enable_libtool_lock
 with_lapack
 with_lapack_lflags
-with_lapack_cflags
 with_metis
 with_metis_lflags
 with_metis_cflags
@@ -1512,9 +1511,6 @@ Optional Packages:
                           is applied as for --with-lapack-lflags
   --with-lapack-lflags    Linker flags for lapack appropriate for your
                           environment. (Most often, -l specs for libraries.)
-  --with-lapack-cflags    Compiler flags for lapack appropriate for your
-                          environment. (Most often, -I specs for header file
-                          directories.)
   --with-metis            Use Metis. If an argument is given, 'yes' is
                           equivalent to --with-metis, 'no' is
                           equivalent to --without-metis, 'build' will look for
@@ -19883,6 +19879,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 #    This leads to a nm call that collects ALL C-functions from a library
 #    and explicitly dll-exporting them, leading to warnings about duplicates
 #    regarding those that are properly marked for dll-export in the source.
+# 5. Do not add mkl_*.lib to old_deplibs, which can result in trying to unpack and repack
+#    the MKL libraries (which are pretty big). Instead, treat them like other -l<...> libs.
+# 6. Add MKL libraries to dependency_libs in .la file, which I guess should be
+#    the case due to point 5.
 #
 # Patch libtool also to circumvent some issues when using MinGW (Msys+GCC).
 # 1. Relax check which libraries can be used when linking a DLL.
@@ -20327,11 +20327,6 @@ fi
 
 
 
-# Check whether --with-lapack-cflags was given.
-if test "${with_lapack_cflags+set}" = set; then :
-  withval=$with_lapack_cflags;
-fi
-
 
 
 
@@ -20357,7 +20352,7 @@ fi
 # --with-prim is always present. If the client specified dataonly, its value
 # is assigned to prim_data.
 
-  withval=$with_lapack
+  withval="$with_lapack"
   if test -n "$withval" ; then
     case "$withval" in
       no )
@@ -20371,7 +20366,7 @@ fi
         ;;
       * )
         coin_has_lapack=yes
-        lapack_lflags=$withval
+        lapack_lflags="$withval"
         ;;
     esac
   fi
@@ -20381,7 +20376,7 @@ fi
 # options for libs and cflags.
 
   if test "$coin_has_lapack" != skipping ; then
-       withval=$with_lapack_lflags
+       withval="$with_lapack_lflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -20389,12 +20384,12 @@ fi
              ;;
            * )
              coin_has_lapack=yes
-             lapack_lflags=$withval
+             lapack_lflags="$withval"
              ;;
          esac
        fi
 
-       withval=$with_lapack_cflags
+       withval="$with_lapack_cflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -20483,20 +20478,20 @@ $as_echo "$as_me: WARNING: Unexpected status \"$coin_has_lapack\" in COIN_FIND_P
 
 # Define BUILDTOOLS_DEBUG to enable debugging output
 
-    if test "$BUILDTOOLS_DEBUG" = 1 ; then
-      { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&5
+  if test "$BUILDTOOLS_DEBUG" = 1 ; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&5
 $as_echo "$as_me: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'lapack'" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'lapack'" >&5
 $as_echo "$as_me: Collected values for package 'lapack'" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_lflags is \"$lapack_lflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_lflags is \"$lapack_lflags\"" >&5
 $as_echo "$as_me: lapack_lflags is \"$lapack_lflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_cflags is \"$lapack_cflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_cflags is \"$lapack_cflags\"" >&5
 $as_echo "$as_me: lapack_cflags is \"$lapack_cflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_data is \"$lapack_data\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_data is \"$lapack_data\"" >&5
 $as_echo "$as_me: lapack_data is \"$lapack_data\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_pcfiles is \"$lapack_pcfiles\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_pcfiles is \"$lapack_pcfiles\"" >&5
 $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
-    fi
+  fi
 
 
 
@@ -20825,12 +20820,30 @@ $as_echo "$ac_success" >&6; }
       ;;
 
       *-cygwin* | *-mingw* | *-msys*)
-        # check for 64-bit sequential MKL
-        if test "$enable_shared" = yes ; then
+        # check for 64-bit sequential MKL in $LIB
+        old_IFS="$IFS"
+        IFS=";"
+        for d in $LIB ; do
+          # turn $d into unix-style short path (no spaces); cannot do -us, so first do -ws, then -u
+          d=`cygpath -ws "$d"`
+          d=`cygpath -u "$d"`
+          if test "$enable_shared" = yes ; then
+            if test -e "$d/mkl_core_dll.lib" ; then
+              coin_mkl="$d/mkl_intel_lp64_dll.lib $d/mkl_sequential_dll.lib $d/mkl_core_dll.lib"
+              break
+            fi
+          else
+            if test -e "$d/mkl_core.lib" ; then
+              coin_mkl="$d/mkl_intel_lp64.lib $d/mkl_sequential.lib $d/mkl_core.lib"
+              break
+            fi
+          fi
+        done
+        IFS="$old_IFS"
 
-  # setup LIBS by adding mkl_intel_lp64_dll.lib mkl_sequential_dll.lib mkl_core_dll.lib and those from
+  # setup LIBS by adding $coin_mkl and those from
   ac_save_LIBS="$LIBS"
-  LIBS="mkl_intel_lp64_dll.lib mkl_sequential_dll.lib mkl_core_dll.lib $LIBS"
+  LIBS="$coin_mkl $LIBS"
 
 
   dsyev_namemangling=unknown
@@ -20896,85 +20909,10 @@ $as_echo "$ac_success" >&6; }
 
   if test $ac_success = yes ; then
     coin_has_lapack=yes
-             lapack_lflags="mkl_intel_lp64_dll.lib mkl_sequential_dll.lib mkl_core_dll.lib"
+             lapack_lflags="$coin_mkl"
 
   fi
 
-        else
-
-  # setup LIBS by adding mkl_intel_lp64.lib mkl_sequential.lib mkl_core.lib and those from
-  ac_save_LIBS="$LIBS"
-  LIBS="mkl_intel_lp64.lib mkl_sequential.lib mkl_core.lib $LIBS"
-
-
-  dsyev_namemangling=unknown
-
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
-  for ac_extra in "no extra underscore" ; do
-    for ac_case in "lower case" "upper case" ; do
-      for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
-        case $ac_case in
-          "lower case")
-            ac_name=dsyev
-            ;;
-          "upper case")
-            ac_name=DSYEV
-            ;;
-        esac
-        if test "$ac_trail" = underscore ; then
-          ac_name=${ac_name}_
-        fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
-        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifdef __cplusplus
-             extern "C"
-             #endif
-             void $ac_name();
-#ifdef F77_DUMMY_MAIN
-
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-
-#endif
-int
-main ()
-{
-$ac_name()
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  dsyev_namemangling="${ac_case}, ${ac_trail}, ${ac_extra}"
-           ac_success=yes
-else
-  ac_success=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
-        if test $ac_success = yes ; then
-          break 3
-        fi
-      done
-    done
-  done
-  LIBS=$ac_save_LIBS
-
-  if test $ac_success = yes ; then
-    coin_has_lapack=yes
-             lapack_lflags="mkl_intel_lp64.lib mkl_sequential.lib mkl_core.lib"
-
-  fi
-
-        fi
       ;;
 
       *-darwin*)
@@ -21478,7 +21416,7 @@ fi
 # --with-prim is always present. If the client specified dataonly, its value
 # is assigned to prim_data.
 
-  withval=$with_metis
+  withval="$with_metis"
   if test -n "$withval" ; then
     case "$withval" in
       no )
@@ -21492,7 +21430,7 @@ fi
         ;;
       * )
         coin_has_metis=yes
-        metis_lflags=$withval
+        metis_lflags="$withval"
         ;;
     esac
   fi
@@ -21502,7 +21440,7 @@ fi
 # options for libs and cflags.
 
   if test "$coin_has_metis" != skipping ; then
-       withval=$with_metis_lflags
+       withval="$with_metis_lflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -21510,12 +21448,12 @@ fi
              ;;
            * )
              coin_has_metis=yes
-             metis_lflags=$withval
+             metis_lflags="$withval"
              ;;
          esac
        fi
 
-       withval=$with_metis_cflags
+       withval="$with_metis_cflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -21604,20 +21542,20 @@ $as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PR
 
 # Define BUILDTOOLS_DEBUG to enable debugging output
 
-    if test "$BUILDTOOLS_DEBUG" = 1 ; then
-      { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for metis: \"$coin_has_metis\"" >&5
+  if test "$BUILDTOOLS_DEBUG" = 1 ; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for metis: \"$coin_has_metis\"" >&5
 $as_echo "$as_me: FIND_PRIM_PKG result for metis: \"$coin_has_metis\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
 $as_echo "$as_me: Collected values for package 'metis'" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
 $as_echo "$as_me: metis_lflags is \"$metis_lflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
 $as_echo "$as_me: metis_cflags is \"$metis_cflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
 $as_echo "$as_me: metis_data is \"$metis_data\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
 $as_echo "$as_me: metis_pcfiles is \"$metis_pcfiles\"" >&6;}
-    fi
+  fi
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
@@ -24651,6 +24589,8 @@ _LT_EOF
              -e '/$AR x/s/.*/( cd $f_ex_an_ar_dir ; for f in `$AR -nologo -list "$f_ex_an_ar_oldlib" | tr "\\r" " "` ; do lib -nologo -extract:$f "$f_ex_an_ar_oldlib"; done ); : \\/g' \
              -e '/^deplibs_check_method/s/.*/deplibs_check_method="pass_all"/g' \
               \
+             -e '/func_append old_deplibs/s/\(.*\)/case $arg in *mkl_*.lib) ;; *) \1 ;; esac/g' \
+             -e '/static library .deplib is not portable/a case $deplib in *mkl_*.lib) newdependency_libs="$deplib $newdependency_libs" ;; esac' \
          libtool > libtool.tmp
          mv libtool.tmp libtool
          chmod 755 libtool ;;
