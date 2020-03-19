@@ -2,8 +2,6 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-AUTOMAKE_OPTIONS = foreign subdir-objects
-
 EXTRA_DIST = INSTALL.HSL
 
 includecoindir = $(includedir)/coin-or/hsl
@@ -87,6 +85,3 @@ test:
 ########################################################################
 
 CLEANFILES = *.mod
-
-# Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES =
