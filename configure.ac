@@ -10,7 +10,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyHSL],[trunk],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],,[https://github.com/coin-or-tools/ThirdParty-HSL])
+AC_INIT([CoinHSL],[trunk],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],,[https://github.com/coin-or-tools/ThirdParty-HSL])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -22,7 +22,7 @@ under the Eclipse Public License.])
 # whether the package is actually there
 AC_CONFIG_SRCDIR([coinhsl/common/deps.f])
 
-AC_COIN_INITIALIZE(COINHSL)
+AC_COIN_INITIALIZE
 
 #############################################################################
 #                         Standard build tool stuff                         #
@@ -129,9 +129,6 @@ fi
 # if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
   AC_COIN_CHK_PKG(Metis,[HSL],[coinmetis],[build])
-  if test $coin_has_metis = yes ; then
-    AC_DEFINE(COINHSL_HAS_METIS, [1], Define to 1 if METIS is available)
-  fi
 else
   # do as if we had metis, so metis.f is not compiled
   AM_CONDITIONAL(COIN_HAS_METIS, [true])

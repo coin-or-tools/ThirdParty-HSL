@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if the LAPACK package is available */
+#undef COINHSL_HAS_LAPACK
+
 /* Define to 1 if MA27 is available. */
 #undef COINHSL_HAS_MA27
 
@@ -24,8 +27,15 @@
 /* Define to 1 if MC68 is available. */
 #undef COINHSL_HAS_MC68
 
-/* Define to 1 if METIS is available */
+/* Define to 1 if Metis is available. */
 #undef COINHSL_HAS_METIS
+
+/* Define to a macro mangling the given C identifier (in lower and upper
+   case). */
+#undef COINHSL_LAPACK_FUNC
+
+/* As COINHSL_LAPACK_FUNC, but for C identifiers containing underscores. */
+#undef COINHSL_LAPACK_FUNC_
 
 /* Version number of project */
 #undef COINHSL_VERSION
@@ -38,19 +48,6 @@
 
 /* Release version number of project. */
 #undef COINHSL_VERSION_RELEASE
-
-/* Define to 1 if the LAPACK package is available */
-#undef COIN_HAS_LAPACK
-
-/* Define to 1 if Metis is available. */
-#undef COIN_HAS_METIS
-
-/* Define to a macro mangling the given C identifier (in lower and upper
-   case). */
-#undef COIN_LAPACK_FUNC
-
-/* As COIN_LAPACK_FUNC, but for C identifiers containing underscores. */
-#undef COIN_LAPACK_FUNC_
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
