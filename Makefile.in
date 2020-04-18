@@ -414,7 +414,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AUTOMAKE_OPTIONS = foreign subdir-objects
 EXTRA_DIST = INSTALL.HSL
 includecoindir = $(includedir)/coin-or/hsl
 includecoin_HEADERS = CoinHslConfig.h $(am__append_7) $(am__append_9) \
@@ -440,9 +439,6 @@ pkgconfiglib_DATA = coinhsl.pc
 #                         Maintainer Stuff                             #
 ########################################################################
 CLEANFILES = *.mod
-
-# Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = 
 all: config.h CoinHslConfig.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -907,7 +903,6 @@ distclean-generic:
 	-rm -f coinhsl/ma57/$(am__dirstamp)
 	-rm -f coinhsl/mc19/$(DEPDIR)/$(am__dirstamp)
 	-rm -f coinhsl/mc19/$(am__dirstamp)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

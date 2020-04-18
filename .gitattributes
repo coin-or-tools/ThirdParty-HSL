@@ -3,6 +3,7 @@
 /INSTALL.HSL -text
 /LICENSE -text
 /Makefile.am -text
+/ar-lib -text
 /coinhsl.pc.in -text
 /compile -text
 /config.guess -text
