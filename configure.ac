@@ -28,7 +28,7 @@ AC_COIN_INITIALIZE
 #                         Standard build tool stuff                         #
 #############################################################################
 
-# Get the name of the C compiler (for metis_dummy.c)
+# Get the name of the C compiler (for metis_adapter.c)
 AC_COIN_PROG_CC
 
 # Get the name of the Fortran 77 compiler and appropriate compiler options
@@ -126,13 +126,25 @@ else
 fi
 
 # MA57, MA77, MA97, and MC68 can use Metis
-# if Metis is not available, then we compile a dummy metis.f that defines the Metis function symbol
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
-  AC_COIN_CHK_PKG(Metis,[HSL],[coinmetis],[build])
+  AC_COIN_CHK_LIBM(METISCHECK)
+  AC_LANG_PUSH(C)
+  AC_COIN_CHK_LIB(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
+  AC_LANG_POP(C)
 else
-  # do as if we had metis, so metis.f is not compiled
-  AM_CONDITIONAL(COIN_HAS_METIS, [true])
+  coin_has_metis=no
 fi
+# check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_DEFINE([],[coin_has_metis=no])
+fi
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_SRCEXT(f,[],[coin_has_metis=no])
+fi
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_SRCEXT(f90,[],[coin_has_metis=no])
+fi
+AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 # MA86 and MA97 can use OpenMP
 if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then

@@ -107,7 +107,6 @@ host_triplet = @host@
 @COIN_HAS_HSL_MA86_TRUE@am__append_11 = coinhsl/hsl_ma86/C/hsl_ma86d.h
 @COIN_HAS_HSL_MA97_TRUE@am__append_12 = coinhsl/hsl_ma97/hsl_ma97d.f90 coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
 @COIN_HAS_HSL_MA97_TRUE@am__append_13 = coinhsl/hsl_ma97/C/hsl_ma97d.h
-@COIN_HAS_METIS_FALSE@am__append_14 = metis_dummy.c
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -166,11 +165,10 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @COIN_HAS_HSL_MA86_TRUE@	coinhsl/hsl_ma86/C/hsl_ma86d_ciface.lo
 @COIN_HAS_HSL_MA97_TRUE@am__objects_9 = coinhsl/hsl_ma97/hsl_ma97d.lo \
 @COIN_HAS_HSL_MA97_TRUE@	coinhsl/hsl_ma97/C/hsl_ma97d_ciface.lo
-@COIN_HAS_METIS_FALSE@am__objects_10 = metis_dummy.lo
 am_libcoinhsl_la_OBJECTS = coinhsl/common/deps.lo $(am__objects_1) \
 	$(am__objects_2) $(am__objects_3) $(am__objects_4) \
 	$(am__objects_5) $(am__objects_6) $(am__objects_7) \
-	$(am__objects_8) $(am__objects_9) $(am__objects_10)
+	$(am__objects_8) $(am__objects_9) metis_adapter.lo
 libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -195,7 +193,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/metis_dummy.Plo
+am__depfiles_remade = ./$(DEPDIR)/metis_adapter.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -309,6 +307,10 @@ EXEEXT = @EXEEXT@
 F77 = @F77@
 FC = @FC@
 FCFLAGS = @FCFLAGS@
+FCFLAGS_F = @FCFLAGS_F@
+FCFLAGS_f = @FCFLAGS_f@
+FCFLAGS_f90 = @FCFLAGS_f90@
+FC_DEFINE = @FC_DEFINE@
 FFLAGS = @FFLAGS@
 FGREP = @FGREP@
 FLIBS = @FLIBS@
@@ -336,6 +338,7 @@ LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
+METISCHECK_LFLAGS = @METISCHECK_LFLAGS@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -422,7 +425,10 @@ lib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = coinhsl/common/deps.f $(am__append_1) \
 	$(am__append_2) $(am__append_3) $(am__append_4) \
 	$(am__append_5) $(am__append_6) $(am__append_8) \
-	$(am__append_10) $(am__append_12) $(am__append_14)
+	$(am__append_10) $(am__append_12) metis_adapter.c
+@COIN_HAS_METIS_TRUE@AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FCFLAGS_f90)
+@COIN_HAS_METIS_TRUE@AM_FFLAGS = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FCFLAGS_f)
+AM_CFLAGS = $(HSL_CFLAGS)
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
 libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
 
@@ -673,7 +679,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metis_dummy.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metis_adapter.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -914,7 +920,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/metis_dummy.Plo
+		-rm -f ./$(DEPDIR)/metis_adapter.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -962,7 +968,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/metis_dummy.Plo
+		-rm -f ./$(DEPDIR)/metis_adapter.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1004,6 +1010,8 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
 
 .PRECIOUS: Makefile
 
+@COIN_HAS_METIS_TRUE@  # call coinmetis_nodend instead of metis_nodend from metis_adapter.c in common/deps90.f90
+@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND instead of METIS_NODEND from metis_adapter.c in ma57/ma57d.f
 $(ma77).lo: deps90.lo
 $(ma86).lo: deps90.lo
 $(ma97).lo: deps90.lo

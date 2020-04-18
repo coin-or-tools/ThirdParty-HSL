@@ -51,10 +51,14 @@ if COIN_HAS_HSL_MA97
   includecoin_HEADERS += coinhsl/hsl_ma97/C/hsl_ma97d.h
 endif
 
+libcoinhsl_la_SOURCES += metis_adapter.c
 if COIN_HAS_METIS
-else
-  libcoinhsl_la_SOURCES += metis_dummy.c
+  # call coinmetis_nodend from metis_adapter.c instead of metis_nodend in common/deps90.f90
+  AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FCFLAGS_f90)
+  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND in ma57/ma57d.f
+  AM_FFLAGS  = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FCFLAGS_f)
 endif
+AM_CFLAGS = $(HSL_CFLAGS)
 
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
 

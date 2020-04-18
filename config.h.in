@@ -27,7 +27,7 @@
 /* Define to 1 if MC68 is available. */
 #undef COINHSL_HAS_MC68
 
-/* Define to 1 if Metis is available. */
+/* Define to 1 if the Metis package is available */
 #undef COINHSL_HAS_METIS
 
 /* Define to a macro mangling the given C identifier (in lower and upper
