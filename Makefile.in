@@ -1010,8 +1010,8 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
 
 .PRECIOUS: Makefile
 
-@COIN_HAS_METIS_TRUE@  # call coinmetis_nodend instead of metis_nodend from metis_adapter.c in common/deps90.f90
-@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND instead of METIS_NODEND from metis_adapter.c in ma57/ma57d.f
+@COIN_HAS_METIS_TRUE@  # call coinmetis_nodend from metis_adapter.c instead of metis_nodend in common/deps90.f90
+@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND in ma57/ma57d.f
 $(ma77).lo: deps90.lo
 $(ma86).lo: deps90.lo
 $(ma97).lo: deps90.lo

@@ -128,9 +128,9 @@ fi
 # MA57, MA77, MA97, and MC68 can use Metis
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
   AC_COIN_CHK_LIBM(METISCHECK)
-  AC_LANG_PUSH(C)
+  AC_LANG_PUSH(Fortran)
   AC_COIN_CHK_LIB(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
-  AC_LANG_POP(C)
+  AC_LANG_POP(Fortran)
 else
   coin_has_metis=no
 fi

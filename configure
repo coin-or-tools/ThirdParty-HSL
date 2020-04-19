@@ -21587,15 +21587,14 @@ fi
 
   LIBS="$coin_save_LIBS"
 
-  ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
+  ac_ext=${ac_fc_srcext-f}
+ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
+ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_fc_compiler_gnu
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis" >&5
-$as_echo_n "checking for package Metis... " >&6; }
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function metis_nodend" >&5
+$as_echo_n "checking for package Metis with function metis_nodend... " >&6; }
 
 # Make sure the necessary variables exist for each client package.
 
@@ -21659,7 +21658,7 @@ fi
 # --with-prim is always present. If the client specified dataonly, its value
 # is assigned to prim_data.
 
-  withval=$with_metis
+  withval="$with_metis"
   if test -n "$withval" ; then
     case "$withval" in
       no )
@@ -21673,7 +21672,7 @@ fi
         ;;
       * )
         coin_has_metis=yes
-        metis_lflags=$withval
+        metis_lflags="$withval"
         ;;
     esac
   fi
@@ -21683,7 +21682,7 @@ fi
 # options for lflags and cflags.
 
   if test "$coin_has_metis" != skipping ; then
-       withval=$with_metis_lflags
+       withval="$with_metis_lflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -21691,12 +21690,12 @@ fi
              ;;
            * )
              coin_has_metis=yes
-             metis_lflags=$withval
+             metis_lflags="$withval"
              ;;
          esac
        fi
 
-       withval=$with_metis_cflags
+       withval="$with_metis_cflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -21767,29 +21766,12 @@ $as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PR
   if test $coin_has_metis != skipping ; then
     ac_save_LIBS=$LIBS
        LIBS="$metis_lflags "
-       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifdef __cplusplus
-             extern "C"
-           #endif
-           void metis_nodend();
-#ifdef F77_DUMMY_MAIN
-
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-
-#endif
-int
-main ()
-{
-metis_nodend()
-  ;
-  return 0;
-}
+       cat > conftest.$ac_ext <<_ACEOF
+      program main
+      call metis_nodend
+      end
 _ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
+if ac_fn_fc_try_link "$LINENO"; then :
 
 else
   coin_has_metis=no
