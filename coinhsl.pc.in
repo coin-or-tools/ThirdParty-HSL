@@ -10,5 +10,6 @@ URL: https://github.com/coin-or-tools/ThirdParty-HSL
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
 @COIN_STATIC_BUILD_FALSE@Libs: -L${libdir} -lcoinhsl
+@COIN_STATIC_BUILD_FALSE@Requires.private: @HSL_PCFILES@
 @COIN_STATIC_BUILD_TRUE@Libs: -L${libdir} -lcoinhsl @HSL_LFLAGS_NOPC@
 @COIN_STATIC_BUILD_TRUE@Requires: @HSL_PCFILES@
