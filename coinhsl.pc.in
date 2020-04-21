@@ -8,7 +8,8 @@ Name: HSL
 Description: Harwell Subroutines Library
 URL: https://github.com/coin-or-tools/ThirdParty-HSL
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lcoinhsl
-Libs.private: @HSL_LFLAGS_NOPC@
 Cflags: -I${includedir}
-Requires.private: @HSL_PCFILES@
+@COIN_STATIC_BUILD_FALSE@Libs: -L${libdir} -lcoinhsl
+@COIN_STATIC_BUILD_FALSE@Requires.private: @HSL_PCFILES@
+@COIN_STATIC_BUILD_TRUE@Libs: -L${libdir} -lcoinhsl @HSL_LFLAGS_NOPC@
+@COIN_STATIC_BUILD_TRUE@Requires: @HSL_PCFILES@
