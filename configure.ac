@@ -10,7 +10,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([CoinHSL],[trunk],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],,[https://github.com/coin-or-tools/ThirdParty-HSL])
+AC_INIT([CoinHSL],[2.1.0],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],,[https://github.com/coin-or-tools/ThirdParty-HSL])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
