@@ -21891,6 +21891,31 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 else
   coin_has_metis=no
 fi
+
+if test $coin_has_metis = yes ; then
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+  ac_fn_c_check_header_compile "$LINENO" "metis.h" "ac_cv_header_metis_h" "$metis_cflags
+"
+if test "x$ac_cv_header_metis_h" = xyes; then :
+
+else
+  coin_has_metis=no
+fi
+
+
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+fi
+
 # check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
   ac_ext=${ac_fc_srcext-f}
