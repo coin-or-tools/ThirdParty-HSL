@@ -134,6 +134,13 @@ if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != 
 else
   coin_has_metis=no
 fi
+
+if test $coin_has_metis = yes ; then
+  AC_LANG_PUSH(C)
+  AC_CHECK_HEADER([metis.h],,[coin_has_metis=no],[$metis_cflags])
+  AC_LANG_POP(C)
+fi
+
 # check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
   AC_FC_PP_DEFINE([],[coin_has_metis=no])
