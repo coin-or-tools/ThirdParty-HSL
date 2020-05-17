@@ -91,7 +91,7 @@ MY_CHECK_HSLFILE_F90(hsl_ma86)
 MY_CHECK_HSLFILE_F90(hsl_ma97)
 
 coin_has_hsl_mc68=no
-if test -n "$F90"; then
+if test -n "$FC"; then
   AC_MSG_CHECKING([for C interface to MC68])
   if test -r "$srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90" ; then
     AC_DEFINE(COINHSL_HAS_MC68, [1], Define to 1 if MC68 is available.)

@@ -20518,7 +20518,7 @@ fi
 
 
 coin_has_hsl_mc68=no
-if test -n "$F90"; then
+if test -n "$FC"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for C interface to MC68" >&5
 $as_echo_n "checking for C interface to MC68... " >&6; }
   if test -r "$srcdir/coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90" ; then
