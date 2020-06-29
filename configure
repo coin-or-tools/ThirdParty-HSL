@@ -736,9 +736,6 @@ LDFLAGS
 CFLAGS
 COIN_RELOCATABLE_FALSE
 COIN_RELOCATABLE_TRUE
-MAINT
-MAINTAINER_MODE_FALSE
-MAINTAINER_MODE_TRUE
 am__untar
 am__tar
 AMTAR
@@ -762,6 +759,9 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+MAINT
+MAINTAINER_MODE_FALSE
+MAINTAINER_MODE_TRUE
 AM_BACKSLASH
 AM_DEFAULT_VERBOSITY
 AM_DEFAULT_V
@@ -775,8 +775,6 @@ build_os
 build_vendor
 build_cpu
 build
-ALWAYS_FALSE_FALSE
-ALWAYS_FALSE_TRUE
 target_alias
 host_alias
 build_alias
@@ -2650,7 +2648,6 @@ fi
 
 
 
-  # We want --enable-msvc setup and checked
 
 
   # Check whether --enable-debug was given.
@@ -2661,18 +2658,10 @@ else
 fi
 
 
-# This macro should run before the compiler checks (doesn't seem to be
-# sufficient for CFLAGS)
 
 
 
 
-
-
-# change default compiler flags
-# - debugging enabled: enable debug symbols (-g/-Z7)
-# - debugging disabled: disable debug code (-DNDEBUG); enable (more) optimization (-O2)
-# - enable exceptions for (i)cl
 
   if test "$enable_debug" = yes ; then
     if test "$enable_msvc" = yes ; then
@@ -3159,18 +3148,13 @@ fi
 rmdir .tst 2>/dev/null
 
 
-# Enforce the required autoconf version
-
-
-# Set the project's version numbers
-
-  # break up package version number in major.minor.release
-  # AC_PACKAGE_VERSION is defined by AC_INIT
 
 
 
 
-  # ac-define AC_PACKAGE_VERSION macros, use 9999 for missing values
+
+
+
 
 cat >>confdefs.h <<_ACEOF
 #define COINHSL_VERSION "2.1.0"
@@ -3195,25 +3179,12 @@ _ACEOF
 
 
 
-# A useful makefile conditional that is always false
-   if false; then
-  ALWAYS_FALSE_TRUE=
-  ALWAYS_FALSE_FALSE='#'
-else
-  ALWAYS_FALSE_TRUE='#'
-  ALWAYS_FALSE_FALSE=
-fi
-
-
-# Change the default compiler flags. This needs to run before
-# AC_CANONICAL_BUILD.
-
-
-# Get the build and host types
 
 
 
-# libtool has some magic for host_os and build_os being mingw, but doesn't know about msys
+
+
+  # libtool has some magic for host_os and build_os being mingw, but doesn't know about msys
   if test $host_os = msys ; then
     host_os=mingw
     host=`echo $host | sed -e 's/msys/mingw/'`
@@ -3224,9 +3195,6 @@ fi
     build=`echo $build | sed -e 's/msys/mingw/'`
   fi
 
-# Make silent build rules the default (https://www.gnu.org/software/automake/
-# manual/html_node/Automake-Silent-Rules.html). Run before AM_INIT_AUTOMAKE,
-# which will AC_REQUIRE it anyway.
   # Check whether --enable-silent-rules was given.
 if test "${enable_silent_rules+set}" = set; then :
   enableval=$enable_silent_rules;
@@ -3267,13 +3235,30 @@ fi
 AM_BACKSLASH='\'
 
 
-# Initialize automake
-# - do not be as strict as for GNU projects
-# - don't AC_DEFINE PACKAGE or VERSION (but there're still defined as shell
-#   variables in configure, and as make variables).
-# - disable dist target
-# - place objects from sources in subdirs into corresponding subdirs
-# - enable all automake warnings
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable maintainer-specific portions of Makefiles" >&5
+$as_echo_n "checking whether to enable maintainer-specific portions of Makefiles... " >&6; }
+    # Check whether --enable-maintainer-mode was given.
+if test "${enable_maintainer_mode+set}" = set; then :
+  enableval=$enable_maintainer_mode; USE_MAINTAINER_MODE=$enableval
+else
+  USE_MAINTAINER_MODE=no
+fi
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $USE_MAINTAINER_MODE" >&5
+$as_echo "$USE_MAINTAINER_MODE" >&6; }
+   if test $USE_MAINTAINER_MODE = yes; then
+  MAINTAINER_MODE_TRUE=
+  MAINTAINER_MODE_FALSE='#'
+else
+  MAINTAINER_MODE_TRUE='#'
+  MAINTAINER_MODE_FALSE=
+fi
+
+  MAINT=$MAINTAINER_MODE_TRUE
+
+
+
   if test "`cd $srcdir && pwd`" != "`pwd`"; then
   # Use -I$(srcdir) only when $(srcdir) != ., so that make's output
   # is not polluted with repeated "-I."
@@ -3381,37 +3366,12 @@ END
 fi
 
 
-# Disable automatic rebuild of configure/Makefile. Use run_autotools.
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable maintainer-specific portions of Makefiles" >&5
-$as_echo_n "checking whether to enable maintainer-specific portions of Makefiles... " >&6; }
-    # Check whether --enable-maintainer-mode was given.
-if test "${enable_maintainer_mode+set}" = set; then :
-  enableval=$enable_maintainer_mode; USE_MAINTAINER_MODE=$enableval
-else
-  USE_MAINTAINER_MODE=no
-fi
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $USE_MAINTAINER_MODE" >&5
-$as_echo "$USE_MAINTAINER_MODE" >&6; }
-   if test $USE_MAINTAINER_MODE = yes; then
-  MAINTAINER_MODE_TRUE=
-  MAINTAINER_MODE_FALSE='#'
-else
-  MAINTAINER_MODE_TRUE='#'
-  MAINTAINER_MODE_FALSE=
-fi
-
-  MAINT=$MAINTAINER_MODE_TRUE
-
-
-
-# Figure out the path where libraries are installed.
-# Unless the user specifies --prefix, prefix is set to NONE until the
-# end of configuration, at which point it will be set to $ac_default_prefix.
-# Unless the user specifies --exec-prefix, exec-prefix is set to NONE until
-# the end of configuration, at which point it's set to '${prefix}'.
-# Sheesh.  So do the expansion, then back it out.
+  # Figure out the path where libraries are installed.
+  # Unless the user specifies --prefix, prefix is set to NONE until the
+  # end of configuration, at which point it will be set to $ac_default_prefix.
+  # Unless the user specifies --exec-prefix, exec-prefix is set to NONE until
+  # the end of configuration, at which point it's set to '${prefix}'.
+  # Sheesh.  So do the expansion, then back it out.
   save_prefix=$prefix
   save_exec_prefix=$exec_prefix
   if test "x$prefix" = xNONE ; then
@@ -3427,8 +3387,6 @@ fi
   prefix=$save_prefix
   exec_prefix=$save_exec_prefix
 
-# add a configure flag to indicate whether .pc files should be made relocatable
-# off by default, as it creates libtool warnings
   # Check whether --enable-relocatable was given.
 if test "${enable_relocatable+set}" = set; then :
   enableval=$enable_relocatable; coin_enable_relocatable=$enableval
@@ -3517,17 +3475,7 @@ fi
 
 
 
-  # Setting up libtool with LT_INIT will AC_REQUIRE AC_PROG_CC, but we want
-  # to invoke it from this macro first so that we can supply a parameter.
 
-
-  # If enable-msvc, then test for Intel (on Windows) and MS C compiler
-  # explicitly and add the compile wrapper before AC_PROG_CC. The compile
-  # wrapper works around issues related to finding MS link.exe. (Unix link.exe
-  # occurs first in PATH, which causes compile and link checks to fail.) For
-  # the same reason, set LD to use the compile wrapper. If CC remains unset
-  # (neither icl or cl was found, and CC was not set by the user), stop with
-  # an error.
 
   if test $enable_msvc = yes ; then
     for ac_prog in icl cl
@@ -3581,11 +3529,6 @@ done
       as_fn_error $? "Neither MS nor Intel C compiler found in PATH and CC is unset." "$LINENO" 5
     fi
   fi
-
-  # Look for some C compiler and check that it works. If the user has set CC
-  # or we found icl/cl above, this shouldn't overwrite CC. Unlike the macros
-  # that establish C++ or Fortran compilers, PROG_CC also takes care of adding
-  # the compile wrapper if needed.
 
   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -4372,13 +4315,11 @@ fi
 
 
 
-  # Declare precious variable for additional compiler flags
 
 
 
 # Get the name of the Fortran 77 compiler and appropriate compiler options
 
-  # AC_MSG_NOTICE([In COIN_PROG_F77])
 
 
   # Check whether --enable-f77 was given.
@@ -4394,10 +4335,10 @@ fi
     unset F77
   else
     # If enable-msvc, then test for Intel Fortran compiler for Windows
-    # explicitly and add the compile wrapper before AC_PROG_F77. The compile
-    # wrapper works around issues related to finding MS link.exe. (Unix
-    # link.exe occurs first in PATH, which causes compile and link checks to
-    # fail.) For the same reason, set LD to use the compile wrapper.
+    # explicitly and add the compile wrapper. The compile wrapper works
+    # around issues related to finding MS link.exe. (Unix link.exe occurs
+    # first in PATH, which causes compile and link checks to fail.)
+    # For the same reason, set LD to use the compile wrapper.
     if test $enable_msvc = yes ; then
       for ac_prog in ifort
 do
@@ -4680,10 +4621,7 @@ else
 fi
 
 
-  # Declare precious variable for additional compiler flags
 
-
-  # AC_MSG_NOTICE([Leaving COIN_PROG_F77])
 
 if test -z "$F77" ; then
   as_fn_error $? "No Fortran compiler." "$LINENO" 5
@@ -5318,10 +5256,6 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-  # AC_MSG_NOTICE([In COIN_F77_SETUP])
-
-# F77_WRAPPERS will trigger the necessary F77 setup macros (F77_MAIN,
-# F77_LIBRARY_LDFLAGS, etc.)
   ac_ext=f
 ac_compile='$F77 -c $FFLAGS conftest.$ac_ext >&5'
 ac_link='$F77 -o conftest$ac_exeext $FFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -5449,7 +5383,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       ;;
     esac
   fi
-  # AC_MSG_NOTICE([Leaving COIN_F77_SETUP])
 
 
 # Get the name of the Fortran 90 compiler and appropriate compiler options
@@ -5457,9 +5390,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
   # If enable-msvc, then test for Intel Fortran compiler for Windows
-  # explicitly and add compile-wrapper before AC_PROG_FC, because
-  # the compile-wrapper work around issues when having the wrong link.exe
-  # in the PATH first, which could upset tests in AC_PROG_FC.
+  # explicitly and add compile-wrapper, because the compile-wrapper works
+  # around issues when having the wrong link.exe in the PATH first.
   if test $enable_msvc = yes ; then
     for ac_prog in ifort
 do
@@ -5790,7 +5722,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
     fi
   fi
 
-  # Declare precious variable for additional compiler flags
 
 
 
@@ -9536,7 +9467,6 @@ func_stripname_cnf ()
 
 
 
-# checkout AR and decide whether to use ar-lib wrapper
   if test -n "$ac_tool_prefix"; then
   for ac_prog in ar lib "link -lib"
   do
@@ -9709,7 +9639,6 @@ unknown)
 esac
 
 
-# Create libtool.
 
 
 
@@ -20117,31 +20046,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-# Patch libtool to circumvent some issues when using MSVC and MS lib.
-# This needs to be run after config.status has created libtool.
-# 1. Relax check which libraries can be used when linking a DLL.
-#    libtool's func_mode_link() would reject linking a .lib file when building a DLL,
-#    even though this .lib file may just be the one that eventually loads a depending DLL,
-#    e.g., mkl_core_dll.lib. Setting deplibs_check_method=pass_all will still print a
-#    warning, but the .lib is still passed to the linker.
-# 2. Ensure always_export_symbols=no if win32-dll. Even when we pass win32-dll,
-#    libtool forces always_export_symbols=yes for --tag=CXX if using MS compiler.
-#    This leads to a nm call that collects ALL C-functions from a library
-#    and explicitly dll-exporting them, leading to warnings about duplicates
-#    regarding those that are properly marked for dll-export in the source.
-# 3. Do not add mkl_*.lib to old_deplibs, which can result in trying to unpack and repack
-#    the MKL libraries (which are pretty big). Instead, treat them like other -l<...> libs.
-# 4. Add MKL libraries to dependency_libs in .la file, which I guess should be
-#    the case due to point 5.
-#
-# Patch libtool also to circumvent some issues when using MinGW (Msys+GCC).
-# 1. Relax check which libraries can be used when linking a DLL.
-#    libtool's func_mode_link() would reject linking MinGW system libraries,
-#    e.g., -lmingw32, when building a DLL, because it does not find this
-#    library in the installation path, and then falls back to build only
-#    static libraries. Setting deplibs_check_method=pass_all will avoid
-#    this faulty check.
-
   case "$am_cv_ar_interface" in
     lib )
       ac_config_commands="$ac_config_commands libtoolclpatch"
@@ -20157,21 +20061,15 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       ;;
   esac
 
-  # Set up LT_LDFLAGS, user can initialize and we augment below
 
 
-  # Use the libtool library info, if defined, otherwise use the project version info,
-  # if a full major.minor.release number was available
   LT_LDFLAGS="$LT_LDFLAGS -version-number 2:1:0"
        { $as_echo "$as_me:${as_lineno-$LINENO}: libtool version info: -version-number 2:1:0" >&5
 $as_echo "$as_me: libtool version info: -version-number 2:1:0" >&6;}
 
 
-  # shared libraries should have no undefined symbols
-  # for Windows DLLs, it is mandatory to add this
   LT_LDFLAGS="$LT_LDFLAGS -no-undefined"
 
-  # add automake conditional on whether we build shared or static, useful for .pc files
    if test "$enable_shared" = no; then
   COIN_STATIC_BUILD_TRUE=
   COIN_STATIC_BUILD_FALSE='#'
@@ -20192,9 +20090,6 @@ HSL_LFLAGS="$HSL_LFLAGS $FLIBS"
 # do this unconditionally to make sure COIN_HAS_PKGCONFIG is also defined if no >= MA57
 
 
-
-# pkgconf is the up-and-coming thing, replacing pkg-config, so prefer it.
-# The next stanza is a modified version of PKG_PROG_PKG_CONFIG from pkg.m4.
 
   if test -z "$PKG_CONFIG" ; then
    if test -n "$ac_tool_prefix"; then
@@ -20313,17 +20208,13 @@ $as_echo "no" >&6; }
    fi
   fi
 
-# Check if PKG_CONFIG supports the short-errors flag. The next stanza is a
-# modified version of _PKG_SHORT_ERRORS_SUPPORTED from pkg.m4.
-
+  # Check if PKG_CONFIG supports the short-errors flag.
   if test -n "$PKG_CONFIG" &&
      $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
     pkg_short_errors=" --short-errors "
   else
     pkg_short_errors=""
   fi
-
-# Create a makefile variable and conditional.
 
    if test -n "$PKG_CONFIG"; then
   COIN_HAS_PKGCONFIG_TRUE=
@@ -20335,22 +20226,14 @@ fi
 
 
 
-# Assemble a PKG_CONFIG search path that will include the installation
-# directory for .pc files for COIN packages.  Coin .pc files are installed in
-# ${libdir}/pkgconfig and COIN_INITIALIZE takes care of setting up
-# $expanded_libdir based on $libdir. Of course,
-# this whole house of cards balances on the shaky assumption that the user is
-# sane and has installed all packages in the same place and does not change
-# that place when make executes. If not, well, it's their responsibility to
-# augment PKG_CONFIG_PATH in the environment.
-
   COIN_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
 
 
   COIN_PKG_CONFIG_PATH="${expanded_libdir}/pkgconfig:${COIN_PKG_CONFIG_PATH}"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
+  if test -n "$PKG_CONFIG"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&5
 $as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
-
+  fi
 
 
 
@@ -20565,13 +20448,11 @@ fi
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
 if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
 
-# Make sure the necessary variables exist for each client package.
 
 
 
 
 
-# Set up command line arguments with DEF_PRIM_ARGS.
 
 
 
@@ -20594,27 +20475,25 @@ fi
 
 
 
-# Give FIND_PRIM_PKG a chance to look for user-specified lapack flags,
-# but skip any checks via a .pc file. The result (coin_has_lapack) will
-# be one of yes (the user specified something), no (user specified nothing),
-# or skipping (user said do not use). We'll also have variables
-# lapack_lflags, lapack_cflags, lapack_data, and lapack_pcfiles.
+  # Look for user-specified lapack flags, but skip any checks via a .pc file.
+  # The result (coin_has_lapack) will be one of
+  # - yes (the user specified something),
+  # - no (user specified nothing), or
+  # - skipping (user said do not use).
+  # We'll also have variables lapack_lflags, lapack_cflags, and lapack_pcfiles.
 
 
 
   dflt_action=yes
 
-# Initialize variables for the primary package.
-
+  # Initialize variables for the primary package.
   coin_has_lapack=noInfo
   lapack_lflags=
   lapack_cflags=
   lapack_data=
   lapack_pcfiles=
 
-# --with-prim is always present. If the client specified dataonly, its value
-# is assigned to prim_data.
-
+  # --with-prim is always present.
   withval="$with_lapack"
   if test -n "$withval" ; then
     case "$withval" in
@@ -20629,16 +20508,13 @@ fi
         ;;
       * )
         coin_has_lapack=yes
-        lapack_lflags="$withval"
+                lapack_lflags="$withval"
         ;;
     esac
   fi
 
-# --with-prim-libs and --with-prim-cflags are present unless the client
-# specified dataonly. Specifying --with-prim=no overrides the individual
-# options for libs and cflags.
-
-  if test "$coin_has_lapack" != skipping ; then
+  # Specifying --with-prim=no overrides the individual options for lflags and cflags.
+     if test "$coin_has_lapack" != skipping ; then
        withval="$with_lapack_lflags"
        if test -n "$withval" ; then
          case "$withval" in
@@ -20666,21 +20542,19 @@ fi
        fi
      fi
 
-# --with-prim-data will be present unless the client specified nodata.
-# Specifying --with-prim=no overrides the individual option for data.
 
 
+  # At this point, coin_has_prim can be one of
+  # - noInfo (no user options specified),
+  # - skipping (user said no),
+  # - requested,
+  # - build (user said yes or build and gave no further guidance),
+  # - or yes (user specified one or more --with-prim options).
+  # If we're already at yes or skipping, we're done looking.
 
-# At this point, coin_has_prim can be one of noInfo (no user options
-# specified), skipping (user said no), requested or build (user said yes
-# or build and gave no further guidance), or yes (user specified one or
-# more --with-prim options). If we're already at yes or skipping, we're
-# done looking.
-
-# If there are no user options (noInfo) and the default is no, we're skipping.
-# Otherwise, the default must be yes or build; consider the package requested.
-# A default action we don't recognise defaults to yes.
-
+  # If there are no user options (noInfo) and the default is no, we're skipping.
+  # Otherwise, the default must be yes or build; consider the package requested.
+  # A default action we don't recognise defaults to yes.
   if test "$coin_has_lapack" = noInfo ; then
     case $dflt_action in
       no )
@@ -20695,11 +20569,10 @@ fi
     esac
   fi
 
-# Now coin_has_prim can be one of skipping, yes, requested, or build. For
-# requested or build, try pkgconf, if it's available. If it's not available,
-# well, hope that the user knows their system and prim can be used with no
-# additional flags.
-
+  # Now coin_has_prim can be one of skipping, yes, requested, or build.
+  # For requested or build, try pkgconf, if it's available.
+  # If it's not available, well, hope that the user knows their system
+  # and prim can be used with no additional flags.
   case $coin_has_lapack in
     requested | build )
       if test -n "$PKG_CONFIG" -a "skip" != skip ; then
@@ -20723,7 +20596,6 @@ fi
 
       else
         coin_has_lapack=no
-        # AC_MSG_WARN([skipped check via pkgconf as no pkgconf available])
       fi
       ;;
     skipping | yes )
@@ -20734,13 +20606,13 @@ $as_echo "$as_me: WARNING: Unexpected status \"$coin_has_lapack\" in COIN_FIND_P
       ;;
   esac
 
-# The final value of coin_has_prim will be yes, no, or skipping. No means
-# we looked (with pkgconfig) and didn't find anything. Skipping means the
-# user said `don't use.' Yes means we have something, from the user or
-# from pkgconfig. Note that we haven't run a useability test!
+  # The final value of coin_has_prim will be yes, no, or skipping.
+  # No means we looked (with pkgconfig) and didn't find anything.
+  # Skipping means the user said `don't use.'
+  # Yes means we have something, from the user or from pkgconfig.
+  # Note that we haven't run a useability test!
 
-# Define BUILDTOOLS_DEBUG to enable debugging output
-
+  # Define BUILDTOOLS_DEBUG to enable debugging output
   if test "$BUILDTOOLS_DEBUG" = 1 ; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&5
 $as_echo "$as_me: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&6;}
@@ -20758,12 +20630,11 @@ $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
 
 
 
-# If FIND_PRIM_PKG found something, then we'll do a link check to figure
-# out whether it is working and what the name mangling scheme is.
-# This sets dsyev_namemangling
+  # If found something, then we'll do a link check to figure
+  # out whether it is working and what the name mangling scheme is.
+  # This sets dsyev_namemangling
   if test "$coin_has_lapack" = yes ; then
 
-  # setup LIBS by adding $lapack_lflags and those from $lapack_pcfiles
   ac_save_LIBS="$LIBS"
   LIBS="$lapack_lflags $LIBS"
   if test -n "$lapack_pcfiles" ; then
@@ -20774,12 +20645,9 @@ $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -20844,25 +20712,20 @@ $as_echo "$ac_success" >&6; }
 
   fi
 
-# If FIND_PRIM_PKG didn't find anything, try a few more guesses for
-# optimized blas/lapack libs (based on build system type).
+  # If not found anything, try a few more guesses for optimized blas/lapack libs (based on build system type).
   if test "$coin_has_lapack" = no ; then
     case $build in
       *-linux*)
 
-  # setup LIBS by adding -lmkl_core -lmkl_intel_lp64 -lmkl_sequential -lm and those from
   ac_save_LIBS="$LIBS"
   LIBS="-lmkl_core -lmkl_intel_lp64 -lmkl_sequential -lm $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -20931,19 +20794,15 @@ $as_echo "$ac_success" >&6; }
 
       *-sgi-*)
 
-  # setup LIBS by adding -lcomplib.sgimath and those from
   ac_save_LIBS="$LIBS"
   LIBS="-lcomplib.sgimath $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21011,27 +20870,16 @@ $as_echo "$ac_success" >&6; }
       ;;
 
       *-*-solaris*)
-        # Ideally, we'd use -library=sunperf, but it's an imperfect world.
-        # Studio cc doesn't recognise -library, it wants -xlic_lib. Studio 12
-        # CC doesn't recognise -xlic_lib. Libtool doesn't like -xlic_lib
-        # anyway. Sun claims that CC and cc will understand -library in Studio
-        # 13. The main extra function of -xlic_lib and -library is to arrange
-        # for the Fortran run-time libraries to be linked for C++ and C. We
-        # can arrange that explicitly.
 
-  # setup LIBS by adding -lsunperf and those from
   ac_save_LIBS="$LIBS"
   LIBS="-lsunperf $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21120,19 +20968,15 @@ $as_echo "$ac_success" >&6; }
         done
         IFS="$old_IFS"
 
-  # setup LIBS by adding $coin_mkl and those from
   ac_save_LIBS="$LIBS"
   LIBS="$coin_mkl $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21200,19 +21044,15 @@ $as_echo "$ac_success" >&6; }
 
       *-darwin*)
 
-  # setup LIBS by adding -lmkl_core -lmkl_intel_lp64 -lmkl_sequential -lm and those from
   ac_save_LIBS="$LIBS"
   LIBS="-lmkl_core -lmkl_intel_lp64 -lmkl_sequential -lm $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21279,19 +21119,15 @@ $as_echo "$ac_success" >&6; }
 
         if test "$coin_has_lapack" = no ; then
 
-  # setup LIBS by adding -framework Accelerate and those from
   ac_save_LIBS="$LIBS"
   LIBS="-framework Accelerate $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21361,9 +21197,9 @@ $as_echo "$ac_success" >&6; }
     esac
   fi
 
-# If none of the above worked, check whether lapack.pc blas.pc exists and links
-# We check for both to ensure that blas lib also appears on link line in case
-# someone wants to use Blas functions but tests only for Lapack.
+  # If none of the above worked, check whether lapack.pc blas.pc exists and links.
+  # We check for both to ensure that blas lib also appears on link line in case
+  # someone wants to use Blas functions but tests only for Lapack.
   if test "$coin_has_lapack" = no ; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lapack.pc and blas.pc" >&5
 $as_echo_n "checking for lapack.pc and blas.pc... " >&6; }
@@ -21376,7 +21212,6 @@ $as_echo_n "checking for lapack.pc and blas.pc... " >&6; }
       { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
-  # setup LIBS by adding  and those from lapack
   ac_save_LIBS="$LIBS"
 
   if test -n "lapack" ; then
@@ -21387,12 +21222,9 @@ $as_echo "yes" >&6; }
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21468,26 +21300,20 @@ $as_echo "no" >&6; }
 
   fi
 
-# TODO do we need another check with lapack.pc only?
-
-# If none of the above worked, try the generic -llapack -lblas as last resort.
-# We check for both to ensure that blas lib also appears on link line in case
-# someone wants to use Blas functions but tests only for Lapack.
+  # If none of the above worked, try the generic -llapack -lblas as last resort.
+  # We check for both to ensure that blas lib also appears on link line in case
+  # someone wants to use Blas functions but tests only for Lapack.
   if test "$coin_has_lapack" = no ; then
 
-  # setup LIBS by adding -llapack -lblas and those from
   ac_save_LIBS="$LIBS"
   LIBS="-llapack -lblas $LIBS"
 
 
   dsyev_namemangling=unknown
 
-  # FIXME we had "extra underscore" as additional option for ac_extra
-  #   but since there is no use for ac_extra below, was there any use for it?
   for ac_extra in "no extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
-        #AC_MSG_NOTICE([Attempting link for ${ac_case}, ${ac_trail}, ${ac_extra}])
         case $ac_case in
           "lower case")
             ac_name=dsyev
@@ -21554,9 +21380,6 @@ $as_echo "$ac_success" >&6; }
 
   fi
 
-# TODO do we need another check with -llapack only?
-
-# Time to set some variables. Create an automake conditional COIN_HAS_LAPACK.
    if test $coin_has_lapack = yes; then
   COIN_HAS_LAPACK_TRUE=
   COIN_HAS_LAPACK_FALSE='#'
@@ -21566,8 +21389,8 @@ else
 fi
 
 
-# If we've located the package, define preprocessor symbol COIN_HAS_LAPACK
-# and COIN_LAPACK_FUNC[_] and augment the necessary variables for the client packages.
+  # If we've located the package, define preprocessor symbol COIN_HAS_LAPACK
+  # and COIN_LAPACK_FUNC[_] and augment the necessary variables for the client packages.
   if test $coin_has_lapack = yes ; then
 
 $as_echo "#define COINHSL_HAS_LAPACK 1" >>confdefs.h
@@ -21729,15 +21552,12 @@ ac_compiler_gnu=$ac_cv_fc_compiler_gnu
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function metis_nodend" >&5
 $as_echo_n "checking for package Metis with function metis_nodend... " >&6; }
 
-# Make sure the necessary variables exist for each client package.
 
 
 
 
-
-# Check to see if the user has overridden configure parameters from the
-# environment.
-
+  # Check to see if the user has overridden configure parameters from the
+  # environment.
   coin_has_metis=noInfo
   if test x"$COIN_SKIP_PROJECTS" != x ; then
     for pkg in $COIN_SKIP_PROJECTS ; do
@@ -21746,10 +21566,6 @@ $as_echo_n "checking for package Metis with function metis_nodend... " >&6; }
       fi
     done
   fi
-
-# If we're not skipping this project, define and process the command line
-# options according to the cmdopts parameter. Then invoke FIND_PRIM_PKG to do
-# the heavy lifting.
 
   if test "$coin_has_metis" != skipping ; then
 
@@ -21781,16 +21597,13 @@ fi
 
   dflt_action=yes
 
-# Initialize variables for the primary library.
-
+  # Initialize variables for the primary library.
   coin_has_metis=noInfo
   metis_lflags=
   metis_cflags=
   metis_data=
 
-# --with-prim is always present. If the client specified dataonly, its value
-# is assigned to prim_data.
-
+  # --with-prim is always present.
   withval="$with_metis"
   if test -n "$withval" ; then
     case "$withval" in
@@ -21810,11 +21623,9 @@ fi
     esac
   fi
 
-# --with-prim-lflags and --with-prim-cflags are present unless the client
-# specified dataonly. Specifying --with-prim=no overrides the individual
-# options for lflags and cflags.
-
-  if test "$coin_has_metis" != skipping ; then
+  # --with-prim-lflags and --with-prim-cflags are present
+     # Specifying --with-prim=no overrides the individual options for lflags and cflags.
+     if test "$coin_has_metis" != skipping ; then
        withval="$with_metis_lflags"
        if test -n "$withval" ; then
          case "$withval" in
@@ -21842,21 +21653,19 @@ fi
        fi
      fi
 
-# --with-prim-data will be present unless the client specified nodata.
-# Specifying --with-prim=no overrides the individual option for data.
 
 
+  # At this point, coin_has_prim can be one of
+  # - noInfo (no user options specified),
+  # - skipping (user said no),
+  # - requested,
+  # - build (user said yes or build and gave no further guidance), or
+  # - yes (user specified one or more --with-prim options).
+  # If we're already at yes or skipping, we're done looking.
 
-# At this point, coin_has_prim can be one of noInfo (no user options
-# specified), skipping (user said no), requested or build (user said yes
-# or build and gave no further guidance), or yes (user specified one or
-# more --with-prim options). If we're already at yes or skipping, we're
-# done looking.
-
-# If there are no user options (noInfo) and the default is no, we're skipping.
-# Otherwise, the default must be yes or build; consider the package requested.
-# A default action we don't recognise defaults to yes.
-
+  # If there are no user options (noInfo) and the default is no, we're skipping.
+  # Otherwise, the default must be yes or build; consider the package requested.
+  # A default action we don't recognise defaults to yes.
   if test "$coin_has_metis" = noInfo ; then
     case $dflt_action in
       no )
@@ -21871,9 +21680,8 @@ fi
     esac
   fi
 
-# Now coin_has_prim can be one of skipping, yes, build, or requested. For
-# build or requested, use the parameter values or invent some.
-
+  # Now coin_has_prim can be one of skipping, yes, build, or requested.
+  # For build or requested, use the parameter values or invent some.
   case $coin_has_metis in
     build | requested)
       metis_lflags="-lmetis "$METISCHECK_LFLAGS""
@@ -21891,13 +21699,11 @@ $as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PR
       ;;
   esac
 
-# At this point, coin_has_prim is yes or skipping.  Time to run a link check,
-# if we have a function (metis_nodend). Use whatever we've collected for lflags, plus
-# other libraries () as the other libraries parameter to AC_SEARCH_LIBS,
-# leaving the library parameter blank.
-
+  # At this point, coin_has_prim is yes or skipping.
   if test $coin_has_metis != skipping ; then
-    ac_save_LIBS=$LIBS
+       # Time to run a link check since we have a function name.
+       # Use whatever we've collected for lflags, plus other libraries ().
+       ac_save_LIBS=$LIBS
        LIBS="$metis_lflags "
        cat > conftest.$ac_ext <<_ACEOF
       program main
@@ -21912,28 +21718,27 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
        LIBS=$ac_save_LIBS
-  fi
+     fi
 
-# The final value of coin_has_prim will be yes, no, or skipping. No means that
-# the link check failed. Yes means that we passed the link check, or no link
-# check was performed. Skipping means the user said `don't use.'
+  # The final value of coin_has_prim will be yes, no, or skipping. No means that
+  # the link check failed. Yes means that we passed the link check, or no link
+  # check was performed. Skipping means the user said `don't use.'
 
-# Define BUILDTOOLS_DEBUG to enable debugging output
-
-    if test "$BUILDTOOLS_DEBUG" = 1 ; then
-      { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&5
+  # Define BUILDTOOLS_DEBUG to enable debugging output
+  if test "$BUILDTOOLS_DEBUG" = 1 ; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&5
 $as_echo "$as_me: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
 $as_echo "$as_me: Collected values for package 'metis'" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
 $as_echo "$as_me: metis_lflags is \"$metis_lflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
 $as_echo "$as_me: metis_cflags is \"$metis_cflags\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
 $as_echo "$as_me: metis_data is \"$metis_data\"" >&6;}
-      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
 $as_echo "$as_me: metis_pcfiles is \"$metis_pcfiles\"" >&6;}
-    fi
+  fi
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
@@ -21943,13 +21748,10 @@ $as_echo "$coin_has_metis" >&6; }
 $as_echo "$coin_has_metis due to COIN_SKIP_PROJECTS" >&6; }
   fi
 
-# Possibilities are `yes', `no', or `skipping'. Normalise to `yes' or `no'.
-
+  # Possibilities are `yes', `no', or `skipping'. Normalise to `yes' or `no'.
   if test "$coin_has_metis" != yes ; then
     coin_has_metis=no
   fi
-
-# Create an automake conditional COIN_HAS_PRIM.
 
    if test $coin_has_metis = yes; then
   COIN_HAS_METIS_TRUE=
@@ -21960,9 +21762,8 @@ else
 fi
 
 
-# If we've located the package, define preprocessor symbol COIN_HAS_PRIM
-# and augment the necessary variables for the client packages.
-
+  # If we've located the package, define preprocessor symbol COIN_HAS_PRIM
+  # and augment the necessary variables for the client packages.
   if test $coin_has_metis = yes ; then
 
 $as_echo "#define COINHSL_HAS_METIS 1" >>confdefs.h
@@ -21970,8 +21771,6 @@ $as_echo "#define COINHSL_HAS_METIS 1" >>confdefs.h
     HSL_LFLAGS="$metis_lflags $HSL_LFLAGS"
        HSL_CFLAGS="$metis_cflags $HSL_CFLAGS"
 
-
-# Finally, set up PRIM_DATA, unless the user specified nodata.
 
 
   fi
@@ -22556,8 +22355,8 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
-if test -z "${ALWAYS_FALSE_TRUE}" && test -z "${ALWAYS_FALSE_FALSE}"; then
-  as_fn_error $? "conditional \"ALWAYS_FALSE\" was never defined.
+if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
+  as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking that generated files are newer than configure" >&5
@@ -22576,10 +22375,6 @@ else
   am__EXEEXT_FALSE=
 fi
 
-if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
-  as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
 if test -z "${COIN_RELOCATABLE_TRUE}" && test -z "${COIN_RELOCATABLE_FALSE}"; then
   as_fn_error $? "conditional \"COIN_RELOCATABLE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -25327,7 +25122,6 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-  #AC_MSG_NOTICE([In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting])
   { $as_echo "$as_me:${as_lineno-$LINENO}: Configuration of $PACKAGE_NAME successful" >&5
 $as_echo "$as_me: Configuration of $PACKAGE_NAME successful" >&6;}
 

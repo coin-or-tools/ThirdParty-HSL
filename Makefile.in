@@ -174,10 +174,6 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libcoinhsl_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=F77 \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(F77LD) \
-	$(AM_FFLAGS) $(FFLAGS) $(libcoinhsl_la_LDFLAGS) $(LDFLAGS) -o \
-	$@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -417,7 +413,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = INSTALL.HSL
 includecoindir = $(includedir)/coin-or/hsl
 includecoin_HEADERS = CoinHslConfig.h $(am__append_7) $(am__append_9) \
 	$(am__append_11) $(am__append_13)
@@ -430,7 +425,7 @@ libcoinhsl_la_SOURCES = coinhsl/common/deps.f $(am__append_1) \
 @COIN_HAS_METIS_TRUE@AM_FFLAGS = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FCFLAGS_f)
 AM_CFLAGS = $(HSL_CFLAGS)
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
-libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+AM_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
 #  need to define dependencies in terms of variables, since automake does not allow multiple rules for the same target
@@ -647,7 +642,7 @@ coinhsl/hsl_ma97/C/hsl_ma97d_ciface.lo:  \
 	coinhsl/hsl_ma97/C/$(DEPDIR)/$(am__dirstamp)
 
 libcoinhsl.la: $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_DEPENDENCIES) $(EXTRA_libcoinhsl_la_DEPENDENCIES) 
-	$(AM_V_F77LD)$(libcoinhsl_la_LINK) -rpath $(libdir) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
+	$(AM_V_F77LD)$(F77LINK) -rpath $(libdir) $(libcoinhsl_la_OBJECTS) $(libcoinhsl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

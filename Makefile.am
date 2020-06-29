@@ -2,8 +2,6 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-EXTRA_DIST = INSTALL.HSL
-
 includecoindir = $(includedir)/coin-or/hsl
 includecoin_HEADERS = CoinHslConfig.h
 
@@ -62,7 +60,7 @@ AM_CFLAGS = $(HSL_CFLAGS)
 
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
 
-libcoinhsl_la_LDFLAGS = $(LT_LDFLAGS)
+AM_LDFLAGS = $(LT_LDFLAGS)
 
 # dependencies
 #  need to define dependencies in terms of variables, since automake does not allow multiple rules for the same target

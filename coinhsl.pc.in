@@ -6,7 +6,7 @@ includedir=@includedir@/coin-or/hsl
 
 Name: HSL
 Description: Harwell Subroutines Library
-URL: https://github.com/coin-or-tools/ThirdParty-HSL
+URL: @PACKAGE_URL@
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
 @COIN_STATIC_BUILD_FALSE@Libs: -L${libdir} -lcoinhsl
