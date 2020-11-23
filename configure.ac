@@ -121,10 +121,10 @@ MY_CHECK_HSLFILE_S(mc19)
 MY_CHECK_HSLFILE_S(ma27)
 MY_CHECK_HSLFILE_S(ma28)
 MY_CHECK_HSLFILE_S(ma57)
-# enabel these when .h files exist from HSL
-MY_CHECK_HSLFILE_F90_S(hsl_ma77)
-MY_CHECK_HSLFILE_F90_S(hsl_ma86)
-MY_CHECK_HSLFILE_F90_S(hsl_ma97)
+# enable these when .h files exist from HSL
+#MY_CHECK_HSLFILE_F90_S(hsl_ma77)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma86)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma97)
 
 coin_has_hsl_mc68=no
 if test -n "$FC"; then
