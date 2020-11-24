@@ -73,3 +73,5 @@ made available. To do so, download the routine-specific HSL software packages fr
 
 and place the files `ma27s.f`, `ma28s.f`, `ma57s.f`, and/or `mc19s.f` into
 the corresponding subdirectories of `coinhsl` before installation step 4.
+If MA57 is made available, then also copy `ma57-3.10.0/src/sdeps.f` into
+`coinhsl/common`.

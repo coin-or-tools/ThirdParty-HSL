@@ -7,7 +7,7 @@ includecoin_HEADERS = CoinHslConfig.h
 
 lib_LTLIBRARIES = libcoinhsl.la
 
-libcoinhsl_la_SOURCES = coinhsl/common/deps.f
+libcoinhsl_la_SOURCES =
 
 if COIN_HAS_MC19
   libcoinhsl_la_SOURCES += coinhsl/mc19/mc19d.f
@@ -31,10 +31,10 @@ if COIN_HAS_MA28S
 endif
 
 if COIN_HAS_MA57
-  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57d.f
+  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57d.f coinhsl/common/deps.f
 endif
 if COIN_HAS_MA57S
-  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57s.f
+  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57s.f coinhsl/common/sdeps.f
 endif
 
 if COIN_HAS_DEPSF90

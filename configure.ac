@@ -18,7 +18,7 @@ under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test
 # whether the package is actually there
-AC_CONFIG_SRCDIR([coinhsl/common/deps.f])
+AC_CONFIG_SRCDIR([coinhsl.pc.in])
 
 AC_COIN_INITIALIZE
 

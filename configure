@@ -602,7 +602,7 @@ PACKAGE_STRING='CoinHSL 2.2.0'
 PACKAGE_BUGREPORT='https://github.com/coin-or-tools/ThirdParty-HSL/issues/new'
 PACKAGE_URL='https://github.com/coin-or-tools/ThirdParty-HSL'
 
-ac_unique_file="coinhsl/common/deps.f"
+ac_unique_file="coinhsl.pc.in"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
