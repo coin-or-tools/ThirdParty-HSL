@@ -6,11 +6,20 @@
 /* Define to 1 if MA27 is available. */
 #undef COINHSL_HAS_MA27
 
+/* Define to 1 if MA27S is available. */
+#undef COINHSL_HAS_MA27S
+
 /* Define to 1 if MA28 is available. */
 #undef COINHSL_HAS_MA28
 
+/* Define to 1 if MA28S is available. */
+#undef COINHSL_HAS_MA28S
+
 /* Define to 1 if MA57 is available. */
 #undef COINHSL_HAS_MA57
+
+/* Define to 1 if MA57S is available. */
+#undef COINHSL_HAS_MA57S
 
 /* Define to 1 if MA77 is available. */
 #undef COINHSL_HAS_MA77
@@ -23,6 +32,9 @@
 
 /* Define to 1 if MC19 is available. */
 #undef COINHSL_HAS_MC19
+
+/* Define to 1 if MC19S is available. */
+#undef COINHSL_HAS_MC19S
 
 /* Define to 1 if MC68 is available. */
 #undef COINHSL_HAS_MC68
