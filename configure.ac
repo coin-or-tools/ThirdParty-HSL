@@ -152,7 +152,7 @@ fi
 AM_CONDITIONAL(COIN_HAS_DEPSF90,[test $coin_has_depsf90 = yes])
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nonononono ; then
   AC_COIN_CHK_LAPACK(HSL)
   if test $coin_has_lapack != yes ; then
     AC_MSG_ERROR([Required package LAPACK not found.])
@@ -162,7 +162,7 @@ else
 fi
 
 # MA57, MA77, MA97, and MC68 can use Metis
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
   AC_COIN_CHK_LIBM(METISCHECK)
   AC_LANG_PUSH(Fortran)
   AC_COIN_CHK_LIB(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])

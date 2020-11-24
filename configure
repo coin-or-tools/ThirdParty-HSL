@@ -20554,7 +20554,7 @@ fi
 
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nonononono ; then
 
 
 
@@ -21577,7 +21577,7 @@ fi
 fi
 
 # MA57, MA77, MA97, and MC68 can use Metis
-if test $coin_has_ma57$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
 
 
 
