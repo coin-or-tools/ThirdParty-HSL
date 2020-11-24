@@ -662,6 +662,14 @@ COIN_HAS_DEPSF90_FALSE
 COIN_HAS_DEPSF90_TRUE
 COIN_HAS_HSL_MC68_FALSE
 COIN_HAS_HSL_MC68_TRUE
+COIN_HAS_MA57S_FALSE
+COIN_HAS_MA57S_TRUE
+COIN_HAS_MA28S_FALSE
+COIN_HAS_MA28S_TRUE
+COIN_HAS_MA27S_FALSE
+COIN_HAS_MA27S_TRUE
+COIN_HAS_MC19S_FALSE
+COIN_HAS_MC19S_TRUE
 COIN_HAS_HSL_MA97_FALSE
 COIN_HAS_HSL_MA97_TRUE
 COIN_HAS_HSL_MA86_FALSE
@@ -20246,6 +20254,11 @@ $as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
 
 
 
+# check for single precision files
+
+
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MC19" >&5
 $as_echo_n "checking for MC19... " >&6; }
 if test -r "$srcdir/coinhsl/mc19/mc19d.f" ; then
@@ -20405,6 +20418,95 @@ else
 fi
 
 
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MC19S" >&5
+$as_echo_n "checking for MC19S... " >&6; }
+if test -r "$srcdir/coinhsl/mc19/mc19s.f" ; then
+
+$as_echo "#define COINHSL_HAS_MC19S 1" >>confdefs.h
+
+  coin_has_mc19s=yes
+else
+  coin_has_mc19s=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_mc19s" >&5
+$as_echo "$coin_has_mc19s" >&6; }
+ if test $coin_has_mc19s = yes; then
+  COIN_HAS_MC19S_TRUE=
+  COIN_HAS_MC19S_FALSE='#'
+else
+  COIN_HAS_MC19S_TRUE='#'
+  COIN_HAS_MC19S_FALSE=
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA27S" >&5
+$as_echo_n "checking for MA27S... " >&6; }
+if test -r "$srcdir/coinhsl/ma27/ma27s.f" ; then
+
+$as_echo "#define COINHSL_HAS_MA27S 1" >>confdefs.h
+
+  coin_has_ma27s=yes
+else
+  coin_has_ma27s=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_ma27s" >&5
+$as_echo "$coin_has_ma27s" >&6; }
+ if test $coin_has_ma27s = yes; then
+  COIN_HAS_MA27S_TRUE=
+  COIN_HAS_MA27S_FALSE='#'
+else
+  COIN_HAS_MA27S_TRUE='#'
+  COIN_HAS_MA27S_FALSE=
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA28S" >&5
+$as_echo_n "checking for MA28S... " >&6; }
+if test -r "$srcdir/coinhsl/ma28/ma28s.f" ; then
+
+$as_echo "#define COINHSL_HAS_MA28S 1" >>confdefs.h
+
+  coin_has_ma28s=yes
+else
+  coin_has_ma28s=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_ma28s" >&5
+$as_echo "$coin_has_ma28s" >&6; }
+ if test $coin_has_ma28s = yes; then
+  COIN_HAS_MA28S_TRUE=
+  COIN_HAS_MA28S_FALSE='#'
+else
+  COIN_HAS_MA28S_TRUE='#'
+  COIN_HAS_MA28S_FALSE=
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA57S" >&5
+$as_echo_n "checking for MA57S... " >&6; }
+if test -r "$srcdir/coinhsl/ma57/ma57s.f" ; then
+
+$as_echo "#define COINHSL_HAS_MA57S 1" >>confdefs.h
+
+  coin_has_ma57s=yes
+else
+  coin_has_ma57s=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_ma57s" >&5
+$as_echo "$coin_has_ma57s" >&6; }
+ if test $coin_has_ma57s = yes; then
+  COIN_HAS_MA57S_TRUE=
+  COIN_HAS_MA57S_FALSE='#'
+else
+  COIN_HAS_MA57S_TRUE='#'
+  COIN_HAS_MA57S_FALSE=
+fi
+
+
+# enable these when .h files exist from HSL
+#MY_CHECK_HSLFILE_F90_S(hsl_ma77)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma86)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma97)
 
 coin_has_hsl_mc68=no
 if test -n "$FC"; then
@@ -22434,6 +22536,22 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_HSL_MA97_TRUE}" && test -z "${COIN_HAS_HSL_MA97_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_HSL_MA97\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_MC19S_TRUE}" && test -z "${COIN_HAS_MC19S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_MC19S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_MA27S_TRUE}" && test -z "${COIN_HAS_MA27S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_MA27S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_MA28S_TRUE}" && test -z "${COIN_HAS_MA28S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_MA28S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_MA57S_TRUE}" && test -z "${COIN_HAS_MA57S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_MA57S\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_HSL_MC68_TRUE}" && test -z "${COIN_HAS_HSL_MC68_FALSE}"; then

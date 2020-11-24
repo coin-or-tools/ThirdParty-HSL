@@ -80,6 +80,35 @@ fi
 AM_CONDITIONAL(m4_toupper(COIN_HAS_$1),[test $coin_has_$1 = yes])
 ])
 
+# check for single precision files
+AC_DEFUN([MY_CHECK_HSLFILE_S],
+[AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1S, hsl_))])
+if test -r "$srcdir/coinhsl/$1/$1s.f" ; then
+  AC_DEFINE(m4_toupper(COINHSL_HAS_$1S), [1], Define to 1 if m4_toupper(m4_bpatsubst($1S, hsl_)) is available.)
+  coin_has_$1s=yes
+else
+  coin_has_$1s=no
+fi
+AC_MSG_RESULT($coin_has_$1s)
+AM_CONDITIONAL(m4_toupper(COIN_HAS_$1S),[test $coin_has_$1s = yes])
+])
+
+AC_DEFUN([MY_CHECK_HSLFILE_F90_S],
+[if test -n "$FC" ; then
+   AC_MSG_CHECKING([for m4_toupper(m4_bpatsubst($1S, hsl_))])
+   if test -r "$srcdir/coinhsl/$1/$1s.f90" ; then
+     AC_DEFINE([COINHSL_HAS_]m4_toupper(m4_bpatsubst($1S, hsl_)), [1], Define to 1 if m4_toupper(m4_bpatsubst($1S, hsl_)) is available.)
+     coin_has_$1s=yes
+   else
+     coin_has_$1s=no
+   fi
+   AC_MSG_RESULT($coin_has_$1s)
+else
+  coin_has_$1s=no
+fi
+AM_CONDITIONAL(m4_toupper(COIN_HAS_$1S),[test $coin_has_$1s = yes])
+])
+
 MY_CHECK_HSLFILE(mc19)
 MY_CHECK_HSLFILE(ma27)
 MY_CHECK_HSLFILE(ma28)
@@ -87,6 +116,15 @@ MY_CHECK_HSLFILE(ma57)
 MY_CHECK_HSLFILE_F90(hsl_ma77)
 MY_CHECK_HSLFILE_F90(hsl_ma86)
 MY_CHECK_HSLFILE_F90(hsl_ma97)
+
+MY_CHECK_HSLFILE_S(mc19)
+MY_CHECK_HSLFILE_S(ma27)
+MY_CHECK_HSLFILE_S(ma28)
+MY_CHECK_HSLFILE_S(ma57)
+# enable these when .h files exist from HSL
+#MY_CHECK_HSLFILE_F90_S(hsl_ma77)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma86)
+#MY_CHECK_HSLFILE_F90_S(hsl_ma97)
 
 coin_has_hsl_mc68=no
 if test -n "$FC"; then
