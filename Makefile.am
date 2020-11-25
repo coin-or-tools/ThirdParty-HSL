@@ -26,15 +26,23 @@ endif
 if COIN_HAS_MA28
   libcoinhsl_la_SOURCES += coinhsl/ma28/ma28d.f
 endif
-if COIN_HAS_MA28S
-  libcoinhsl_la_SOURCES += coinhsl/ma28/ma28s.f
-endif
+#if COIN_HAS_MA28S
+#  libcoinhsl_la_SOURCES += coinhsl/ma28/ma28s.f
+#endif
 
 if COIN_HAS_MA57
-  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57d.f coinhsl/common/deps.f
+  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57d.f
 endif
 if COIN_HAS_MA57S
-  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57s.f coinhsl/common/sdeps.f
+  libcoinhsl_la_SOURCES += coinhsl/ma57/ma57s.f
+endif
+
+if COIN_HAS_DEPSF
+  libcoinhsl_la_SOURCES += coinhsl/common/deps.f
+endif
+
+if COIN_HAS_SDEPSF
+  libcoinhsl_la_SOURCES += coinhsl/common/sdeps.f
 endif
 
 if COIN_HAS_DEPSF90

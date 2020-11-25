@@ -119,7 +119,9 @@ MY_CHECK_HSLFILE_F90(hsl_ma97)
 
 MY_CHECK_HSLFILE_S(mc19)
 MY_CHECK_HSLFILE_S(ma27)
-MY_CHECK_HSLFILE_S(ma28)
+# the sdeps.f for ma28 isn't compatible with the one from ma57 (and mc19?)
+# that is, ma28's sdeps.f implements some but not all of the functions that are in the other sdeps.f
+#MY_CHECK_HSLFILE_S(ma28)
 MY_CHECK_HSLFILE_S(ma57)
 # enable these when .h files exist from HSL
 #MY_CHECK_HSLFILE_F90_S(hsl_ma77)
@@ -136,6 +138,34 @@ if test -n "$FC"; then
   AC_MSG_RESULT($coin_has_hsl_mc68)
 fi
 AM_CONDITIONAL(COIN_HAS_HSL_MC68,[test $coin_has_hsl_mc68 = yes])
+
+# the double-precision F77 codes MA28, MA57, and MC19 depend on deps.f
+coin_has_depsf=no
+if test $coin_has_ma28$coin_has_ma57$coin_has_mc19 != nonono ; then
+  AC_MSG_CHECKING([for deps.f])
+  if test -r "$srcdir/coinhsl/common/deps.f" ; then
+    coin_has_depsf=yes
+  fi
+  AC_MSG_RESULT($coin_has_depsf)
+  if test $coin_has_depsf = no; then
+    AC_MSG_ERROR([Required file common/deps.f not found])
+  fi
+fi
+AM_CONDITIONAL(COIN_HAS_DEPSF,[test $coin_has_depsf = yes])
+
+# the single-precision F77 codes MA57 and MC19 depend on sdeps.f
+coin_has_sdepsf=no
+if test $coin_has_ma57s$coin_has_mc19s != nono ; then
+  AC_MSG_CHECKING([for sdeps.f])
+  if test -r "$srcdir/coinhsl/common/sdeps.f" ; then
+    coin_has_sdepsf=yes
+  fi
+  AC_MSG_RESULT($coin_has_sdepsf)
+  if test $coin_has_sdepsf = no; then
+    AC_MSG_ERROR([Required file common/sdeps.f not found])
+  fi
+fi
+AM_CONDITIONAL(COIN_HAS_SDEPSF,[test $coin_has_sdepsf = yes])
 
 # the F90 codes depend on deps90.f90
 coin_has_depsf90=no

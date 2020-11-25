@@ -99,26 +99,30 @@ host_triplet = @host@
 @COIN_HAS_MA27_TRUE@am__append_3 = coinhsl/ma27/ma27d.f
 @COIN_HAS_MA27S_TRUE@am__append_4 = coinhsl/ma27/ma27s.f
 @COIN_HAS_MA28_TRUE@am__append_5 = coinhsl/ma28/ma28d.f
-@COIN_HAS_MA28S_TRUE@am__append_6 = coinhsl/ma28/ma28s.f
-@COIN_HAS_MA57_TRUE@am__append_7 = coinhsl/ma57/ma57d.f coinhsl/common/deps.f
-@COIN_HAS_MA57S_TRUE@am__append_8 = coinhsl/ma57/ma57s.f coinhsl/common/sdeps.f
-@COIN_HAS_DEPSF90_TRUE@am__append_9 = coinhsl/common/deps90.f90
-@COIN_HAS_HSL_MC68_TRUE@am__append_10 = coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
-@COIN_HAS_HSL_MC68_TRUE@am__append_11 = coinhsl/hsl_mc68/C/hsl_mc68i.h
-@COIN_HAS_HSL_MA77_TRUE@am__append_12 = coinhsl/hsl_ma77/hsl_ma77d.f90 coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
-@COIN_HAS_HSL_MA77_TRUE@am__append_13 = coinhsl/hsl_ma77/C/hsl_ma77d.h
+#if COIN_HAS_MA28S
+#  libcoinhsl_la_SOURCES += coinhsl/ma28/ma28s.f
+#endif
+@COIN_HAS_MA57_TRUE@am__append_6 = coinhsl/ma57/ma57d.f
+@COIN_HAS_MA57S_TRUE@am__append_7 = coinhsl/ma57/ma57s.f
+@COIN_HAS_DEPSF_TRUE@am__append_8 = coinhsl/common/deps.f
+@COIN_HAS_SDEPSF_TRUE@am__append_9 = coinhsl/common/sdeps.f
+@COIN_HAS_DEPSF90_TRUE@am__append_10 = coinhsl/common/deps90.f90
+@COIN_HAS_HSL_MC68_TRUE@am__append_11 = coinhsl/hsl_mc68/C/hsl_mc68i_ciface.f90
+@COIN_HAS_HSL_MC68_TRUE@am__append_12 = coinhsl/hsl_mc68/C/hsl_mc68i.h
+@COIN_HAS_HSL_MA77_TRUE@am__append_13 = coinhsl/hsl_ma77/hsl_ma77d.f90 coinhsl/hsl_ma77/C/hsl_ma77d_ciface.f90
+@COIN_HAS_HSL_MA77_TRUE@am__append_14 = coinhsl/hsl_ma77/C/hsl_ma77d.h
 #if COIN_HAS_HSL_MA77S
 #  libcoinhsl_la_SOURCES += coinhsl/hsl_ma77/hsl_ma77s.f90 coinhsl/hsl_ma77/C/hsl_ma77s_ciface.f90
 #  includecoin_HEADERS += coinhsl/hsl_ma77/C/hsl_ma77s.h
 #endif
-@COIN_HAS_HSL_MA86_TRUE@am__append_14 = coinhsl/hsl_ma86/hsl_ma86d.f90 coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
-@COIN_HAS_HSL_MA86_TRUE@am__append_15 = coinhsl/hsl_ma86/C/hsl_ma86d.h
+@COIN_HAS_HSL_MA86_TRUE@am__append_15 = coinhsl/hsl_ma86/hsl_ma86d.f90 coinhsl/hsl_ma86/C/hsl_ma86d_ciface.f90
+@COIN_HAS_HSL_MA86_TRUE@am__append_16 = coinhsl/hsl_ma86/C/hsl_ma86d.h
 #if COIN_HAS_HSL_MA86S
 #  libcoinhsl_la_SOURCES += coinhsl/hsl_ma86/hsl_ma86s.f90 coinhsl/hsl_ma86/C/hsl_ma86s_ciface.f90
 #  includecoin_HEADERS += coinhsl/hsl_ma86/C/hsl_ma86s.h
 #endif
-@COIN_HAS_HSL_MA97_TRUE@am__append_16 = coinhsl/hsl_ma97/hsl_ma97d.f90 coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
-@COIN_HAS_HSL_MA97_TRUE@am__append_17 = coinhsl/hsl_ma97/C/hsl_ma97d.h
+@COIN_HAS_HSL_MA97_TRUE@am__append_17 = coinhsl/hsl_ma97/hsl_ma97d.f90 coinhsl/hsl_ma97/C/hsl_ma97d_ciface.f90
+@COIN_HAS_HSL_MA97_TRUE@am__append_18 = coinhsl/hsl_ma97/C/hsl_ma97d.h
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -170,27 +174,27 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @COIN_HAS_MA27_TRUE@am__objects_3 = coinhsl/ma27/ma27d.lo
 @COIN_HAS_MA27S_TRUE@am__objects_4 = coinhsl/ma27/ma27s.lo
 @COIN_HAS_MA28_TRUE@am__objects_5 = coinhsl/ma28/ma28d.lo
-@COIN_HAS_MA28S_TRUE@am__objects_6 = coinhsl/ma28/ma28s.lo
-@COIN_HAS_MA57_TRUE@am__objects_7 = coinhsl/ma57/ma57d.lo \
-@COIN_HAS_MA57_TRUE@	coinhsl/common/deps.lo
-@COIN_HAS_MA57S_TRUE@am__objects_8 = coinhsl/ma57/ma57s.lo \
-@COIN_HAS_MA57S_TRUE@	coinhsl/common/sdeps.lo
-@COIN_HAS_DEPSF90_TRUE@am__objects_9 = coinhsl/common/deps90.lo
-@COIN_HAS_HSL_MC68_TRUE@am__objects_10 = coinhsl/hsl_mc68/C/hsl_mc68i_ciface.lo
-@COIN_HAS_HSL_MA77_TRUE@am__objects_11 =  \
+@COIN_HAS_MA57_TRUE@am__objects_6 = coinhsl/ma57/ma57d.lo
+@COIN_HAS_MA57S_TRUE@am__objects_7 = coinhsl/ma57/ma57s.lo
+@COIN_HAS_DEPSF_TRUE@am__objects_8 = coinhsl/common/deps.lo
+@COIN_HAS_SDEPSF_TRUE@am__objects_9 = coinhsl/common/sdeps.lo
+@COIN_HAS_DEPSF90_TRUE@am__objects_10 = coinhsl/common/deps90.lo
+@COIN_HAS_HSL_MC68_TRUE@am__objects_11 = coinhsl/hsl_mc68/C/hsl_mc68i_ciface.lo
+@COIN_HAS_HSL_MA77_TRUE@am__objects_12 =  \
 @COIN_HAS_HSL_MA77_TRUE@	coinhsl/hsl_ma77/hsl_ma77d.lo \
 @COIN_HAS_HSL_MA77_TRUE@	coinhsl/hsl_ma77/C/hsl_ma77d_ciface.lo
-@COIN_HAS_HSL_MA86_TRUE@am__objects_12 =  \
+@COIN_HAS_HSL_MA86_TRUE@am__objects_13 =  \
 @COIN_HAS_HSL_MA86_TRUE@	coinhsl/hsl_ma86/hsl_ma86d.lo \
 @COIN_HAS_HSL_MA86_TRUE@	coinhsl/hsl_ma86/C/hsl_ma86d_ciface.lo
-@COIN_HAS_HSL_MA97_TRUE@am__objects_13 =  \
+@COIN_HAS_HSL_MA97_TRUE@am__objects_14 =  \
 @COIN_HAS_HSL_MA97_TRUE@	coinhsl/hsl_ma97/hsl_ma97d.lo \
 @COIN_HAS_HSL_MA97_TRUE@	coinhsl/hsl_ma97/C/hsl_ma97d_ciface.lo
 am_libcoinhsl_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
 	$(am__objects_6) $(am__objects_7) $(am__objects_8) \
 	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
-	$(am__objects_12) $(am__objects_13) metis_adapter.lo
+	$(am__objects_12) $(am__objects_13) $(am__objects_14) \
+	metis_adapter.lo
 libcoinhsl_la_OBJECTS = $(am_libcoinhsl_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -436,8 +440,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 includecoindir = $(includedir)/coin-or/hsl
-includecoin_HEADERS = CoinHslConfig.h $(am__append_11) \
-	$(am__append_13) $(am__append_15) $(am__append_17)
+includecoin_HEADERS = CoinHslConfig.h $(am__append_12) \
+	$(am__append_14) $(am__append_16) $(am__append_18)
 lib_LTLIBRARIES = libcoinhsl.la
 #if COIN_HAS_HSL_MA97S
 #  libcoinhsl_la_SOURCES += coinhsl/hsl_ma97/hsl_ma97s.f90 coinhsl/hsl_ma97/C/hsl_ma97s_ciface.f90
@@ -446,8 +450,9 @@ lib_LTLIBRARIES = libcoinhsl.la
 libcoinhsl_la_SOURCES = $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_5) \
 	$(am__append_6) $(am__append_7) $(am__append_8) \
-	$(am__append_9) $(am__append_10) $(am__append_12) \
-	$(am__append_14) $(am__append_16) metis_adapter.c
+	$(am__append_9) $(am__append_10) $(am__append_11) \
+	$(am__append_13) $(am__append_15) $(am__append_17) \
+	metis_adapter.c
 @COIN_HAS_METIS_TRUE@AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FCFLAGS_f90)
 @COIN_HAS_METIS_TRUE@AM_FFLAGS = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FCFLAGS_f)
 AM_CFLAGS = $(HSL_CFLAGS)
@@ -593,8 +598,6 @@ coinhsl/ma28/$(DEPDIR)/$(am__dirstamp):
 	@: > coinhsl/ma28/$(DEPDIR)/$(am__dirstamp)
 coinhsl/ma28/ma28d.lo: coinhsl/ma28/$(am__dirstamp) \
 	coinhsl/ma28/$(DEPDIR)/$(am__dirstamp)
-coinhsl/ma28/ma28s.lo: coinhsl/ma28/$(am__dirstamp) \
-	coinhsl/ma28/$(DEPDIR)/$(am__dirstamp)
 coinhsl/ma57/$(am__dirstamp):
 	@$(MKDIR_P) coinhsl/ma57
 	@: > coinhsl/ma57/$(am__dirstamp)
@@ -602,6 +605,8 @@ coinhsl/ma57/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) coinhsl/ma57/$(DEPDIR)
 	@: > coinhsl/ma57/$(DEPDIR)/$(am__dirstamp)
 coinhsl/ma57/ma57d.lo: coinhsl/ma57/$(am__dirstamp) \
+	coinhsl/ma57/$(DEPDIR)/$(am__dirstamp)
+coinhsl/ma57/ma57s.lo: coinhsl/ma57/$(am__dirstamp) \
 	coinhsl/ma57/$(DEPDIR)/$(am__dirstamp)
 coinhsl/common/$(am__dirstamp):
 	@$(MKDIR_P) coinhsl/common
@@ -611,8 +616,6 @@ coinhsl/common/$(DEPDIR)/$(am__dirstamp):
 	@: > coinhsl/common/$(DEPDIR)/$(am__dirstamp)
 coinhsl/common/deps.lo: coinhsl/common/$(am__dirstamp) \
 	coinhsl/common/$(DEPDIR)/$(am__dirstamp)
-coinhsl/ma57/ma57s.lo: coinhsl/ma57/$(am__dirstamp) \
-	coinhsl/ma57/$(DEPDIR)/$(am__dirstamp)
 coinhsl/common/sdeps.lo: coinhsl/common/$(am__dirstamp) \
 	coinhsl/common/$(DEPDIR)/$(am__dirstamp)
 coinhsl/common/deps90.lo: coinhsl/common/$(am__dirstamp) \

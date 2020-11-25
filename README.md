@@ -64,14 +64,13 @@ directory.
 
 The "HSL for Ipopt" package does not include single-precision versions of
 HSL routines. However, this buildsystem can build single-precision versions
-of MA27, MA28, MA57, and MC19 if the corresponding HSL source files are
+of MA27, MA57, and MC19 if the corresponding HSL source files are
 made available. To do so, download the routine-specific HSL software packages from
 - http://www.hsl.rl.ac.uk/download/MA27/1.0.0/a/,
-- http://www.hsl.rl.ac.uk/download/MA28/1.0.0/a/,
 - http://www.hsl.rl.ac.uk/catalogue/ma57.html, and/or
 - http://www.hsl.rl.ac.uk/download/MC19/1.0.0/a/
 
-and place the files `ma27s.f`, `ma28s.f`, `ma57s.f`, and/or `mc19s.f` into
-the corresponding subdirectories of `coinhsl` before installation step 4.
-If MA57 is made available, then also copy `ma57-3.10.0/src/sdeps.f` into
-`coinhsl/common`.
+and place the files `ma27s.f`, `ma57s.f`, and/or `mc19s.f` into the
+corresponding subdirectories of `coinhsl` before installation step 4.
+If building MC19 or MA57, then also copy `src/sdeps.f` from the MA57
+tarball into `coinhsl/common`.

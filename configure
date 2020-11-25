@@ -660,12 +660,14 @@ HSL_LFLAGS
 HSL_CFLAGS
 COIN_HAS_DEPSF90_FALSE
 COIN_HAS_DEPSF90_TRUE
+COIN_HAS_SDEPSF_FALSE
+COIN_HAS_SDEPSF_TRUE
+COIN_HAS_DEPSF_FALSE
+COIN_HAS_DEPSF_TRUE
 COIN_HAS_HSL_MC68_FALSE
 COIN_HAS_HSL_MC68_TRUE
 COIN_HAS_MA57S_FALSE
 COIN_HAS_MA57S_TRUE
-COIN_HAS_MA28S_FALSE
-COIN_HAS_MA28S_TRUE
 COIN_HAS_MA27S_FALSE
 COIN_HAS_MA27S_TRUE
 COIN_HAS_MC19S_FALSE
@@ -20461,27 +20463,9 @@ else
 fi
 
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA28S" >&5
-$as_echo_n "checking for MA28S... " >&6; }
-if test -r "$srcdir/coinhsl/ma28/ma28s.f" ; then
-
-$as_echo "#define COINHSL_HAS_MA28S 1" >>confdefs.h
-
-  coin_has_ma28s=yes
-else
-  coin_has_ma28s=no
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_ma28s" >&5
-$as_echo "$coin_has_ma28s" >&6; }
- if test $coin_has_ma28s = yes; then
-  COIN_HAS_MA28S_TRUE=
-  COIN_HAS_MA28S_FALSE='#'
-else
-  COIN_HAS_MA28S_TRUE='#'
-  COIN_HAS_MA28S_FALSE=
-fi
-
-
+# the sdeps.f for ma28 isn't compatible with the one from ma57 (and mc19?)
+# that is, ma28's sdeps.f implements some but not all of the functions that are in the other sdeps.f
+#MY_CHECK_HSLFILE_S(ma28)
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA57S" >&5
 $as_echo_n "checking for MA57S... " >&6; }
 if test -r "$srcdir/coinhsl/ma57/ma57s.f" ; then
@@ -20527,6 +20511,52 @@ fi
 else
   COIN_HAS_HSL_MC68_TRUE='#'
   COIN_HAS_HSL_MC68_FALSE=
+fi
+
+
+# the double-precision F77 codes MA28, MA57, and MC19 depend on deps.f
+coin_has_depsf=no
+if test $coin_has_ma28$coin_has_ma57$coin_has_mc19 != nonono ; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for deps.f" >&5
+$as_echo_n "checking for deps.f... " >&6; }
+  if test -r "$srcdir/coinhsl/common/deps.f" ; then
+    coin_has_depsf=yes
+  fi
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_depsf" >&5
+$as_echo "$coin_has_depsf" >&6; }
+  if test $coin_has_depsf = no; then
+    as_fn_error $? "Required file common/deps.f not found" "$LINENO" 5
+  fi
+fi
+ if test $coin_has_depsf = yes; then
+  COIN_HAS_DEPSF_TRUE=
+  COIN_HAS_DEPSF_FALSE='#'
+else
+  COIN_HAS_DEPSF_TRUE='#'
+  COIN_HAS_DEPSF_FALSE=
+fi
+
+
+# the single-precision F77 codes MA57 and MC19 depend on sdeps.f
+coin_has_sdepsf=no
+if test $coin_has_ma57s$coin_has_mc19s != nono ; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sdeps.f" >&5
+$as_echo_n "checking for sdeps.f... " >&6; }
+  if test -r "$srcdir/coinhsl/common/sdeps.f" ; then
+    coin_has_sdepsf=yes
+  fi
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_sdepsf" >&5
+$as_echo "$coin_has_sdepsf" >&6; }
+  if test $coin_has_sdepsf = no; then
+    as_fn_error $? "Required file common/sdeps.f not found" "$LINENO" 5
+  fi
+fi
+ if test $coin_has_sdepsf = yes; then
+  COIN_HAS_SDEPSF_TRUE=
+  COIN_HAS_SDEPSF_FALSE='#'
+else
+  COIN_HAS_SDEPSF_TRUE='#'
+  COIN_HAS_SDEPSF_FALSE=
 fi
 
 
@@ -22546,16 +22576,20 @@ if test -z "${COIN_HAS_MA27S_TRUE}" && test -z "${COIN_HAS_MA27S_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_MA27S\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${COIN_HAS_MA28S_TRUE}" && test -z "${COIN_HAS_MA28S_FALSE}"; then
-  as_fn_error $? "conditional \"COIN_HAS_MA28S\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
 if test -z "${COIN_HAS_MA57S_TRUE}" && test -z "${COIN_HAS_MA57S_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_MA57S\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_HSL_MC68_TRUE}" && test -z "${COIN_HAS_HSL_MC68_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_HSL_MC68\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_DEPSF_TRUE}" && test -z "${COIN_HAS_DEPSF_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_DEPSF\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_SDEPSF_TRUE}" && test -z "${COIN_HAS_SDEPSF_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_SDEPSF\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_DEPSF90_TRUE}" && test -z "${COIN_HAS_DEPSF90_FALSE}"; then
