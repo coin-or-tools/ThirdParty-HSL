@@ -194,23 +194,16 @@ fi
 # MA57, MA77, MA97, and MC68 can use Metis
 if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
   AC_COIN_CHK_LIBM(METISCHECK)
-  AC_LANG_PUSH(Fortran)
-  AC_COIN_CHK_LIB(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
-  AC_LANG_POP(Fortran)
+  AC_LANG_PUSH(C)
+  AC_COIN_CHK_LIBHDR(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],
+    [METIS_Free((void*)0);],
+    [#include "metis.h"])
+  AC_LANG_POP(C)
 else
   coin_has_metis=no
 fi
 
-if test $coin_has_metis = yes ; then
-  AC_LANG_PUSH(C)
-  coin_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $metis_cflags"
-  AC_CHECK_HEADER([metis.h],,[coin_has_metis=no])
-  CPPFLAGS="$coin_CPPFLAGS"
-  AC_LANG_POP(C)
-fi
-
-# check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
+# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
   AC_FC_PP_DEFINE([],[coin_has_metis=no])
 fi
