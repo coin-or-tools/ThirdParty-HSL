@@ -192,12 +192,30 @@ else
 fi
 
 # MA57, MA77, MA97, and MC68 can use Metis
+# the check intentionally uses int instead of idx_t (defined in metis.h), because HSL routines expect to use int, too (see #8)
+# also we try to do another check to see whether IDXTYPEWIDTH is same as INT_WIDTH
 if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
   AC_COIN_CHK_LIBM(METISCHECK)
   AC_LANG_PUSH(C)
   AC_COIN_CHK_LIBHDR(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],
-    [METIS_Free((void*)0);],
-    [#include "metis.h"])
+    [#if METIS_VER_MAJOR < 5
+     metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+     #else
+     METIS_NodeND((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+     #endif
+    ],
+    [#define __STDC_WANT_IEC_60559_BFP_EXT__
+     #ifdef __STDC__
+     #include <limits.h>
+     #endif
+     #include "metis.h"
+     #ifndef METIS_VER_MAJOR
+     #define METIS_VER_MAJOR 4
+     #endif
+     #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+     #error "Metis does not use int for idx_t. This isn't supported by HSL, afaik."
+     #endif
+    ])
   AC_LANG_POP(C)
 else
   coin_has_metis=no
