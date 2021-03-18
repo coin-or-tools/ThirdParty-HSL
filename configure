@@ -660,14 +660,20 @@ HSL_PCFILES
 HSL_LFLAGS
 COIN_HAS_DEPSF90_FALSE
 COIN_HAS_DEPSF90_TRUE
-COIN_HAS_SDEPSF_FALSE
-COIN_HAS_SDEPSF_TRUE
 COIN_HAS_DEPSF_FALSE
 COIN_HAS_DEPSF_TRUE
 COIN_HAS_HSL_MC68_FALSE
 COIN_HAS_HSL_MC68_TRUE
+COIN_HAS_HSL_MA97S_FALSE
+COIN_HAS_HSL_MA97S_TRUE
+COIN_HAS_HSL_MA86S_FALSE
+COIN_HAS_HSL_MA86S_TRUE
+COIN_HAS_HSL_MA77S_FALSE
+COIN_HAS_HSL_MA77S_TRUE
 COIN_HAS_MA57S_FALSE
 COIN_HAS_MA57S_TRUE
+COIN_HAS_MA28S_FALSE
+COIN_HAS_MA28S_TRUE
 COIN_HAS_MA27S_FALSE
 COIN_HAS_MA27S_TRUE
 COIN_HAS_MC19S_FALSE
@@ -20370,9 +20376,27 @@ else
 fi
 
 
-# the sdeps.f for ma28 isn't compatible with the one from ma57 (and mc19?)
-# that is, ma28's sdeps.f implements some but not all of the functions that are in the other sdeps.f
-#MY_CHECK_HSLFILE_S(ma28)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA28S" >&5
+$as_echo_n "checking for MA28S... " >&6; }
+if test -r "$srcdir/coinhsl/ma28/ma28s.f" ; then
+
+$as_echo "#define COINHSL_HAS_MA28S 1" >>confdefs.h
+
+  coin_has_ma28s=yes
+else
+  coin_has_ma28s=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_ma28s" >&5
+$as_echo "$coin_has_ma28s" >&6; }
+ if test $coin_has_ma28s = yes; then
+  COIN_HAS_MA28S_TRUE=
+  COIN_HAS_MA28S_FALSE='#'
+else
+  COIN_HAS_MA28S_TRUE='#'
+  COIN_HAS_MA28S_FALSE=
+fi
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA57S" >&5
 $as_echo_n "checking for MA57S... " >&6; }
 if test -r "$srcdir/coinhsl/ma57/ma57s.f" ; then
@@ -20394,10 +20418,81 @@ else
 fi
 
 
-# enable these when .h files exist from HSL
-#MY_CHECK_HSLFILE_F90_S(hsl_ma77)
-#MY_CHECK_HSLFILE_F90_S(hsl_ma86)
-#MY_CHECK_HSLFILE_F90_S(hsl_ma97)
+if test -n "$FC" ; then
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA77S" >&5
+$as_echo_n "checking for MA77S... " >&6; }
+   if test -r "$srcdir/coinhsl/hsl_ma77/hsl_ma77s.f90" ; then
+
+$as_echo "#define COINHSL_HAS_MA77S 1" >>confdefs.h
+
+     coin_has_hsl_ma77s=yes
+   else
+     coin_has_hsl_ma77s=no
+   fi
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_hsl_ma77s" >&5
+$as_echo "$coin_has_hsl_ma77s" >&6; }
+else
+  coin_has_hsl_ma77s=no
+fi
+ if test $coin_has_hsl_ma77s = yes; then
+  COIN_HAS_HSL_MA77S_TRUE=
+  COIN_HAS_HSL_MA77S_FALSE='#'
+else
+  COIN_HAS_HSL_MA77S_TRUE='#'
+  COIN_HAS_HSL_MA77S_FALSE=
+fi
+
+
+if test -n "$FC" ; then
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA86S" >&5
+$as_echo_n "checking for MA86S... " >&6; }
+   if test -r "$srcdir/coinhsl/hsl_ma86/hsl_ma86s.f90" ; then
+
+$as_echo "#define COINHSL_HAS_MA86S 1" >>confdefs.h
+
+     coin_has_hsl_ma86s=yes
+   else
+     coin_has_hsl_ma86s=no
+   fi
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_hsl_ma86s" >&5
+$as_echo "$coin_has_hsl_ma86s" >&6; }
+else
+  coin_has_hsl_ma86s=no
+fi
+ if test $coin_has_hsl_ma86s = yes; then
+  COIN_HAS_HSL_MA86S_TRUE=
+  COIN_HAS_HSL_MA86S_FALSE='#'
+else
+  COIN_HAS_HSL_MA86S_TRUE='#'
+  COIN_HAS_HSL_MA86S_FALSE=
+fi
+
+
+if test -n "$FC" ; then
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MA97S" >&5
+$as_echo_n "checking for MA97S... " >&6; }
+   if test -r "$srcdir/coinhsl/hsl_ma97/hsl_ma97s.f90" ; then
+
+$as_echo "#define COINHSL_HAS_MA97S 1" >>confdefs.h
+
+     coin_has_hsl_ma97s=yes
+   else
+     coin_has_hsl_ma97s=no
+   fi
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_hsl_ma97s" >&5
+$as_echo "$coin_has_hsl_ma97s" >&6; }
+else
+  coin_has_hsl_ma97s=no
+fi
+ if test $coin_has_hsl_ma97s = yes; then
+  COIN_HAS_HSL_MA97S_TRUE=
+  COIN_HAS_HSL_MA97S_FALSE='#'
+else
+  COIN_HAS_HSL_MA97S_TRUE='#'
+  COIN_HAS_HSL_MA97S_FALSE=
+fi
+
+
 
 coin_has_hsl_mc68=no
 if test -n "$FC"; then
@@ -20421,9 +20516,9 @@ else
 fi
 
 
-# the double-precision F77 codes MA28, MA57, and MC19 depend on deps.f
+# the F77 codes depend on deps.f
 coin_has_depsf=no
-if test $coin_has_ma28$coin_has_ma57$coin_has_mc19 != nonono ; then
+if test $coin_has_ma28$coin_has_ma57$coin_has_mc19$coin_has_ma28s$coin_has_ma57s$coin_has_mc19s != nononononono ; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for deps.f" >&5
 $as_echo_n "checking for deps.f... " >&6; }
   if test -r "$srcdir/coinhsl/common/deps.f" ; then
@@ -20444,32 +20539,9 @@ else
 fi
 
 
-# the single-precision F77 codes MA57 and MC19 depend on sdeps.f
-coin_has_sdepsf=no
-if test $coin_has_ma57s$coin_has_mc19s != nono ; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sdeps.f" >&5
-$as_echo_n "checking for sdeps.f... " >&6; }
-  if test -r "$srcdir/coinhsl/common/sdeps.f" ; then
-    coin_has_sdepsf=yes
-  fi
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_sdepsf" >&5
-$as_echo "$coin_has_sdepsf" >&6; }
-  if test $coin_has_sdepsf = no; then
-    as_fn_error $? "Required file common/sdeps.f not found" "$LINENO" 5
-  fi
-fi
- if test $coin_has_sdepsf = yes; then
-  COIN_HAS_SDEPSF_TRUE=
-  COIN_HAS_SDEPSF_FALSE='#'
-else
-  COIN_HAS_SDEPSF_TRUE='#'
-  COIN_HAS_SDEPSF_FALSE=
-fi
-
-
 # the F90 codes depend on deps90.f90
 coin_has_depsf90=no
-if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
+if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97$coin_has_hsl_ma77s$coin_has_hsl_ma86s$coin_has_hsl_ma97s != nonononononono ; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for deps90.f90" >&5
 $as_echo_n "checking for deps90.f90... " >&6; }
   if test -r "$srcdir/coinhsl/common/deps90.f90" ; then
@@ -20491,7 +20563,7 @@ fi
 
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
-if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nonononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma77s$coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononononononono ; then
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for LAPACK" >&5
 $as_echo_n "checking for LAPACK... " >&6; }
@@ -21321,7 +21393,7 @@ fi
 # MA57, MA77, MA97, and MC68 can use Metis
 # the check intentionally uses int instead of idx_t (defined in metis.h), because HSL routines expect to use int, too (see #8)
 # also we try to do another check to see whether IDXTYPEWIDTH is same as INT_WIDTH
-if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma77s$coin_has_hsl_ma97$coin_has_hsl_ma97s$coin_has_hsl_mc68 != nonononononono ; then
 
 
 
@@ -22015,7 +22087,7 @@ fi
 
 
 # MA86 and MA97 can use OpenMP
-if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then
+if test $coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononono ; then
   ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
@@ -22349,8 +22421,24 @@ if test -z "${COIN_HAS_MA27S_TRUE}" && test -z "${COIN_HAS_MA27S_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_MA27S\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${COIN_HAS_MA28S_TRUE}" && test -z "${COIN_HAS_MA28S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_MA28S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${COIN_HAS_MA57S_TRUE}" && test -z "${COIN_HAS_MA57S_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_MA57S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_HSL_MA77S_TRUE}" && test -z "${COIN_HAS_HSL_MA77S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_HSL_MA77S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_HSL_MA86S_TRUE}" && test -z "${COIN_HAS_HSL_MA86S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_HSL_MA86S\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_HSL_MA97S_TRUE}" && test -z "${COIN_HAS_HSL_MA97S_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_HSL_MA97S\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_HSL_MC68_TRUE}" && test -z "${COIN_HAS_HSL_MC68_FALSE}"; then
@@ -22359,10 +22447,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_DEPSF_TRUE}" && test -z "${COIN_HAS_DEPSF_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_DEPSF\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${COIN_HAS_SDEPSF_TRUE}" && test -z "${COIN_HAS_SDEPSF_FALSE}"; then
-  as_fn_error $? "conditional \"COIN_HAS_SDEPSF\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_DEPSF90_TRUE}" && test -z "${COIN_HAS_DEPSF90_FALSE}"; then

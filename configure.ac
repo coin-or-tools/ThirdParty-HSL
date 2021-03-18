@@ -119,14 +119,11 @@ MY_CHECK_HSLFILE_F90(hsl_ma97)
 
 MY_CHECK_HSLFILE_S(mc19)
 MY_CHECK_HSLFILE_S(ma27)
-# the sdeps.f for ma28 isn't compatible with the one from ma57 (and mc19?)
-# that is, ma28's sdeps.f implements some but not all of the functions that are in the other sdeps.f
-#MY_CHECK_HSLFILE_S(ma28)
+MY_CHECK_HSLFILE_S(ma28)
 MY_CHECK_HSLFILE_S(ma57)
-# enable these when .h files exist from HSL
-#MY_CHECK_HSLFILE_F90_S(hsl_ma77)
-#MY_CHECK_HSLFILE_F90_S(hsl_ma86)
-#MY_CHECK_HSLFILE_F90_S(hsl_ma97)
+MY_CHECK_HSLFILE_F90_S(hsl_ma77)
+MY_CHECK_HSLFILE_F90_S(hsl_ma86)
+MY_CHECK_HSLFILE_F90_S(hsl_ma97)
 
 coin_has_hsl_mc68=no
 if test -n "$FC"; then
@@ -139,9 +136,9 @@ if test -n "$FC"; then
 fi
 AM_CONDITIONAL(COIN_HAS_HSL_MC68,[test $coin_has_hsl_mc68 = yes])
 
-# the double-precision F77 codes MA28, MA57, and MC19 depend on deps.f
+# the F77 codes depend on deps.f
 coin_has_depsf=no
-if test $coin_has_ma28$coin_has_ma57$coin_has_mc19 != nonono ; then
+if test $coin_has_ma28$coin_has_ma57$coin_has_mc19$coin_has_ma28s$coin_has_ma57s$coin_has_mc19s != nononononono ; then
   AC_MSG_CHECKING([for deps.f])
   if test -r "$srcdir/coinhsl/common/deps.f" ; then
     coin_has_depsf=yes
@@ -153,23 +150,9 @@ if test $coin_has_ma28$coin_has_ma57$coin_has_mc19 != nonono ; then
 fi
 AM_CONDITIONAL(COIN_HAS_DEPSF,[test $coin_has_depsf = yes])
 
-# the single-precision F77 codes MA57 and MC19 depend on sdeps.f
-coin_has_sdepsf=no
-if test $coin_has_ma57s$coin_has_mc19s != nono ; then
-  AC_MSG_CHECKING([for sdeps.f])
-  if test -r "$srcdir/coinhsl/common/sdeps.f" ; then
-    coin_has_sdepsf=yes
-  fi
-  AC_MSG_RESULT($coin_has_sdepsf)
-  if test $coin_has_sdepsf = no; then
-    AC_MSG_ERROR([Required file common/sdeps.f not found])
-  fi
-fi
-AM_CONDITIONAL(COIN_HAS_SDEPSF,[test $coin_has_sdepsf = yes])
-
 # the F90 codes depend on deps90.f90
 coin_has_depsf90=no
-if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nononono ; then
+if test $coin_has_hsl_mc68$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97$coin_has_hsl_ma77s$coin_has_hsl_ma86s$coin_has_hsl_ma97s != nonononononono ; then
   AC_MSG_CHECKING([for deps90.f90])
   if test -r "$srcdir/coinhsl/common/deps90.f90" ; then
     coin_has_depsf90=yes
@@ -182,7 +165,7 @@ fi
 AM_CONDITIONAL(COIN_HAS_DEPSF90,[test $coin_has_depsf90 = yes])
 
 # MA57, MA77, and MA86 require BLAS, MA97 requires LAPACK
-if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma86$coin_has_hsl_ma97 != nonononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma77s$coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononononononono ; then
   AC_COIN_CHK_LAPACK(HSL)
   if test $coin_has_lapack != yes ; then
     AC_MSG_ERROR([Required package LAPACK not found.])
@@ -194,7 +177,7 @@ fi
 # MA57, MA77, MA97, and MC68 can use Metis
 # the check intentionally uses int instead of idx_t (defined in metis.h), because HSL routines expect to use int, too (see #8)
 # also we try to do another check to see whether IDXTYPEWIDTH is same as INT_WIDTH
-if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma97$coin_has_hsl_mc68 != nonononono ; then
+if test $coin_has_ma57$coin_has_ma57s$coin_has_hsl_ma77$coin_has_hsl_ma77s$coin_has_hsl_ma97$coin_has_hsl_ma97s$coin_has_hsl_mc68 != nonononononono ; then
   AC_COIN_CHK_LIBM(METISCHECK)
   AC_LANG_PUSH(C)
   AC_COIN_CHK_LIBHDR(Metis,[HSL],[-lmetis "$METISCHECK_LFLAGS"],[],[],
@@ -234,7 +217,7 @@ fi
 AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 # MA86 and MA97 can use OpenMP
-if test $coin_has_hsl_ma86$coin_has_hsl_ma97 != nono ; then
+if test $coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononono ; then
   AC_LANG_PUSH(Fortran)
   AC_OPENMP
   FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
