@@ -8,7 +8,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([CoinHSL],[2.2.0],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],,[https://github.com/coin-or-tools/ThirdParty-HSL])
+AC_INIT([CoinHSL],[2.2.0],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-HSL])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -231,7 +231,7 @@ fi
 
 AC_CONFIG_FILES([Makefile coinhsl.pc])
 
-AC_CONFIG_HEADER(config.h CoinHslConfig.h)
+AC_CONFIG_HEADERS([config.h CoinHslConfig.h])
 
 AC_COIN_FINALIZE_FLAGS([HSL])
 AC_COIN_FINALIZE
