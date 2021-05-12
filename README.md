@@ -31,14 +31,14 @@ directory.
 
 ## Installation steps
 
-1. Obtain an archive with HSL source code from http://www.hsl.rl.ac.uk/ipopt/.
+1. Obtain a tarball with HSL source code from http://www.hsl.rl.ac.uk/ipopt/.
 
    **********************************************************************
    Note: It is YOUR RESPONSIBILITY to ensure that you are entitled to
          download and use this third party package.
    **********************************************************************
 
-2. Unpack this archive via
+2. Unpack this tarball via
 
        gunzip coinhsl-x.y.z.tar.gz
        tar xf coinhsl-x.y.z.tar
@@ -52,16 +52,11 @@ directory.
    The `configure` script will detect which source files are available
    in your `coinhsl` package and prepare the `Makefile` accordingly.
 
-   Note, that in difference to previous versions of `ThirdParty-HSL`, the
-   `configure` script now checks for the HSL routines in subdirectories
-   as they are given in the `coinhsl-x.y.z.tar.gz` archive.
-
 5. Run `make` to build the HSL library (namestem `coinhsl`).
 
 6. Run `make install` to install the HSL library and header files.
 
 ## Single-precision codes
 
-The "HSL for Ipopt" package will include single-precision versions of
-HSL routines in the future. A beta may be available from HSL developers
-on request.
+Version 2021.05.05 of the "HSL for Ipopt" packages include single-precision
+versions of HSL routines.
