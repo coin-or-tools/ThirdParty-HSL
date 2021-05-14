@@ -12,6 +12,9 @@ http://www.hsl.rl.ac.uk/ipopt/
 which can be build independently or within the buildsystem in this
 directory.
 
+Version 2021.05.05 of the "HSL for Ipopt" packages include single-precision
+versions of HSL routines. These are also compiled if found.
+
 ## Dependencies
 
 - HSL routines require a Fortran compiler.
@@ -55,8 +58,3 @@ directory.
 5. Run `make` to build the HSL library (namestem `coinhsl`).
 
 6. Run `make install` to install the HSL library and header files.
-
-## Single-precision codes
-
-Version 2021.05.05 of the "HSL for Ipopt" packages include single-precision
-versions of HSL routines.
