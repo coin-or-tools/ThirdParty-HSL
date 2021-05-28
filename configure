@@ -5828,12 +5828,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
   if test $ac_cv_prog_f77_c_o = no ; then
     F77="$am_aux_dir/compile $F77"
-  else
-    case "$F77" in *ifort )
-      case $build in
-        *-mingw* | *-cygwin* | *-msys* ) F77="$am_aux_dir/compile $F77" ;; esac
-      ;;
-    esac
   fi
 
 
@@ -22173,14 +22167,19 @@ fi
 /* end confdefs.h.  */
 #define __STDC_WANT_IEC_60559_BFP_EXT__
      #ifdef __STDC__
-     #include <limits.h>
+      #include <limits.h>
      #endif
      #include "metis.h"
      #ifndef METIS_VER_MAJOR
-     #define METIS_VER_MAJOR 4
+      #define METIS_VER_MAJOR 4
+      #ifdef IDXTYPE_INT
+       #define IDXTYPEWIDTH 4
+      #else
+       #define IDXTYPEWIDTH 8
+      #endif
      #endif
      #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-     #error "Metis does not use int for idx_t. This isn't supported by HSL, afaik."
+      #error "Metis does not use int for idx_t. This isn't supported by HSL, afaik."
      #endif
 
 #ifdef F77_DUMMY_MAIN
@@ -22220,14 +22219,19 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 /* end confdefs.h.  */
 #define __STDC_WANT_IEC_60559_BFP_EXT__
      #ifdef __STDC__
-     #include <limits.h>
+      #include <limits.h>
      #endif
      #include "metis.h"
      #ifndef METIS_VER_MAJOR
-     #define METIS_VER_MAJOR 4
+      #define METIS_VER_MAJOR 4
+      #ifdef IDXTYPE_INT
+       #define IDXTYPEWIDTH 4
+      #else
+       #define IDXTYPEWIDTH 8
+      #endif
      #endif
      #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-     #error "Metis does not use int for idx_t. This isn't supported by HSL, afaik."
+      #error "Metis does not use int for idx_t. This isn't supported by HSL, afaik."
      #endif
 
 #ifdef F77_DUMMY_MAIN
@@ -22305,31 +22309,12 @@ printf "%s\n" "$coin_has_metis (COIN_SKIP_PROJECTS)" >&6; }
 
   if test "$coin_has_metis" = 'no' ; then
     if expr "$metis_failmode" : '.*header.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Compiler flags are \"$metis_cflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-cflags." >&5
-printf "%s\n" "$as_me: WARNING:
-Compiler flags are \"$metis_cflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-cflags." >&2;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: Compiler flags were \"$metis_cflags\". Use --with-metis-cflags to overwrite. Check config.log for details of failed compile attempt." >&5
+printf "%s\n" "$as_me: Compiler flags were \"$metis_cflags\". Use --with-metis-cflags to overwrite. Check config.log for details of failed compile attempt." >&6;}
     fi
     if expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Linker flags are \"$metis_lflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-lflags." >&5
-printf "%s\n" "$as_me: WARNING:
-Linker flags are \"$metis_lflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-lflags." >&2;}
-    fi
-    if expr "$metis_failmode" : '.*header.*' &>/dev/null ||
-       expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Check config.log for details of failed compile or link attempts." >&5
-printf "%s\n" "$as_me: WARNING:
-Check config.log for details of failed compile or link attempts." >&2;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: Linker flags are \"$metis_lflags\". Use --with-metis-lflags to overwrite. Check config.log for details of failed link attempt." >&5
+printf "%s\n" "$as_me: Linker flags are \"$metis_lflags\". Use --with-metis-lflags to overwrite. Check config.log for details of failed link attempt." >&6;}
     fi
     if test "$metis_userflags" = 'yes' ; then
       as_fn_error $? "user-specified flags for Metis do not work." "$LINENO" 5
