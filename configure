@@ -2961,7 +2961,7 @@ fi
       : ${FFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FFLAGS"}
       : ${FCFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FCFLAGS"}
       : ${CFLAGS:="-nologo -Z7 -MDd $ADD_CFLAGS"}
-      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd $ADD_CXXFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd -Zc:__cplusplus $ADD_CXXFLAGS"}
     else
       : ${FFLAGS:="-g $ADD_FFLAGS"}
       : ${FCFLAGS:="-g $ADD_FCFLAGS"}
@@ -2973,7 +2973,7 @@ fi
       : ${FFLAGS:="-nologo -fpp -O2 -MD $ADD_FFLAGS"}
       : ${FCFLAGS:="-nologo -fpp -O2 -MD $ADD_FCFLAGS"}
       : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD $ADD_CFLAGS"}
-      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD $ADD_CXXFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD -Zc:__cplusplus $ADD_CXXFLAGS"}
     else
       : ${FFLAGS:="-O2 $ADD_FFLAGS"}
       : ${FCFLAGS:="-O2 $ADD_FCFLAGS"}
@@ -22358,6 +22358,47 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 else
   coin_has_metis=no
+fi
+
+# check that Metis flags also work with Fortran compiler
+if test "$coin_has_metis" = yes ; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether Metis library is linkable with Fortran compiler" >&5
+printf %s "checking whether Metis library is linkable with Fortran compiler... " >&6; }
+  ac_ext=${ac_fc_srcext-f}
+ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
+ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_fc_compiler_gnu
+
+  orig_LIBS="$LIBS"
+  LIBS="$LIBS $metis_lflags"
+  cat > conftest.$ac_ext <<_ACEOF
+      program main
+
+      end
+_ACEOF
+if ac_fn_fc_try_compile "$LINENO"
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+else $as_nop
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+     if test "$metis_userflags" = yes ; then
+       as_fn_error $? "Metis linker flags $metis_lflags worked with C compiler, but failed with Fortran compiler. Check config.log for details." "$LINENO" 5
+     else
+       { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: Metis linker flags $metis_lflags worked with C compiler, but failed with Fortran compiler. Check config.log for details. Disabling Metis." >&5
+printf "%s\n" "$as_me: WARNING: Metis linker flags $metis_lflags worked with C compiler, but failed with Fortran compiler. Check config.log for details. Disabling Metis." >&2;}
+       coin_has_metis=no
+     fi
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  LIBS="$orig_LIBS"
+  ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
 fi
 
 # check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
