@@ -1561,16 +1561,18 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
-  --with-lapack           Use lapack. If an argument is given, 'yes' is
-                          equivalent to --with-lapack, 'no' is
-                          equivalent to --without-lapack. Any other argument
-                          is applied as for --with-lapack-lflags
+  --without-lapack        Do not use lapack. If an argument is given to
+                          --with-lapack, then 'yes' is equivalent
+                          to --with-lapack, 'no' is equivalent to
+                          --without-lapack and any other argument is applied
+                          as for --with-lapack-lflags.
   --with-lapack-lflags    Linker flags for lapack appropriate for your
                           environment. (Most often, -l specs for libraries.)
-  --with-metis            Use Metis. If an argument is given, 'yes' is
-                          equivalent to --with-metis, 'no' is
-                          equivalent to --without-metis. Any other argument is
-                          applied as for --with-metis-lflags
+  --without-metis         Do not use Metis. If an argument is given to
+                          --with-metis, then 'yes' is equivalent
+                          to --with-metis, 'no' is equivalent to
+                          --without-metis and any other argument is applied as
+                          for --with-metis-lflags.
   --with-metis-lflags     Linker flags for Metis appropriate for your
                           environment. (Most often, -l specs for libraries.)
   --with-metis-cflags     Compiler flags for Metis appropriate for your
@@ -21148,7 +21150,7 @@ fi
   lapack_keep_looking=yes
 
   if test "$with_lapack" != "no" ; then
-    if test "$with_lapack" != "yes" ; then
+    if test "$with_lapack" != "yes" && test -z "$with_lapack_lflags" ; then
       with_lapack_lflags="$with_lapack"
     fi
     if test -n "$with_lapack_lflags" ; then
