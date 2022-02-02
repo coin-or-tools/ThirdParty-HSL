@@ -8,7 +8,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([CoinHSL],[2.2.0],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-HSL])
+AC_INIT([CoinHSL],[2.2.1],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-HSL])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
@@ -20,7 +20,7 @@ under the Eclipse Public License.])
 # whether the package is actually there
 AC_CONFIG_SRCDIR([coinhsl.pc.in])
 
-AC_COIN_INITIALIZE
+AC_COIN_INITIALIZE(9:1:2)
 
 #############################################################################
 #                         Standard build tool stuff                         #
