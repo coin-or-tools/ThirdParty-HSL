@@ -41,7 +41,7 @@ versions of HSL routines. These are also compiled if found.
          download and use this third party package.
    **********************************************************************
 
-2. Unpack this tarball via
+2. Inside the ThirdParty-HSL directory, unpack this tarball via
 
        gunzip coinhsl-x.y.z.tar.gz
        tar xf coinhsl-x.y.z.tar
