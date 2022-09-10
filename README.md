@@ -12,7 +12,7 @@ http://www.hsl.rl.ac.uk/ipopt/
 which can be build independently or within the buildsystem in this
 directory.
 
-Version 2021.05.05 of the "HSL for Ipopt" packages include single-precision
+Version 2021.05.05 of the Coin-HSL packages include single-precision
 versions of HSL routines. These are also compiled if found.
 
 ## Dependencies
@@ -34,7 +34,7 @@ versions of HSL routines. These are also compiled if found.
 
 ## Installation steps
 
-1. Obtain a tarball with HSL source code from http://www.hsl.rl.ac.uk/ipopt/.
+1. Obtain a tarball with Coin-HSL source code from http://www.hsl.rl.ac.uk/ipopt/.
 
    **********************************************************************
    Note: It is YOUR RESPONSIBILITY to ensure that you are entitled to
