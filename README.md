@@ -58,3 +58,16 @@ versions of HSL routines. These are also compiled if found.
 5. Run `make` to build the HSL library (namestem `coinhsl`).
 
 6. Run `make install` to install the HSL library and header files.
+
+## Use of generated library for runtime-loading by Ipopt
+
+If you intend for Ipopt to load the generated HSL library at __runtime__,
+then be aware that Ipopt looks for a library with a name different than the
+one build here: https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_hsllib
+
+You should thus either set option `hsllib` of Ipopt to the full path of
+the library build here (e.g., `$libdir/libcoinhsl.so`, `$libdir/libcoinhsl.dylib`,
+`$bindir/coinhsl-2.dll`), or rename the `coinhsl` library appropriately.
+
+Do not do this if you intend to build Ipopt such that it links to the
+`coinhsl` library.
