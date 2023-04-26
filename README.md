@@ -23,14 +23,19 @@ versions of HSL routines. These are also compiled if found.
 - MA57, HSL_MA77, and HSL_MA86 require BLAS, HSL_MA97 requires LAPACK.
   `configure` will look for a LAPACK installation (and assume that it
   includes BLAS), but if that does not succeed, the flags to link with LAPACK
-  should be specified with the `--with-lapack-lflags` argument of `configure`.
+  should be specified with the `CFLAGS` and `FFLAGS` arguments for `configure`.
 
 - MA57, HSL_MA77, HSL_MA97, and MC68 can use METIS. `configure` will look
   for a METIS library and header, but if that does not succeed, the
-  arguments `--with-metis-lflags` and `--with-metis-cflags` can be
-  specified for `configure`.
+  arguments `CFLAGS` and `FFLAGS` can be specified for `configure`.
 
   Both Metis 4 and Metis 5 can be used with ThirdParty-HSL.
+  
+To install BLAS, METIS, LAPACK on a standard Debian-based linux distro (like Ubuntu):
+
+```
+apt install libblas-dev libmetis-dev liblapack-dev
+```
 
 ## Installation steps
 
@@ -54,6 +59,11 @@ versions of HSL routines. These are also compiled if found.
 
    The `configure` script will detect which source files are available
    in your `coinhsl` package and prepare the `Makefile` accordingly.
+   
+   With the `CFLAGS` and `FFLAGS` arguments to specify BLAS, METIS and LAPACK installation:
+   ```
+   ./configure CFLAGS="-lblas -llapack -lmetis" FFLAGS="-lblas -llapack -lmetis"
+   ```
 
 5. Run `make` to build the HSL library (namestem `coinhsl`).
 
