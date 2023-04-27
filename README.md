@@ -32,9 +32,9 @@ versions of HSL routines. These are also compiled if found.
 
   Both Metis 4 and Metis 5 can be used with ThirdParty-HSL.
 
-To install BLAS, METIS, LAPACK on a standard Debian-based linux distro (like Ubuntu):
+To install BLAS, LAPACK, and METIS on a standard Debian-based Linux distribution, e.g., Ubuntu:
 ```
-apt install libblas-dev libmetis-dev liblapack-dev
+apt install libblas-dev liblapack-dev libmetis-dev
 ```
 
 ## Installation steps
