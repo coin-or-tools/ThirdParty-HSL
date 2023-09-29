@@ -167,17 +167,17 @@ void COINMETIS_NodeND(
       else /* heavy-edge or sorted heavy-edge matching; map both to shem, as heave-edge matching not available in metis5 */
          options5[METIS_OPTION_CTYPE] = METIS_CTYPE_SHEM;
 
-      if( options[2] == 1 ) /* edge-based region-growing */
-         options5[METIS_OPTION_IPTYPE] = METIS_IPTYPE_GROW;  /* ?? */
-      else /* node-based region-growing */
-         options5[METIS_OPTION_IPTYPE] = METIS_IPTYPE_NODE;
+        if(options[2] == 1) /* edge-based region-growing */
+            options5[METIS_OPTION_IPTYPE] = METIS_IPTYPE_EDGE;
+        else /* node-based region-growing */
+            options5[METIS_OPTION_IPTYPE] = METIS_IPTYPE_NODE;
 
-      if( options[3] == 1 ) /* two-sided node FM refinement */
-         options5[METIS_OPTION_RTYPE] = METIS_RTYPE_SEP2SIDED;
-      else  /* one-sided node FM refinement */
-         options5[METIS_OPTION_RTYPE] = METIS_RTYPE_SEP1SIDED;
+        if(options[3] == 1) /* two-sided node FM refinement */
+            options5[METIS_OPTION_RTYPE] = METIS_RTYPE_SEP2SIDED;
+        else  /* one-sided node FM refinement */
+            options5[METIS_OPTION_RTYPE] = METIS_RTYPE_SEP1SIDED;
 
-      /* options[4] to options5[METIS_OPTION_DBGLV] ? */
+        options5[METIS_OPTION_DBGLVL] = options[4];
 
       switch( options[5] )
       {
