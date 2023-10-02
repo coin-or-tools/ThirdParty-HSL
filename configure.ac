@@ -8,7 +8,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([CoinHSL],[2.2.2],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-HSL])
+AC_INIT([CoinHSL],[2.2.3],[https://github.com/coin-or-tools/ThirdParty-HSL/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-HSL])
 
 AC_COPYRIGHT([
 Copyright 2006, 2009 International Business Machines and others.
