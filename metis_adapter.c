@@ -46,6 +46,13 @@ void METIS_NodeND(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype *
 #define METIS_VER_MAJOR 4
 #endif
 
+/* if metis.h defines IDXTYPEWIDTH to 64, then this version of Metis cannot be used with HSL */
+#ifdef IDXTYPEWIDTH
+#if IDXTYPEWIDTH != 32
+#error "Metis must have been build for 32-bit integers. Expected IDXTYPEWIDTH == 32 in metis.h."
+#endif
+#endif
+
 /* wrapper to map COINMETIS_NODEND to METIS_NODEND from Metis 4 or 5 */
 typedef int idxtype;
 
