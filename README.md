@@ -7,13 +7,23 @@ in particular [Ipopt](https://github.com/coin-or/Ipopt).
 
 For use by COIN-OR, STFC provides special packages at
 
-http://www.hsl.rl.ac.uk/ipopt/
+https://licences.stfc.ac.uk/product/coin-hsl
 
 which can be build independently or within the buildsystem in this
 directory.
 
 Version 2021.05.05 of the Coin-HSL packages include single-precision
 versions of HSL routines. These are also compiled if found.
+
+Alternatively, STFC provides a package that includes only the routines
+MA27, MA28, and MC19, but has more liberal license terms, at
+
+https://licences.stfc.ac.uk/product/coin-hsl-archive
+
+This Coin-HSL Archive package can also be used with ThirdParty-HSL.
+
+Finally, precompiled packages are available at
+https://licences.stfc.ac.uk/product/julia-hsl
 
 ## Dependencies
 
@@ -39,7 +49,7 @@ apt install libblas-dev liblapack-dev libmetis-dev
 
 ## Installation steps
 
-1. Obtain a tarball with Coin-HSL source code from http://www.hsl.rl.ac.uk/ipopt/.
+1. Obtain a tarball with Coin-HSL source code from https://licences.stfc.ac.uk/product/coin-hsl.
 
    **********************************************************************
    Note: It is YOUR RESPONSIBILITY to ensure that you are entitled to
@@ -63,6 +73,11 @@ apt install libblas-dev liblapack-dev libmetis-dev
 5. Run `make` to build the HSL library (namestem `coinhsl`).
 
 6. Run `make install` to install the HSL library and header files.
+
+For Coin-HSL Archive, follow the above steps, but download from
+https://licences.stfc.ac.uk/product/coin-hsl-archive and adjust the tarball
+names accordingly. Make sure that the directory with the source files is
+still called `coinhsl`.
 
 ## Use of generated library for runtime-loading by Ipopt
 
