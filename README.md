@@ -11,6 +11,7 @@ https://licences.stfc.ac.uk/product/coin-hsl
 
 which can be build independently or within the buildsystem in this
 directory.
+This package now also includes prebuild libraries for macOS and Windows.
 
 Version 2021.05.05 of the Coin-HSL packages include single-precision
 versions of HSL routines. These are also compiled if found.
@@ -21,9 +22,6 @@ MA27, MA28, and MC19, but has more liberal license terms, at
 https://licences.stfc.ac.uk/product/coin-hsl-archive
 
 This Coin-HSL Archive package can also be used with ThirdParty-HSL.
-
-Finally, precompiled packages are available at
-https://licences.stfc.ac.uk/product/julia-hsl
 
 ## Dependencies
 
