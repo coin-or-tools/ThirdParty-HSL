@@ -459,8 +459,8 @@ libcoinhsl_la_SOURCES = $(am__append_1) $(am__append_2) \
 	$(am__append_13) $(am__append_15) $(am__append_17) \
 	$(am__append_19) $(am__append_21) $(am__append_23) \
 	metis_adapter.c
-@COIN_HAS_METIS_TRUE@AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FCFLAGS_f90)
-@COIN_HAS_METIS_TRUE@AM_FFLAGS = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FCFLAGS_f)
+@COIN_HAS_METIS_TRUE@AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FC_DEFINE)hsl_metis=coinmetis_nodend $(FCFLAGS_f90)
+@COIN_HAS_METIS_TRUE@AM_FFLAGS = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FC_DEFINE)hsl_metis=COINMETIS_NODEND $(FCFLAGS_f)
 AM_CFLAGS = $(HSL_CFLAGS)
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
 AM_LDFLAGS = $(LT_LDFLAGS)
@@ -1076,8 +1076,8 @@ uninstall-am: uninstall-includecoinHEADERS uninstall-libLTLIBRARIES \
 
 .PRECIOUS: Makefile
 
-@COIN_HAS_METIS_TRUE@  # call coinmetis_nodend from metis_adapter.c instead of metis_nodend in common/deps90.f90
-@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND in ma57/ma57d.f
+@COIN_HAS_METIS_TRUE@  # call coinmetis_nodend from metis_adapter.c instead of metis_nodend (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in common/deps90.f90
+@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in ma57/ma57d.f
 $(ma77d).lo: coinhsl/common/deps90.lo
 $(ma77s).lo: coinhsl/common/deps90.lo
 $(ma86d).lo: coinhsl/common/deps90.lo
