@@ -242,6 +242,24 @@ AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 # MA86 and MA97 can use OpenMP
 if test $coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononono ; then
+  # on macOS, turn off OpenMP by default if the C compiler does not seem to support OpenMP
+  # the reason is that if for the Fortran compiler (likely gfortran), -fopenmp is recognized, then this
+  # makes it into the linker flags of libraries that link against libcoinhsl (through inherited_linker_flags in libcoinhsl.la)
+  # but Apple's variant of clang does not understand -fopenmp, which then gives a linker error
+  # (it understands -Xpreprocessor -fopenmp, and we rely here on AC_OPENMP not testing this)
+  if test -z "$enable_openmp" ; then
+    case "$build_os" in darwin*)
+      AC_LANG_PUSH(C)
+      AC_OPENMP
+      AC_LANG_POP(C)
+      if test "$ac_cv_prog_c_openmp" = "unsupported" ; then
+        enable_openmp=no
+        AC_MSG_NOTICE([Turning off check for OpenMP support of $FC. You can force it with --enable-openmp, but may need to patch up installed libcoinhsl.la (remove -fopenmp ?) before linking it with $CC.])
+      fi
+      ;;
+    esac
+  fi
+
   AC_LANG_PUSH(Fortran)
   AC_OPENMP
   FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"

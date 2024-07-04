@@ -673,6 +673,7 @@ LIBOBJS
 HSL_CFLAGS_NOPC
 HSL_LFLAGS_NOPC
 OPENMP_FCFLAGS
+OPENMP_CFLAGS
 FCFLAGS_f90
 FCFLAGS_f
 FC_DEFINE
@@ -22859,15 +22860,117 @@ fi
 
 # MA86 and MA97 can use OpenMP
 if test $coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononono ; then
+  # on macOS, turn off OpenMP by default if the C compiler does not seem to support OpenMP
+  # the reason is that if for the Fortran compiler (likely gfortran), -fopenmp is recognized, then this
+  # makes it into the linker flags of libraries that link against libcoinhsl (through inherited_linker_flags in libcoinhsl.la)
+  # but Apple's variant of clang does not understand -fopenmp, which then gives a linker error
+  # (it understands -Xpreprocessor -fopenmp, and we rely here on AC_OPENMP not testing this)
+  if test -z "$enable_openmp" ; then
+    case "$build_os" in darwin*)
+      ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+      if test -e penmp || test -e mp; then
+  as_fn_error $? "AC_OPENMP clobbers files named 'mp' and 'penmp'. Aborting configure because one of these files already exists." "$LINENO" 5
+fi
+# Check whether --enable-openmp was given.
+if test ${enable_openmp+y}
+then :
+  enableval=$enable_openmp;
+fi
+
+  OPENMP_CFLAGS=
+  if test "$enable_openmp" != no; then
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $CC option to support OpenMP" >&5
+printf %s "checking for $CC option to support OpenMP... " >&6; }
+if test ${ac_cv_prog_c_openmp+y}
+then :
+  printf %s "(cached) " >&6
+else $as_nop
+  ac_cv_prog_c_openmp='not found'
+                                                                        for ac_option in '' -fopenmp -xopenmp -openmp -mp -omp -qsmp=omp -homp \
+                       -Popenmp --openmp; do
+
+        ac_save_CFLAGS=$CFLAGS
+        CFLAGS="$CFLAGS $ac_option"
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#ifndef _OPENMP
+#error "OpenMP not supported"
+#endif
+#include <omp.h>
+int main (void) { return omp_get_num_threads (); }
+
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#ifndef _OPENMP
+#error "OpenMP not supported"
+#endif
+#include <omp.h>
+int main (void) { return omp_get_num_threads (); }
+
+_ACEOF
+if ac_fn_c_try_link "$LINENO"
+then :
+  ac_cv_prog_c_openmp=$ac_option
+else $as_nop
+  ac_cv_prog_c_openmp='unsupported'
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+        CFLAGS=$ac_save_CFLAGS
+
+        if test "$ac_cv_prog_c_openmp" != 'not found'; then
+          break
+        fi
+      done
+      if test "$ac_cv_prog_c_openmp" = 'not found'; then
+        ac_cv_prog_c_openmp='unsupported'
+      elif test "$ac_cv_prog_c_openmp" = ''; then
+        ac_cv_prog_c_openmp='none needed'
+      fi
+                        rm -f penmp mp
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_c_openmp" >&5
+printf "%s\n" "$ac_cv_prog_c_openmp" >&6; }
+    if test "$ac_cv_prog_c_openmp" != 'unsupported' && \
+       test "$ac_cv_prog_c_openmp" != 'none needed'; then
+      OPENMP_CFLAGS="$ac_cv_prog_c_openmp"
+    fi
+  fi
+
+
+      ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+      if test "$ac_cv_prog_c_openmp" = "unsupported" ; then
+        enable_openmp=no
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: Turning off check for OpenMP support of $FC. You can force it with --enable-openmp, but may need to patch up installed libcoinhsl.la (remove -fopenmp ?) before linking it with $CC." >&5
+printf "%s\n" "$as_me: Turning off check for OpenMP support of $FC. You can force it with --enable-openmp, but may need to patch up installed libcoinhsl.la (remove -fopenmp ?) before linking it with $CC." >&6;}
+      fi
+      ;;
+    esac
+  fi
+
   ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
 
-  if test -e penmp || test -e mp; then
-  as_fn_error $? "AC_OPENMP clobbers files named 'mp' and 'penmp'. Aborting configure because one of these files already exists." "$LINENO" 5
-fi
-# Check whether --enable-openmp was given.
+  # Check whether --enable-openmp was given.
 if test ${enable_openmp+y}
 then :
   enableval=$enable_openmp;
