@@ -7,7 +7,7 @@
 
 #ifndef COINHSL_HAS_METIS
 
-/* provide dummy implementations of the method metis_nodend as expected by the HSL codes if Metis is not available
+/* provide dummy implementations of the method metis_nodend as expected by the HSL codes until 2023 (?) if Metis is not available
  * as in Metis, we implement the method in several naming variants to copy with C and fortran naming style conventions
  * Not defining COINMETIS_NODEND, as the renaming metis -> coinmetis only happens if Metis is available
  */
@@ -34,6 +34,30 @@ void metis_nodend__(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype
 }
 
 void METIS_NodeND(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype * f, idxtype * perm)
+{
+  perm[0] = -1;
+}
+
+/* provide dummy implementations of the method hsl_metis as expected by the HSL codes since 2024 if Metis is not available
+ * as in Metis, we implement the method in several naming variants to copy with C and fortran naming style conventions
+ */
+
+void HSL_METIS(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype * f, idxtype * perm)
+{
+  perm[0] = -1;
+}
+
+void hsl_metis(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype * f, idxtype * perm)
+{
+  perm[0] = -1;
+}
+
+void hsl_metis_(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype * f, idxtype * perm)
+{
+  perm[0] = -1;
+}
+
+void hsl_metis__(int * a, idxtype * b, idxtype * c, int * d, int * e, idxtype * f, idxtype * perm)
 {
   perm[0] = -1;
 }
