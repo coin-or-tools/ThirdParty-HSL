@@ -24840,17 +24840,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 fi
 
- if test $coin_has_metis = yes; then
-  COIN_HAS_METIS_TRUE=
-  COIN_HAS_METIS_FALSE='#'
-else
-  COIN_HAS_METIS_TRUE='#'
-  COIN_HAS_METIS_FALSE=
-fi
-
-
-# check how to redefine metis_nodend to coinmetis_nodend from metis_adapter
-ac_ext=${ac_fc_srcext-f}
+# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
+if test $coin_has_metis = yes ; then
+  ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
@@ -24972,7 +24964,7 @@ printf "%s\n" "$ac_cv_fc_pp_define" >&6; }
 ac_fc_srcext=$ac_fc_pp_define_srcext_save
 if test "x$ac_cv_fc_pp_define" = xunknown; then
   FC_DEFINE=
-  as_fn_error 77 "Fortran does not allow to define preprocessor symbols" "$LINENO" 5
+  coin_has_metis=no
 else
   FC_DEFINE=$ac_cv_fc_pp_define
 
@@ -24983,7 +24975,9 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-ac_ext=${ac_fc_srcext-f}
+fi
+if test $coin_has_metis = yes ; then
+  ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
@@ -25043,7 +25037,7 @@ fi
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_fc_pp_srcext_f" >&5
 printf "%s\n" "$ac_cv_fc_pp_srcext_f" >&6; }
 if test "x$ac_cv_fc_pp_srcext_f" = xunknown; then
-  as_fn_error $? "Fortran could not compile preprocessed .f files" "$LINENO" 5
+  coin_has_metis=no
 else
   ac_fc_srcext=f
   if test "x$ac_cv_fc_pp_srcext_f" = xnone; then
@@ -25062,7 +25056,9 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-ac_ext=${ac_fc_srcext-f}
+fi
+if test $coin_has_metis = yes ; then
+  ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
@@ -25122,7 +25118,7 @@ fi
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_fc_pp_srcext_f90" >&5
 printf "%s\n" "$ac_cv_fc_pp_srcext_f90" >&6; }
 if test "x$ac_cv_fc_pp_srcext_f90" = xunknown; then
-  as_fn_error $? "Fortran could not compile preprocessed .f90 files" "$LINENO" 5
+  coin_has_metis=no
 else
   ac_fc_srcext=f90
   if test "x$ac_cv_fc_pp_srcext_f90" = xnone; then
@@ -25140,6 +25136,15 @@ ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+fi
+ if test $coin_has_metis = yes; then
+  COIN_HAS_METIS_TRUE=
+  COIN_HAS_METIS_FALSE='#'
+else
+  COIN_HAS_METIS_TRUE='#'
+  COIN_HAS_METIS_FALSE=
+fi
 
 
 # MA86 and MA97 can use OpenMP

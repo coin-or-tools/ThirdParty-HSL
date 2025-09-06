@@ -228,12 +228,17 @@ if test "$coin_has_metis" = yes ; then
   AC_LANG_POP(Fortran)
 fi
 
+# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_DEFINE([],[coin_has_metis=no])
+fi
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_SRCEXT(f,[],[coin_has_metis=no])
+fi
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_SRCEXT(f90,[],[coin_has_metis=no])
+fi
 AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
-
-# check how to redefine metis_nodend to coinmetis_nodend from metis_adapter
-AC_FC_PP_DEFINE()
-AC_FC_PP_SRCEXT(f)
-AC_FC_PP_SRCEXT(f90)
 
 # MA86 and MA97 can use OpenMP
 if test $coin_has_hsl_ma86$coin_has_hsl_ma86s$coin_has_hsl_ma97$coin_has_hsl_ma97s != nononono ; then

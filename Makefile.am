@@ -78,10 +78,12 @@ if COIN_HAS_HSL_MA97S
 endif
 
 libcoinhsl_la_SOURCES += metis_adapter.c
-# call coinmetis_nodend from metis_adapter.c instead of metis_nodend (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in common/deps90.f90
-AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FC_DEFINE)hsl_metis=coinmetis_nodend $(FCFLAGS_f90)
-# call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in ma57/ma57d.f
-AM_FFLAGS  = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FC_DEFINE)hsl_metis=COINMETIS_NODEND $(FCFLAGS_f)
+if COIN_HAS_METIS
+  # call coinmetis_nodend from metis_adapter.c instead of metis_nodend (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in common/deps90.f90
+  AM_FCFLAGS = $(FC_DEFINE)metis_nodend=coinmetis_nodend $(FC_DEFINE)hsl_metis=coinmetis_nodend $(FCFLAGS_f90)
+  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND (coinhsl < 2024.05.15) or hsl_metis (coinhsl >= 2024.05.15) in ma57/ma57d.f
+  AM_FFLAGS  = $(FC_DEFINE)METIS_NODEND=COINMETIS_NODEND $(FC_DEFINE)hsl_metis=COINMETIS_NODEND $(FCFLAGS_f)
+endif
 AM_CFLAGS = $(HSL_CFLAGS)
 
 libcoinhsl_la_LIBADD = $(HSL_LFLAGS)
